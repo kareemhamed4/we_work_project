@@ -1,11 +1,8 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-
-import '../../components/custom_button.dart';
-
+import 'package:we_work/shared/components/custom_button.dart';
 
 class CompanyFilter extends StatefulWidget {
   @override
@@ -27,10 +24,7 @@ class _CompanyFilterState extends State<CompanyFilter> {
         title: Center(
           child: Text(
             "Filter",
-            style: GoogleFonts.roboto(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
       ),

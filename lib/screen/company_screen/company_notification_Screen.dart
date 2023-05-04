@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 
@@ -14,10 +13,7 @@ class CompanNotificationScreen extends StatelessWidget {
         title: Center(
           child: Text(
             "Notification",
-            style: GoogleFonts.roboto(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
       ),

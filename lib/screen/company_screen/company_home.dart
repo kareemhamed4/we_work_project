@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import '../../components/custom_Companycard.dart';
-import '../../components/text_field.dart';
+import 'package:we_work/shared/components/custom_Companycard.dart';
+import 'package:we_work/shared/components/text_field.dart';
 import 'company_filter.dart';
 
 
@@ -113,11 +112,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Most Popular",
-                  style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff649344),
-                  ),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
               CompanyCustomCard(

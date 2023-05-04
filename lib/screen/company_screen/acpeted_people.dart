@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class AcpetedPeople extends StatelessWidget{
+class AcpetedPeople extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-
-        ),
-      body:  SingleChildScrollView(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text( "  Aceepted",style: TextStyle(color: Color(0xff649344),fontSize: 17),),
+              Text(
+                "  Aceepted",
+                style: TextStyle(color: Color(0xff649344), fontSize: 17),
+              ),
               Container(
-                  height:  113,
-                  width:  double.infinity,
+                  height: 113,
+                  width: double.infinity,
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
                       blurRadius: 10,
@@ -43,7 +43,11 @@ class AcpetedPeople extends StatelessWidget{
                                 Container(
                                     height: 40,
                                     width: 40,
-                                    child: CircleAvatar(radius:50, backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',))),
+                                    child: CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: NetworkImage(
+                                          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+                                        ))),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -60,26 +64,33 @@ class AcpetedPeople extends StatelessWidget{
                                     Text(
                                       "UI,Ux Designer",
                                       style: TextStyle(
-                                          fontSize: 15, fontWeight: FontWeight.w500),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500),
                                     ),
-
                                   ],
-
                                 ),
-                                SizedBox(width: 100,),
-                                Text( "Aceepted",style: TextStyle(color: Color(0xff649344)),)
-
+                                SizedBox(
+                                  width: 100,
+                                ),
+                                Text(
+                                  "Aceepted",
+                                  style: TextStyle(color: Color(0xff649344)),
+                                )
                               ]),
-
-                             ]),
+                            ]),
                       ),
                     ),
                   )),
-              SizedBox(height: 80,),
-              Text( "  Not Accepted",style: TextStyle(color: Color(0xff649344),fontSize: 17),),
+              SizedBox(
+                height: 80,
+              ),
+              Text(
+                "  Not Accepted",
+                style: TextStyle(color: Color(0xff649344), fontSize: 17),
+              ),
               Container(
-                  height:  113,
-                  width:  double.infinity,
+                  height: 113,
+                  width: double.infinity,
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
                       blurRadius: 10,
@@ -105,7 +116,11 @@ class AcpetedPeople extends StatelessWidget{
                                 Container(
                                     height: 40,
                                     width: 40,
-                                    child: CircleAvatar(radius:50, backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',))),
+                                    child: CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: NetworkImage(
+                                          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+                                        ))),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -122,17 +137,19 @@ class AcpetedPeople extends StatelessWidget{
                                     Text(
                                       "UI,Ux Designer",
                                       style: TextStyle(
-                                          fontSize: 15, fontWeight: FontWeight.w500),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500),
                                     ),
-
                                   ],
-
                                 ),
-                                SizedBox(width: 100,),
-                                Text( "Refused",style: TextStyle(color: Colors.red),)
-
+                                SizedBox(
+                                  width: 100,
+                                ),
+                                Text(
+                                  "Refused",
+                                  style: TextStyle(color: Colors.red),
+                                )
                               ]),
-
                             ]),
                       ),
                     ),
@@ -141,8 +158,6 @@ class AcpetedPeople extends StatelessWidget{
           ),
         ),
       ),
-
     );
   }
-
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../components/user_compont.dart';
+import 'package:we_work/shared/components/user_compont.dart';
 
 class CompanyProfile extends StatelessWidget {
   @override
@@ -12,10 +10,7 @@ class CompanyProfile extends StatelessWidget {
         title: Center(
           child: Text(
             "My Profile",
-            style: GoogleFonts.roboto(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
       ),
@@ -37,21 +32,25 @@ class CompanyProfile extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Item(
-                icon: Icons.local_activity_outlined,
+                iconPath: "assets/icons/activity.png",
                 title: 'Activity',
               ),
 
               Item(
-                icon: Icons.location_on_outlined,
+                iconPath: "assets/icons/location.png",
                 title: 'Location',
               ),
               Item(
-                icon: Icons.groups_outlined,
+                iconPath: "assets/icons/location.png",
+                title: 'Location',
+              ),
+              Item(
+                iconPath: "assets/icons/education.png",
                 title: 'Number of employee',
               ),
               Item(
-                icon: Icons.location_on_outlined,
-                title: 'Adress',
+                iconPath: "assets/icons/location.png",
+                title: 'Address',
               ),
 
               Padding(
