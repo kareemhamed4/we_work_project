@@ -28,7 +28,7 @@ class ChangePassword extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: size.height * 30 / size.height,
+            vertical: size.height * 15 / size.height,
           ),
           child: Form(
             key: formKey,

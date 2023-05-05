@@ -19,7 +19,7 @@ String? nameFile;
 bool pdfIsUpload = false;
 
 class _UploadCvState extends State<UploadCv> {
-  TextEditingController? textMessageController;
+  TextEditingController textMessageController = TextEditingController();
   String? messageEnter;
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class _UploadCvState extends State<UploadCv> {
               child: buildFeedbackBox(
                 context: context,
                 hint: "Why you see this job Suitable for you?",
-                messageController: textMessageController!,
+                messageController: textMessageController,
               ),
             ),
             const SizedBox(

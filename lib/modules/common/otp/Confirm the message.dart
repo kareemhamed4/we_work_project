@@ -147,14 +147,12 @@ class ConfirmMessage extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: size.height * 170 / size.height,
+                height: size.height * 120 / size.height,
               ),
               myMaterialButton(
                 context: context,
                 onPressed: () {
-                  if(formKey.currentState!.validate()){
-                    NavigateTo(context: context, widget: const ChangePassword());
-                  }
+                  NavigateTo(context: context, widget: const ChangePassword());
                 },
                 labelWidget: Text(
                   'Verify',
