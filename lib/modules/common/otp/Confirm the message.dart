@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/modules/common/new_password/Change%20the%20password.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
-import '../new_password/Change the password.dart';
 
 class ConfirmMessage extends StatelessWidget {
   const ConfirmMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var formKey = GlobalKey<FormState>();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -151,7 +152,9 @@ class ConfirmMessage extends StatelessWidget {
               myMaterialButton(
                 context: context,
                 onPressed: () {
-                  NavigateTo(context: context, widget: const ChangePassword());
+                  if(formKey.currentState!.validate()){
+                    NavigateTo(context: context, widget: const ChangePassword());
+                  }
                 },
                 labelWidget: Text(
                   'Verify',

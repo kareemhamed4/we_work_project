@@ -204,7 +204,7 @@ class SignUpUser extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 20 / size.height,
+                  height: size.height * 2 / size.height,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

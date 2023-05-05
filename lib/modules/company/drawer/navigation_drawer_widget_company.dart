@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
+import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class NavigationDrawerWidgetCompany extends StatefulWidget {
@@ -78,6 +80,10 @@ class _NavigationDrawerWidgetCompanyState
                   text: 'Logout',
                   iconPath: "assets/icons/log-out.png",
                   onTap: () {
+                    NavigateToReb(
+                      context: context,
+                      widget: const ChooseRegister(),
+                    );
                     setState(() {
                       currentIndex = 4;
                     });

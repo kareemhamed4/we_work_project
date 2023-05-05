@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
 import 'package:we_work/shared/components/animated_progress_indicator.dart';
+import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/components/user_compont.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -94,44 +96,52 @@ class MyProfile extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
+                child: GestureDetector(
+                  onTap: (){
+                    NavigateToReb(
+                        context: context,
+                        widget: const ChooseRegister(),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                      ),
                     ),
-                  ),
-                  height: 60,
-                  width: double.infinity,
-                  child: Row(
-                    children: const [
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(
-                        Icons.power_settings_new_rounded,
-                        color: Colors.red,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        "Logout",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      Flexible(
-                          child: SizedBox(
-                        width: double.infinity,
-                      )),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey,
-                        size: 18,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                    ],
+                    height: 60,
+                    width: double.infinity,
+                    child: Row(
+                      children: const [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Icon(
+                          Icons.power_settings_new_rounded,
+                          color: Colors.red,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Logout",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        Flexible(
+                            child: SizedBox(
+                          width: double.infinity,
+                        )),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                          size: 18,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

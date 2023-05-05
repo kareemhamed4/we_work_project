@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we_work/modules/user/company_details/google_company.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_work/modules/user/upload_cv/Upload_Cv.dart';
 import 'package:we_work/modules/user/company_details/microsoft_company.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -30,8 +30,8 @@ class MicrosoftJobDetails extends StatelessWidget {
               SizedBox(
                 height: 76,
                 width: 97,
-                child: Image.asset(
-                  "assets/image/teams.png",
+                child: SvgPicture.asset(
+                  "assets/image/microsoft.svg",
                 ),
               ),
               const SizedBox(

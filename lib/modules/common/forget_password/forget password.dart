@@ -75,7 +75,9 @@ class ForgetPassword extends StatelessWidget {
                 myMaterialButton(
                   context: context,
                   onPressed: () {
-                    NavigateTo(context: context, widget: const ConfirmMessage());
+                    if(formKey.currentState!.validate()){
+                      NavigateTo(context: context, widget: const ConfirmMessage());
+                    }
                   },
                   labelWidget: Text(
                     'Send',

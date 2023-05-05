@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/modules/common/forget_password/forget%20password.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -95,14 +96,18 @@ class CompanyLogIn extends StatelessWidget {
                   ),
                   myMaterialButton(
                     context: context,
-                    onPressed: () {},
+                    onPressed: () {
+                      if(formKey.currentState!.validate()){
+                        NavigateToReb(context: context, widget: const LayoutCompanyScreen());
+                      }
+                    },
                     labelWidget: Text(
                       'Log in',
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 20 / size.height,
+                    height: size.height * 2 / size.height,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

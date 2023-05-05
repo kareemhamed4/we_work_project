@@ -38,7 +38,10 @@ class LoginUser extends StatelessWidget {
               children: [
                 Text(
                   'Email',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -59,7 +62,10 @@ class LoginUser extends StatelessWidget {
                 ),
                 Text(
                   'Password',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -96,8 +102,10 @@ class LoginUser extends StatelessWidget {
                 myMaterialButton(
                   context: context,
                   onPressed: () {
-                    NavigateToReb(
-                        context: context, widget: const LayoutScreen());
+                    if (formKey.currentState!.validate()) {
+                      NavigateToReb(
+                          context: context, widget: const LayoutScreen());
+                    }
                   },
                   labelWidget: Text(
                     'Log in',
@@ -105,14 +113,17 @@ class LoginUser extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 20 / size.height,
+                  height: size.height * 2 / size.height,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                       "Don't have an account?",
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: 14),
                     ),
                     myTextButton(
                       context: context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:we_work/modules/company/filter/filter_screen.dart';
+import 'package:we_work/modules/company/message_for_offer/message_for_offer_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -121,7 +122,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                         ),
                         color: Colors.black,
                         onPressed: () {
-                          NavigateTo(context: context, widget: const CompanyFilter());
+                          NavigateTo(
+                              context: context, widget: const CompanyFilter());
                         },
                       ),
                     ),
@@ -163,8 +165,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                     itemBuilder: (context, index) =>
                         buildCompanyHomeCard(size: size, context: context),
                     separatorBuilder: (context, index) => const SizedBox(
-                      height: 12,
-                    ),
+                          height: 12,
+                        ),
                     itemCount: 1),
             ],
           ),
@@ -234,7 +236,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                                         .copyWith(
                                           fontSize: 14,
                                           color: myFavColor,
-                                      decoration: TextDecoration.underline,
+                                          decoration: TextDecoration.underline,
                                         ),
                                   )
                                 ],
@@ -261,7 +263,9 @@ class _CompanyHomeState extends State<CompanyHome> {
                   children: [
                     Row(
                       children: [
-                        const SizedBox(width: 50,),
+                        const SizedBox(
+                          width: 50,
+                        ),
                         Icon(
                           Icons.location_pin,
                           color: myFavColor,
@@ -271,13 +275,11 @@ class _CompanyHomeState extends State<CompanyHome> {
                         ),
                         Text(
                           "Alex, Egypt",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(
-                            fontSize: 14,
-                            color: myFavColor7,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    fontSize: 14,
+                                    color: myFavColor7,
+                                  ),
                         ),
                       ],
                     ),
@@ -286,7 +288,11 @@ class _CompanyHomeState extends State<CompanyHome> {
                       width: 140,
                       child: myMaterialButton(
                         context: context,
-                        onPressed: (){},
+                        onPressed: () {
+                          NavigateTo(
+                              context: context,
+                              widget: const MessageOfferScreen());
+                        },
                         labelWidget: Text(
                           'Create Offer',
                           style: Theme.of(context).textTheme.button,

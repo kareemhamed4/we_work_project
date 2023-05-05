@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/layout_company/cubit/states.dart';
 import 'package:we_work/modules/company/add_freelance_job/add_freelance_job_screen.dart';
+import 'package:we_work/modules/company/add_job/add_job_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -145,13 +146,81 @@ class LayoutCompanyScreen extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: myFavColor,
             onPressed: () {
-              NavigateTo(
-                context: context,
-                widget: AddFreelanceJobScreen(),
-              );
+              if (!cubit.floatingButtonToggle) {
+                showDialog(
+                  context: context,
+                  builder: (context) => Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 110),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                NavigateTo(
+                                  context: context,
+                                  widget: AddJobScreen(),
+                                );
+                              },
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  color: myFavColor5,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "N.J.",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                            color: myFavColor.withOpacity(0.8)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 50),
+                            GestureDetector(
+                              onTap: () {
+                                NavigateTo(
+                                  context: context,
+                                  widget: AddFreelanceJobScreen(),
+                                );
+                              },
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  color: myFavColor5,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "F.J.",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                            color: myFavColor.withOpacity(0.8)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              cubit.changeToggle();
             },
             child: Icon(
-              Icons.add,
+              cubit.floatingButtonToggle ? Icons.close : Icons.add,
               color: myFavColor5,
             ),
           ),

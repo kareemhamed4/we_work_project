@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -47,8 +48,8 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                             SizedBox(
                               height: 32,
                               width: 32,
-                              child: Image.asset(
-                                "assets/image/teams.png",
+                              child: SvgPicture.asset(
+                                  "assets/image/microsoft.svg",
                               ),
                             ),
                             const SizedBox(
@@ -90,7 +91,10 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                         ),
                         Text(
                           "Job Details",
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(color: myFavColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: myFavColor),
                         ),
                         const SizedBox(
                           height: 15,
@@ -107,7 +111,7 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                             Text(
                               "Alex , EGYPT",
                               style:
-                              TextStyle(fontSize: 15, color: Colors.grey),
+                                  TextStyle(fontSize: 15, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -126,7 +130,7 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                             Text(
                               "Full time",
                               style:
-                              TextStyle(fontSize: 15, color: Colors.grey),
+                                  TextStyle(fontSize: 15, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -145,7 +149,7 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                             Text(
                               "Remotely",
                               style:
-                              TextStyle(fontSize: 15, color: Colors.grey),
+                                  TextStyle(fontSize: 15, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -154,7 +158,10 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                         ),
                         Text(
                           "CV Resume",
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(color: myFavColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: myFavColor),
                         ),
                         const SizedBox(
                           height: 20,
@@ -162,7 +169,7 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
+                                const BorderRadius.all(Radius.circular(5)),
                             border: Border.all(
                               color: Colors.grey.shade300,
                             ),
@@ -186,7 +193,10 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                         ),
                         Text(
                           "Interview Details",
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(color: myFavColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: myFavColor),
                         ),
                         const SizedBox(
                           height: 20,
@@ -203,7 +213,7 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                             Text(
                               "12:00Am",
                               style:
-                              TextStyle(fontSize: 15, color: Colors.grey),
+                                  TextStyle(fontSize: 15, color: Colors.grey),
                             ),
                             SizedBox(
                               width: 20,
@@ -218,7 +228,7 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                             Text(
                               "13 dec 2022",
                               style:
-                              TextStyle(fontSize: 15, color: Colors.grey),
+                                  TextStyle(fontSize: 15, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -238,8 +248,7 @@ class ApplicateDetailsForMicrosoft extends StatelessWidget {
                 child: myMaterialButton(
                   context: context,
                   onPressed: () {
-                    NavigateTo(
-                        context: context, widget: const LayoutScreen());
+                    NavigateTo(context: context, widget: const LayoutScreen());
                   },
                   labelWidget: Text(
                     'Online Meeting',

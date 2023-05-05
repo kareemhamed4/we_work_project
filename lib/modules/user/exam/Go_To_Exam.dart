@@ -35,7 +35,7 @@ class GoToExam extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyText2,
             ),
             SizedBox(
-              height: size.height * 200/size.height,
+              height: size.height * 180/size.height,
             ),
             myMaterialButton(
               context: context,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:we_work/modules/user/offer_details/offer_details_screen.dart';
+import 'package:we_work/modules/company/message_for_offer/message_for_offer_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -61,14 +61,15 @@ class CompanyOffersScreen extends StatelessWidget {
                 height: 18,
               ),
               ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) =>
-                      buildFreelancingOffersCard(size: size, context: context),
-                  separatorBuilder: (context, index) => const SizedBox(
-                    height: 23,
-                  ),
-                  itemCount: 1),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) =>
+                    buildFreelancingOffersCard(size: size, context: context),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 23,
+                ),
+                itemCount: 1,
+              ),
             ],
           ),
         ),
@@ -81,7 +82,12 @@ class CompanyOffersScreen extends StatelessWidget {
     required BuildContext context,
   }) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        NavigateTo(
+          context: context,
+          widget: const MessageOfferScreen(),
+        );
+      },
       child: SizedBox(
         width: size.width * 392 / size.width,
         height: size.height * 170 / size.height,
@@ -212,9 +218,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(
-                                  fontSize: 14,
-                                  color: myFavColor7,
-                                ),
+                                      fontSize: 14,
+                                      color: myFavColor7,
+                                    ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8),
@@ -230,9 +236,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                           .textTheme
                                           .bodyText1!
                                           .copyWith(
-                                        fontSize: 14,
-                                        color: myFavColor7,
-                                      ),
+                                            fontSize: 14,
+                                            color: myFavColor7,
+                                          ),
                                     )
                                   ],
                                 ),
@@ -247,9 +253,9 @@ class CompanyOffersScreen extends StatelessWidget {
                           Text(
                             "manar applied for a job as  ui ux designer",
                             style:
-                            Theme.of(context).textTheme.caption!.copyWith(
-                              fontSize: 16,
-                            ),
+                                Theme.of(context).textTheme.caption!.copyWith(
+                                      fontSize: 16,
+                                    ),
                           ),
                           const SizedBox(
                             height: 12,
@@ -269,9 +275,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                         .textTheme
                                         .bodyText1!
                                         .copyWith(
-                                      fontSize: 14,
-                                      color: myFavColor7,
-                                    ),
+                                          fontSize: 14,
+                                          color: myFavColor7,
+                                        ),
                                   )
                                 ],
                               ),
@@ -287,9 +293,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                         .textTheme
                                         .bodyText1!
                                         .copyWith(
-                                      fontSize: 14,
-                                      color: myFavColor7,
-                                    ),
+                                          fontSize: 14,
+                                          color: myFavColor7,
+                                        ),
                                   )
                                 ],
                               ),

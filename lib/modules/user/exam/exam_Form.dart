@@ -238,7 +238,7 @@ class _ExamFormState extends State<ExamForm> {
               myMaterialButton(
                 context: context,
                 onPressed: () {
-                  NavigateToReb(context: context, widget: const NextExamForm());
+                  NavigateTo(context: context, widget: const NextExamForm());
                 },
                 labelWidget: Text(
                   'Next',

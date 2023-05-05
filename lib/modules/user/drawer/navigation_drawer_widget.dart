@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
+import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
@@ -65,7 +67,12 @@ class NavigationDrawerWidget extends StatelessWidget {
                   isChecked: false,
                   text: 'Logout',
                   iconPath: "assets/icons/log-out.png",
-                  onClicked: () => selectedItem(context, 5),
+                  onClicked: (){
+                    NavigateToReb(
+                      context: context,
+                      widget: const ChooseRegister(),
+                    );
+                  },
                 ),
               ],
             ),

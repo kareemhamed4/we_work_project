@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -56,7 +57,10 @@ class ChangePassword extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Enter your email',
-                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 14),
                   ),
                 ),
                 const SizedBox(
@@ -80,7 +84,10 @@ class ChangePassword extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Enter your new password',
-                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 14),
                   ),
                 ),
                 const SizedBox(
@@ -107,7 +114,10 @@ class ChangePassword extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Confirm your new password',
-                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 14),
                   ),
                 ),
                 const SizedBox(
@@ -133,7 +143,12 @@ class ChangePassword extends StatelessWidget {
                 myMaterialButton(
                   context: context,
                   onPressed: () {
-                    NavigateTo(context: context, widget: const ChangePassword());
+                    if (formKey.currentState!.validate()) {
+                      NavigateToReb(
+                        context: context,
+                        widget: const LayoutScreen(),
+                      );
+                    }
                   },
                   labelWidget: Text(
                     'Verify',

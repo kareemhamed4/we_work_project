@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 import '../upload_cv/Upload_Cv.dart';
@@ -28,8 +29,8 @@ class MicrosoftCompany extends StatelessWidget {
               SizedBox(
                 height: 76,
                 width: 97,
-                child: Image.asset(
-                  "assets/image/teams.png",
+                child: SvgPicture.asset(
+                  "assets/image/microsoft.svg",
                 ),
               ),
               const SizedBox(

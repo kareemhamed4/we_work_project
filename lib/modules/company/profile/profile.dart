@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
 import 'package:we_work/shared/components/animated_progress_indicator.dart';
+import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/components/user_compont.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -17,12 +19,19 @@ class CompanyProfile extends StatelessWidget {
           child: Column(
             children: [
               Center(
-                child: SvgPicture.asset("assets/image/google.svg",width: 81,height: 81,),
+                child: SvgPicture.asset(
+                  "assets/image/google.svg",
+                  width: 81,
+                  height: 81,
+                ),
               ),
               const SizedBox(height: 15),
               Text(
                 "Google",
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 20),
               ),
               const SizedBox(height: 34),
               Item(
@@ -47,44 +56,52 @@ class CompanyProfile extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
+                child: GestureDetector(
+                  onTap: () {
+                    NavigateToReb(
+                      context: context,
+                      widget: const ChooseRegister(),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                      ),
                     ),
-                  ),
-                  height: 60,
-                  width: double.infinity,
-                  child: Row(
-                    children: const [
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(
-                        Icons.power_settings_new_rounded,
-                        color: Colors.red,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        "Logout",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      Flexible(
-                          child: SizedBox(
-                        width: double.infinity,
-                      )),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey,
-                        size: 18,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                    ],
+                    height: 60,
+                    width: double.infinity,
+                    child: Row(
+                      children: const [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Icon(
+                          Icons.power_settings_new_rounded,
+                          color: Colors.red,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Logout",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        Flexible(
+                            child: SizedBox(
+                          width: double.infinity,
+                        )),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                          size: 18,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

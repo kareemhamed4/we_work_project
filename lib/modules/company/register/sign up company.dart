@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 import '../login/company_login.dart';
@@ -235,14 +236,20 @@ class SignUpCompany extends StatelessWidget {
                 ),
                 myMaterialButton(
                   context: context,
-                  onPressed: () {},
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      NavigateToReb(
+                          context: context,
+                          widget: const LayoutCompanyScreen());
+                    }
+                  },
                   labelWidget: Text(
                     'Sign Up',
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 8 / size.height,
+                  height: size.height * 2 / size.height,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

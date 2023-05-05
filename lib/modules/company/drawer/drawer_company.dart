@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:we_work/modules/company/home/home.dart';
-import 'package:we_work/shared/components/navigation_drawer_widget_company.dart';
+import 'package:we_work/modules/company/drawer/navigation_drawer_widget_company.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class DrawerCompany extends StatelessWidget{
