@@ -1,19 +1,20 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
-class Filter extends StatefulWidget {
-  const Filter({super.key});
+class CompanyFilter extends StatefulWidget {
+  const CompanyFilter({super.key});
 
   @override
-  State<Filter> createState() => _FilterState();
+  State<CompanyFilter> createState() => _CompanyFilterState();
 }
 
-class _FilterState extends State<Filter> {
-  String verticalGroupValueExperience = "1 year";
+class _CompanyFilterState extends State<CompanyFilter> {
+  String verticalGroupValueExperience = "more than 10 years";
   List<String> experience = [
     "No Experience",
     "less than year",
@@ -21,45 +22,11 @@ class _FilterState extends State<Filter> {
     "2-3 year",
     "more than 10 years"
   ];
-  List selectedCategories = [];
 
-  Map<String, dynamic> categories = {
-    "responseCode": "1",
-    "responseText": "List categories.",
-    "responseBody": [
-      {"category_id": "1", "category_name": "Design"},
-      {"category_id": "2", "category_name": "Programming"},
-      {"category_id": "3", "category_name": "Education"},
-      {"category_id": "4", "category_name": "Graphic"},
-      {"category_id": "5", "category_name": "Marketing"}
-    ],
-    "responseTotalResult":
-        5 // Total result is 3 here because we have 3 categories in responseBody.
-  };
-
-  void _onCategorySelected(bool selected, categoryId) {
-    if (selected == true) {
-      setState(() {
-        selectedCategories.add(categoryId);
-      });
-    } else {
-      setState(() {
-        selectedCategories.remove(categoryId);
-      });
-    }
-  }
-
-  String verticalGroupValueInterested = "Design";
-  List<String> interested = [
-    "Design",
-    "Programming",
-    "Education",
-    "Graphic",
-    "Marketing"
-  ];
-  String verticalGroupValue = "Cairo in Egypt";
   String verticalGroupValueTypeOfWorkPlace = "Remotely";
   List<String> statusTypeOfWorkPlace = ["onsite", "Remotely"];
+
+  String verticalGroupValue = "Cairo in Egypt";
   List<String> statusLocation = [
     "Cairo in Egypt",
     "Alex in Egypt",
@@ -81,6 +48,7 @@ class _FilterState extends State<Filter> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Column(
@@ -317,7 +285,7 @@ class _FilterState extends State<Filter> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Interested",
+                    "Rating",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!
@@ -332,15 +300,20 @@ class _FilterState extends State<Filter> {
               const SizedBox(
                 height: 20,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: categories['responseTotalResult'],
-                itemBuilder: (BuildContext context, int index) =>
-                    buildCheckBox(index: index),
+              SizedBox(
+                height: 20,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 6,
+                    itemBuilder: (BuildContext context, int index) => Icon(
+                          Icons.star,
+                          color: HexColor("#ffc107"),
+                        )),
               ),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
               Row(
                 children: [
@@ -376,32 +349,13 @@ class _FilterState extends State<Filter> {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  Widget buildCheckBox({
-    required int index,
-  }) =>
-      Row(
-        children: [
-          Checkbox(
-            value: selectedCategories
-                .contains(categories['responseBody'][index]['category_id']),
-            onChanged: (selected) {
-              _onCategorySelected(selected ?? false,
-                  categories['responseBody'][index]['category_id']);
-            },
-            shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                side: BorderSide(color: myFavColor)),
-            checkColor: myFavColor5,
-            fillColor: MaterialStateProperty.all<Color>(myFavColor),
-          ),
-          Text(categories['responseBody'][index]['category_name']),
-        ],
-      );
 }

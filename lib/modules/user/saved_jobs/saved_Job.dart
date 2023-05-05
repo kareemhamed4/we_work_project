@@ -35,12 +35,12 @@ class SavedJob extends StatelessWidget {
     );
   }
 
-  CustomCard buildSavedJobs() {
+  Widget buildSavedJobs() {
     return CustomCard(
             index: 0,
             isSaved: true,
             pageTitle: 'Google',
-            imageLocation: "assets/image/google (1) 1.png",
+            imageLocation: "assets/image/google.svg",
             jobTitle: 'Flutter Developer',
             jobDescription:
             '  Lorem Ipsum is simply dummy text of the printing and typesetting industry.',

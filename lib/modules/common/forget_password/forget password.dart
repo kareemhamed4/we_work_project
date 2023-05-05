@@ -53,7 +53,7 @@ class ForgetPassword extends StatelessWidget {
                 ),
                 Text(
                   'Enter your email',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,

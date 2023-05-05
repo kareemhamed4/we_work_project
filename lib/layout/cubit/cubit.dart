@@ -14,10 +14,10 @@ class LayoutCubit extends Cubit<LayoutStates> {
 
   List<Widget> screens = [
     DrawerMyUser(),
-    NotificationScreen(),
-    SavedJob(),
+    const NotificationScreen(),
+    const SavedJob(),
     const OffersScreen(),
-    MyProfile(),
+    const MyProfile(),
   ];
 
   int currentIndex = 0;

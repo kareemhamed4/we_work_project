@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/modules/user/job_details/job_details_google.dart';
 import 'package:we_work/modules/user/job_details/job_details_microsoft.dart';
@@ -52,6 +53,7 @@ class CustomCard extends StatelessWidget {
             ),
           ]),
           child: Card(
+            margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -67,54 +69,68 @@ class CustomCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                        Row(
-                          children: [
-                            Container(
-                                height: 32,
-                                width: 32,
-                                child: Image.asset(
-                                  imageLocation,
-                                )),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
                               children: [
-                                Text(
-                                  pageTitle,
-                                  style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
-                                ),
+                                SvgPicture.asset(imageLocation),
                                 SizedBox(
-                                  height: 5,
+                                  width: 10,
                                 ),
-                                Text(
-                                  jobTitle,
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      pageTitle,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .copyWith(
+                                            fontSize: 14,
+                                            color: myFavColor7,
+                                          ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      jobTitle,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                        FaIcon(isSaved ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark,color: myFavColor.withOpacity(0.5),size: 20,),
-                      ]),
+                            FaIcon(
+                              isSaved
+                                  ? FontAwesomeIcons.solidBookmark
+                                  : FontAwesomeIcons.bookmark,
+                              color: myFavColor.withOpacity(0.5),
+                              size: 20,
+                            ),
+                          ]),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        jobDescription??"",
-                        style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
+                        jobDescription ?? "",
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption!
+                            .copyWith(fontSize: 14),
                       ),
                       SizedBox(
                         height: 8,
                       ),
                       GestureDetector(
-                        onTap: (){},
+                        onTap: () {},
                         child: Text(
                           "learn more",
-                          style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14,color: myFavColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption!
+                              .copyWith(fontSize: 14, color: myFavColor),
                         ),
                       ),
                       SizedBox(
@@ -134,7 +150,8 @@ class CustomCard extends StatelessWidget {
                               ),
                               Text(
                                 location,
-                                style: Theme.of(context).textTheme.bodyText2,                          ),
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
                             ],
                           ),
                           Text(

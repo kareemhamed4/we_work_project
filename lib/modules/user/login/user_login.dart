@@ -38,7 +38,7 @@ class LoginUser extends StatelessWidget {
               children: [
                 Text(
                   'Email',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -59,7 +59,7 @@ class LoginUser extends StatelessWidget {
                 ),
                 Text(
                   'Password',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -96,7 +96,7 @@ class LoginUser extends StatelessWidget {
                 myMaterialButton(
                   context: context,
                   onPressed: () {
-                    NavigateTo(
+                    NavigateToReb(
                         context: context, widget: const LayoutScreen());
                   },
                   labelWidget: Text(
@@ -112,7 +112,7 @@ class LoginUser extends StatelessWidget {
                   children: [
                     Text(
                       "Don't have an account?",
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                     ),
                     myTextButton(
                       context: context,

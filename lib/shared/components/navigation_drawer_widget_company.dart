@@ -1,68 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:we_work/shared/styles/colors.dart';
 
+class NavigationDrawerWidgetCompany extends StatefulWidget {
+  const NavigationDrawerWidgetCompany({super.key});
 
-class NavigationDrawerWidgetCompany extends StatelessWidget {
-  final padding = EdgeInsets.symmetric(horizontal: 20);
+  @override
+  State<NavigationDrawerWidgetCompany> createState() =>
+      _NavigationDrawerWidgetCompanyState();
+}
+
+class _NavigationDrawerWidgetCompanyState
+    extends State<NavigationDrawerWidgetCompany> {
+  final padding = const EdgeInsets.symmetric(horizontal: 20);
+
   @override
   Widget build(BuildContext context) {
-
-
+    int currentIndex = 0;
+    Size size = MediaQuery.of(context).size;
     return Material(
       color: Colors.white,
       child: ListView(
         children: <Widget>[
           Container(
-            padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 20,
-                  backgroundImage: AssetImage("assets/image/google (1) 1.png"),
-
-                ),
-                SizedBox(width: 20),
-
-              ],
+            padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
+            child: Center(
+              child: SvgPicture.asset("assets/image/google.svg"),
             ),
           ),
-
           Container(
             padding: padding,
             child: Column(
               children: [
-
-                 buildMenuItem(
+                buildMenuItem(
+                  isChecked: currentIndex == 0 ? true : false,
                   text: 'Activity',
-                  icon: Icons.local_activity_outlined,
-                  onClicked: () => selectedItem(context, 0),
+                  iconPath: "assets/icons/activity.png",
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 0;
+                    });
+                  },
                 ),
-                const SizedBox(height: 15),
                 buildMenuItem(
+                  isChecked: currentIndex == 1 ? true : false,
                   text: 'Number of employee',
-                  icon: Icons.groups_outlined,
-                  onClicked: () => selectedItem(context, 3),
+                  iconPath: "assets/icons/activity.png",
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 1;
+                    });
+                  },
                 ),
-
-                const SizedBox(height: 15),
                 buildMenuItem(
+                  isChecked: currentIndex == 2 ? true : false,
                   text: 'Location',
-                  icon: Icons.location_on_outlined,
-                  onClicked: () => selectedItem(context, 2),
+                  iconPath: "assets/icons/location.png",
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 2;
+                    });
+                  },
                 ),
-
-                const SizedBox(height: 15),
-
                 buildMenuItem(
-                  text: 'Adress',
-                  icon: Icons.location_on_outlined,
-                  onClicked: () => selectedItem(context, 4),
+                  isChecked: currentIndex == 3 ? true : false,
+                  text: 'Address',
+                  iconPath: "assets/icons/education.png",
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 3;
+                    });
+                  },
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: size.height * 150 / size.height),
                 buildMenuItem(
+                  isChecked: currentIndex == 4 ? true : false,
                   text: 'Logout',
-                  icon: Icons.power_settings_new_rounded,
-                  onClicked: () => selectedItem(context, 5),
+                  iconPath: "assets/icons/log-out.png",
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 4;
+                    });
+                  },
                 ),
               ],
             ),
@@ -72,45 +91,37 @@ class NavigationDrawerWidgetCompany extends StatelessWidget {
     );
   }
 
-
-
-
   Widget buildMenuItem({
     required String text,
-    required IconData icon,
-    VoidCallback? onClicked,
+    required String iconPath,
+    required bool isChecked,
+    required VoidCallback onTap,
   }) {
-    final color =Color(0xff649344);
-    final hoverColor = Colors.white70;
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Row(
-         children: [
-           Icon(icon, color: color),
-           SizedBox(width: 10,),
-           Flexible(child: Text(text, style: TextStyle(color: color))),
-
-         ],
-
-
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15.0),
+        child: Container(
+          width: double.infinity,
+          height: 50,
+          decoration: BoxDecoration(
+            color: isChecked ? myFavColor2 : myFavColor5,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Row(
+              children: [
+                Image.asset(iconPath),
+                const SizedBox(
+                  width: 15,
+                ),
+                Text(text, style: TextStyle(color: myFavColor))
+              ],
+            ),
+          ),
+        ),
       ),
     );
-  }
-  void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop();
-
-    switch (index) {
-      case 0:
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context) => PeoplePage(),
-        //));
-        break;
-      case 1:
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context) => FavouritesPage(),
-        // ));
-        break;
-    }
   }
 }

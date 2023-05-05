@@ -1,44 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:we_work/shared/components/animated_progress_indicator.dart';
 import 'package:we_work/shared/components/user_compont.dart';
+import 'package:we_work/shared/styles/colors.dart';
 
 class CompanyProfile extends StatelessWidget {
+  const CompanyProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-        title: Center(
-          child: Text(
-            "My Profile",
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-        ),
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                radius: 30,
-                backgroundImage: AssetImage("assets/image/google (1) 1.png"),
-                foregroundColor: Colors.white,
-              )),
+                child: SvgPicture.asset("assets/image/google.svg",width: 81,height: 81,),
+              ),
+              const SizedBox(height: 15),
               Text(
                 "Google",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 34),
               Item(
                 iconPath: "assets/icons/activity.png",
-                title: 'Activity',
-              ),
-
-              Item(
-                iconPath: "assets/icons/location.png",
-                title: 'Location',
+                title: 'Skills',
               ),
               Item(
                 iconPath: "assets/icons/location.png",
@@ -46,18 +35,21 @@ class CompanyProfile extends StatelessWidget {
               ),
               Item(
                 iconPath: "assets/icons/education.png",
-                title: 'Number of employee',
+                title: 'Education',
               ),
               Item(
-                iconPath: "assets/icons/location.png",
-                title: 'Address',
+                iconPath: "assets/icons/language.png",
+                title: 'Language',
               ),
-
+              Item(
+                iconPath: "assets/icons/cv.png",
+                title: 'Cv',
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
                     border: Border.all(
                       color: Colors.grey.shade300,
                     ),
@@ -65,7 +57,7 @@ class CompanyProfile extends StatelessWidget {
                   height: 60,
                   width: double.infinity,
                   child: Row(
-                    children: [
+                    children: const [
                       SizedBox(
                         width: 15,
                       ),

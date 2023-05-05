@@ -118,49 +118,10 @@ class _UploadCvState extends State<UploadCv> {
               height: 15,
             ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                  ),
-                ),
-                width: double.infinity,
-                child: TextField(
-                  controller: textMessageController,
-                  keyboardType: TextInputType.multiline,
-                  textCapitalization: TextCapitalization.sentences,
-                  minLines: 1,
-                  maxLines: null,
-                  onChanged: ((value) {
-                    setState(() {
-                      messageEnter = value;
-                    });
-                  }),
-                  decoration: InputDecoration(
-                    hintText: "Why you see this job Suitable for you?",
-                    hintMaxLines: 1,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 25),
-                    hintStyle: Theme.of(context).textTheme.caption,
-                    fillColor: Colors.white,
-                    filled: false,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: .2,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 0.2,
-                      ),
-                    ),
-                  ),
-                ),
+              child: buildFeedbackBox(
+                context: context,
+                hint: "Why you see this job Suitable for you?",
+                messageController: textMessageController!,
               ),
             ),
             const SizedBox(
@@ -174,14 +135,14 @@ class _UploadCvState extends State<UploadCv> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                          const ApplicateDetailsForGoogle()));
+                              const ApplicateDetailsForGoogle()));
                 }
                 if (index == 1) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                          const ApplicateDetailsForMicrosoft()));
+                              const ApplicateDetailsForMicrosoft()));
                 }
               },
               labelWidget: Text(

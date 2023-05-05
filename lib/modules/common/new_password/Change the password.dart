@@ -56,7 +56,7 @@ class ChangePassword extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Enter your email',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                   ),
                 ),
                 const SizedBox(
@@ -80,7 +80,7 @@ class ChangePassword extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Enter your new password',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                   ),
                 ),
                 const SizedBox(
@@ -107,7 +107,7 @@ class ChangePassword extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Confirm your new password',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                   ),
                 ),
                 const SizedBox(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class CompanNotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,7 +21,10 @@ class CompanNotificationScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("You have 1Notifcation To day",style: TextStyle(color: Colors.grey),),
+              child: Text(
+                "You have 1Notifcation To day",
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

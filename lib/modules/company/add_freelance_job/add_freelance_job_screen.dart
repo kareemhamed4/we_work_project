@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:we_work/layout/layout_screen.dart';
-import 'package:we_work/modules/user/login/user_login.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
-class SignUpUser extends StatelessWidget {
-  SignUpUser({super.key});
+class AddFreelanceJobScreen extends StatelessWidget {
+  AddFreelanceJobScreen({super.key});
+  TextEditingController statueController = TextEditingController();
+  TextEditingController publicTimeController = TextEditingController();
+  TextEditingController timeToCompleteController = TextEditingController();
+  TextEditingController doingOfferController = TextEditingController();
+  TextEditingController projectOwnerController = TextEditingController();
+  TextEditingController projectDetailsController = TextEditingController();
+  TextEditingController requiresSkillsController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController jobTypeController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class SignUpUser extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Sign up',
+          'Freelance job',
           style: Theme.of(context)
               .textTheme
               .headline5!
@@ -30,6 +29,7 @@ class SignUpUser extends StatelessWidget {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 16,
@@ -41,7 +41,7 @@ class SignUpUser extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Name',
+                  'Project statue',
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2!
@@ -52,11 +52,11 @@ class SignUpUser extends StatelessWidget {
                 ),
                 myTextFormField(
                   context: context,
-                  controller: nameController,
+                  controller: statueController,
                   type: TextInputType.text,
                   validate: (value) {
                     if (value!.isEmpty) {
-                      return "Please enter your name";
+                      return "Please enter Project statue";
                     }
                     return null;
                   },
@@ -65,7 +65,7 @@ class SignUpUser extends StatelessWidget {
                   height: size.height * 20 / size.height,
                 ),
                 Text(
-                  'Email',
+                  'Public time',
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2!
@@ -76,89 +76,11 @@ class SignUpUser extends StatelessWidget {
                 ),
                 myTextFormField(
                   context: context,
-                  controller: emailController,
-                  type: TextInputType.emailAddress,
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return "Please enter your email";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                Text(
-                  'Password',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                myTextFormField(
-                  context: context,
-                  controller: passwordController,
-                  type: TextInputType.text,
-                  suffixIcon: const Icon(Icons.visibility_off_outlined),
-                  hint: "● ● ● ● ● ● ● ● ●",
-                  isPassword: true,
-                  validate: (value) {
-                    if (value!.length < 8) {
-                      return "password shouldn't be less than 8 characters";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                Text(
-                  'Confirm Password',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                myTextFormField(
-                  context: context,
-                  controller: confirmPasswordController,
-                  type: TextInputType.text,
-                  suffixIcon: const Icon(Icons.visibility_off_outlined),
-                  hint: "● ● ● ● ● ● ● ● ●",
-                  isPassword: true,
-                  validate: (value) {
-                    if (value != passwordController.text) {
-                      return "password must be matched";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                Text(
-                  'Job Type',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                myTextFormField(
-                  context: context,
-                  controller: jobTypeController,
+                  controller: publicTimeController,
                   type: TextInputType.text,
                   validate: (value) {
                     if (value!.isEmpty) {
-                      return "Please enter your Job type";
+                      return "Please enter Public time";
                     }
                     return null;
                   },
@@ -167,7 +89,7 @@ class SignUpUser extends StatelessWidget {
                   height: size.height * 20 / size.height,
                 ),
                 Text(
-                  'Phone Number',
+                  'Time to complete',
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2!
@@ -178,11 +100,101 @@ class SignUpUser extends StatelessWidget {
                 ),
                 myTextFormField(
                   context: context,
-                  controller: phoneController,
-                  type: TextInputType.number,
+                  controller: timeToCompleteController,
+                  type: TextInputType.text,
                   validate: (value) {
-                    if (value!.length < 11) {
-                      return "Please enter a valid phone number";
+                    if (value!.isEmpty) {
+                      return "Please enter time to complete";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: size.height * 20 / size.height,
+                ),
+                Text(
+                  'Doing offer',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                myTextFormField(
+                  context: context,
+                  controller: doingOfferController,
+                  type: TextInputType.text,
+                ),
+                SizedBox(
+                  height: size.height * 20 / size.height,
+                ),
+                Text(
+                  'project owner',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                myTextFormField(
+                  context: context,
+                  controller: projectOwnerController,
+                  type: TextInputType.text,
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter project owner";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: size.height * 20 / size.height,
+                ),
+                Text(
+                  'project details',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                myTextFormField(
+                  context: context,
+                  controller: projectDetailsController,
+                  type: TextInputType.text,
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter project details";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: size.height * 20 / size.height,
+                ),
+                Text(
+                  'requires skills',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                myTextFormField(
+                  context: context,
+                  controller: projectDetailsController,
+                  type: TextInputType.text,
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter requires skills";
                     }
                     return null;
                   },
@@ -192,38 +204,14 @@ class SignUpUser extends StatelessWidget {
                 ),
                 myMaterialButton(
                   context: context,
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      NavigateToReb(
-                          context: context, widget: const LayoutScreen());
-                    }
-                  },
+                  onPressed: () {},
                   labelWidget: Text(
-                    'Sign Up',
+                    'Confirm',
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Already have an account?",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    myTextButton(
-                      context: context,
-                      label: "Log in",
-                      onPressed: () {
-                        NavigateTo(context: context, widget: LoginUser());
-                      },
-                    )
-                  ],
+                  height: size.height * 8 / size.height,
                 ),
               ],
             ),

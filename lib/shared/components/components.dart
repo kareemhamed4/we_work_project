@@ -16,7 +16,6 @@ Widget myTextFormField({
   Widget? icon,
   int? maxLength,
   int? maxLength2,
-  TextAlign? textAlign,
   String? hint,
 }) =>
     TextFormField(
@@ -30,7 +29,6 @@ Widget myTextFormField({
       onChanged: onChange,
       onFieldSubmitted: onSubmit,
       validator: validate,
-      textAlign: textAlign ?? TextAlign.start,
       maxLength: maxLength,
       inputFormatters: [
         LengthLimitingTextInputFormatter(maxLength2),
@@ -73,8 +71,8 @@ Future NavigateToReb({
   required BuildContext context,
   required Widget widget,
 }) =>
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => widget));
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => widget), (route) => false);
 
 // ignore: non_constant_identifier_names
 Future NavigateTo({
@@ -84,18 +82,18 @@ Future NavigateTo({
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
 Widget myDivider({double? paddingValue}) => Padding(
-  padding: EdgeInsets.only(
-    right: paddingValue ?? 12,
-    left: paddingValue ?? 12,
-    top: 0,
-    bottom: 0,
-  ),
-  child: Container(
-    width: double.infinity,
-    color: Colors.grey[300],
-    height: 1,
-  ),
-);
+      padding: EdgeInsets.only(
+        right: paddingValue ?? 12,
+        left: paddingValue ?? 12,
+        top: 0,
+        bottom: 0,
+      ),
+      child: Container(
+        width: double.infinity,
+        color: Colors.grey[300],
+        height: 1,
+      ),
+    );
 
 Widget myTextButton({
   required BuildContext context,
@@ -103,13 +101,63 @@ Widget myTextButton({
   required Function onPressed,
 }) =>
     TextButton(
-        onPressed: () {
-          onPressed();
-        },
-        child: Text(
-          label,
-          style: Theme.of(context)
-              .textTheme
-              .headline6!.copyWith(fontSize: 16)
-              .copyWith(color: myFavColor),
-        ));
+      onPressed: () {
+        onPressed();
+      },
+      child: Text(
+        label,
+        style: Theme.of(context)
+            .textTheme
+            .headline6!
+            .copyWith(fontSize: 16)
+            .copyWith(color: myFavColor),
+      ),
+    );
+
+Widget buildFeedbackBox({
+  required BuildContext context,
+  required String hint,
+  required TextEditingController messageController,
+  ValueChanged<String>? onChange,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: const BorderRadius.all(Radius.circular(5)),
+      border: Border.all(
+        color: Colors.grey.shade300,
+      ),
+    ),
+    width: double.infinity,
+    child: TextField(
+      controller: messageController,
+      keyboardType: TextInputType.multiline,
+      textCapitalization: TextCapitalization.sentences,
+      minLines: 1,
+      maxLines: null,
+      onChanged: onChange,
+      decoration: InputDecoration(
+        hintText: hint,
+        hintMaxLines: 1,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+        hintStyle: Theme.of(context).textTheme.caption,
+        fillColor: Colors.white,
+        filled: false,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(0),
+          borderSide: const BorderSide(
+            color: Colors.white,
+            width: .2,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(0),
+          borderSide: const BorderSide(
+            color: Colors.white,
+            width: 0.2,
+          ),
+        ),
+      ),
+    ),
+  );
+}

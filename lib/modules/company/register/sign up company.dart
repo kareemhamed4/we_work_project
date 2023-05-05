@@ -43,7 +43,10 @@ class SignUpCompany extends StatelessWidget {
               children: [
                 Text(
                   'Company Name',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -64,7 +67,10 @@ class SignUpCompany extends StatelessWidget {
                 ),
                 Text(
                   'Company Email',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -85,7 +91,10 @@ class SignUpCompany extends StatelessWidget {
                 ),
                 Text(
                   'Company Password',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -109,7 +118,10 @@ class SignUpCompany extends StatelessWidget {
                 ),
                 Text(
                   'Confirm Password',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -133,7 +145,10 @@ class SignUpCompany extends StatelessWidget {
                 ),
                 Text(
                   'Phone Number',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
                 ),
                 const SizedBox(
                   height: 8,
@@ -160,7 +175,10 @@ class SignUpCompany extends StatelessWidget {
                         children: [
                           Text(
                             'Country',
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(fontSize: 14),
                           ),
                           const SizedBox(
                             height: 8,
@@ -188,7 +206,10 @@ class SignUpCompany extends StatelessWidget {
                         children: [
                           Text(
                             'City',
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(fontSize: 14),
                           ),
                           const SizedBox(
                             height: 8,
@@ -228,7 +249,10 @@ class SignUpCompany extends StatelessWidget {
                   children: [
                     Text(
                       "Already have an account?",
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: 14),
                     ),
                     myTextButton(
                       context: context,

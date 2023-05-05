@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/bloc_observer.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
-import 'package:we_work/modules/common/onboarding/onboarding-screen.dart';
+import 'package:we_work/layout_company/cubit/cubit.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
 import 'package:we_work/shared/styles/themes.dart';
@@ -32,12 +33,13 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (BuildContext context) => LayoutCubit()),
+          BlocProvider(create: (BuildContext context) => LayoutCompanyCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           themeMode: ThemeMode.light,
-          home: const Onboarding(),
+          home: const LayoutCompanyScreen(),
         ),
       ),
     );
