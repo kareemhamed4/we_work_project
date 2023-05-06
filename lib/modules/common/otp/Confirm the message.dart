@@ -23,13 +23,13 @@ class ConfirmMessage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: size.height * 30 / size.height,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              mySizedBox(size: size,myHeight: 10),
               Image.asset(
                 'assets/image/Rectangle 3 (1).png',
                 fit: BoxFit.cover,
@@ -136,7 +136,7 @@ class ConfirmMessage extends StatelessWidget {
                   ),
                 ],
               ),
-              mySizedBox(size: size,myHeight: 174),
+              mySizedBox(size: size,myHeight: 130),
               myMaterialButton(
                 context: context,
                 onPressed: () {
@@ -147,7 +147,7 @@ class ConfirmMessage extends StatelessWidget {
                   style: Theme.of(context).textTheme.button,
                 ),
               ),
-              mySizedBox(size: size,myHeight: 71),
+              mySizedBox(size: size,myHeight: 40),
             ],
           ),
         ),

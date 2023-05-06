@@ -25,19 +25,19 @@ class ForgetPassword extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: size.height * 30 / size.height,
           ),
           child: Form(
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                mySizedBox(size: size,myHeight: 40),
                 Image.asset(
                   'assets/image/Rectangle 3.png',
                 ),
-                mySizedBox(size: size,myHeight: 60),
+                mySizedBox(size: size,myHeight: 40),
                 Text(
                   'Please enter your email address to receive verification code',
                   textAlign: TextAlign.center,
@@ -63,7 +63,7 @@ class ForgetPassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                mySizedBox(size: size,myHeight: 141),
+                mySizedBox(size: size,myHeight: 120),
                 myMaterialButton(
                   context: context,
                   onPressed: () {
@@ -76,7 +76,7 @@ class ForgetPassword extends StatelessWidget {
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
-                mySizedBox(size: size,myHeight: 68),
+                mySizedBox(size: size,myHeight: 40),
               ],
             ),
           ),

@@ -266,9 +266,6 @@ class CompanyOffersScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Image.asset("assets/icons/status.png"),
-                                  const SizedBox(
-                                    width: 11,
-                                  ),
                                   Text(
                                     "Project statue",
                                     style: Theme.of(context)
@@ -284,9 +281,6 @@ class CompanyOffersScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Image.asset("assets/icons/time.png"),
-                                  const SizedBox(
-                                    width: 11,
-                                  ),
                                   Text(
                                     "Time to complete",
                                     style: Theme.of(context)

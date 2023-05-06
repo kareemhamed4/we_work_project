@@ -31,15 +31,15 @@ class SignUpUser extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: size.height * 30 / size.height,
           ),
           child: Form(
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                mySizedBox(size: size,myHeight: 8),
                 Text(
                   'Name',
                   style: Theme.of(context)
@@ -223,7 +223,7 @@ class SignUpUser extends StatelessWidget {
                     ),
                   ],
                 ),
-                mySizedBox(size: size,myHeight: 19),
+                mySizedBox(size: size,myHeight: 21),
                 myMaterialButton(
                   context: context,
                   onPressed: () {
@@ -237,7 +237,7 @@ class SignUpUser extends StatelessWidget {
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
-                mySizedBox(size: size,myHeight: 19),
+                mySizedBox(size: size,myHeight: 14),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -254,9 +254,10 @@ class SignUpUser extends StatelessWidget {
                       onPressed: () {
                         NavigateTo(context: context, widget: LoginUser());
                       },
-                    )
+                    ),
                   ],
                 ),
+                mySizedBox(size: size,myHeight: 51),
               ],
             ),
           ),

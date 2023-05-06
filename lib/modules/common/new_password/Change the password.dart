@@ -26,20 +26,20 @@ class ChangePassword extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: size.height * 15 / size.height,
           ),
           child: Form(
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                mySizedBox(size: size,myHeight: 10),
                 Image.asset(
                   'assets/image/Rectangle 3 (2).png',
                   fit: BoxFit.cover,
                 ),
-                mySizedBox(size: size,myHeight: 56),
+                mySizedBox(size: size,myHeight: 20),
                 Text(
                   'Please enter anew password must be different from previously password',
                   textAlign: TextAlign.center,
@@ -48,7 +48,7 @@ class ChangePassword extends StatelessWidget {
                       .caption!
                       .copyWith(fontSize: 16, height: 1.5),
                 ),
-                mySizedBox(size: size,myHeight: 35),
+                mySizedBox(size: size,myHeight: 20),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
@@ -71,7 +71,7 @@ class ChangePassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                mySizedBox(size: size,myHeight: 35),
+                mySizedBox(size: size,myHeight: 20),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
@@ -97,7 +97,7 @@ class ChangePassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                mySizedBox(size: size,myHeight: 35),
+                mySizedBox(size: size,myHeight: 20),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
@@ -123,7 +123,7 @@ class ChangePassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                mySizedBox(size: size,myHeight: 35),
+                mySizedBox(size: size,myHeight: 20),
                 myMaterialButton(
                   context: context,
                   onPressed: () {
@@ -139,7 +139,7 @@ class ChangePassword extends StatelessWidget {
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
-                mySizedBox(size: size,myHeight: 49),
+                mySizedBox(size: size,myHeight: 20),
               ],
             ),
           ),

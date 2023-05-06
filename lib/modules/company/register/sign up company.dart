@@ -33,15 +33,15 @@ class SignUpCompany extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: size.height * 30 / size.height,
           ),
           child: Form(
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                mySizedBox(size: size,myHeight: 8),
                 Text(
                   'Company Name',
                   style: Theme.of(context)
@@ -236,6 +236,7 @@ class SignUpCompany extends StatelessWidget {
                     )
                   ],
                 ),
+                mySizedBox(size: size,myHeight: 30),
               ],
             ),
           ),

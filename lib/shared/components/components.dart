@@ -101,6 +101,12 @@ Widget myTextButton({
   required Function onPressed,
 }) =>
     TextButton(
+      style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+          minimumSize: const Size(0, 0),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          alignment: Alignment.center
+      ),
       onPressed: () {
         onPressed();
       },
