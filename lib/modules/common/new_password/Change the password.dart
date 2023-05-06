@@ -39,9 +39,7 @@ class ChangePassword extends StatelessWidget {
                   'assets/image/Rectangle 3 (2).png',
                   fit: BoxFit.cover,
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 56),
                 Text(
                   'Please enter anew password must be different from previously password',
                   textAlign: TextAlign.center,
@@ -50,9 +48,7 @@ class ChangePassword extends StatelessWidget {
                       .caption!
                       .copyWith(fontSize: 16, height: 1.5),
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 35),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
@@ -63,9 +59,7 @@ class ChangePassword extends StatelessWidget {
                         .copyWith(fontSize: 14),
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                mySizedBox(size: size,myHeight: 8),
                 myTextFormField(
                   context: context,
                   controller: emailController,
@@ -77,9 +71,7 @@ class ChangePassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 35),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
@@ -90,9 +82,7 @@ class ChangePassword extends StatelessWidget {
                         .copyWith(fontSize: 14),
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                mySizedBox(size: size,myHeight: 8),
                 myTextFormField(
                   context: context,
                   controller: passwordController,
@@ -107,9 +97,7 @@ class ChangePassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 35),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
@@ -120,9 +108,7 @@ class ChangePassword extends StatelessWidget {
                         .copyWith(fontSize: 14),
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                mySizedBox(size: size,myHeight: 8),
                 myTextFormField(
                   context: context,
                   controller: confirmPasswordController,
@@ -137,9 +123,7 @@ class ChangePassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 35),
                 myMaterialButton(
                   context: context,
                   onPressed: () {
@@ -155,6 +139,7 @@ class ChangePassword extends StatelessWidget {
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
+                mySizedBox(size: size,myHeight: 49),
               ],
             ),
           ),

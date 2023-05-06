@@ -25,117 +25,104 @@ class LoginUser extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: size.height * 30 / size.height,
-          ),
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Email',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: size.height * 30 / size.height,
+        ),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Email',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(fontSize: 14),
+              ),
+              mySizedBox(size: size,myHeight: 8),
+              myTextFormField(
+                context: context,
+                controller: emailController,
+                type: TextInputType.emailAddress,
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter your email";
+                  }
+                  return null;
+                },
+              ),
+              mySizedBox(size: size,myHeight: 24),
+              Text(
+                'Password',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(fontSize: 14),
+              ),
+              mySizedBox(size: size,myHeight: 8),
+              myTextFormField(
+                context: context,
+                controller: passwordController,
+                type: TextInputType.text,
+                suffixIcon: const Icon(Icons.visibility_off_outlined),
+                hint: "● ● ● ● ● ● ● ● ●",
+                isPassword: true,
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter your password";
+                  }
+                  return null;
+                },
+              ),
+              mySizedBox(size: size,myHeight: 8),
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: myTextButton(
+                    context: context,
+                    label: "Forget Password?",
+                    onPressed: () {
+                      NavigateTo(context: context, widget: ForgetPassword());
+                    }),
+              ),
+              const Spacer(),
+              myMaterialButton(
+                context: context,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    NavigateToReb(
+                        context: context, widget: const LayoutScreen());
+                  }
+                },
+                labelWidget: Text(
+                  'Log in',
+                  style: Theme.of(context).textTheme.button,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                myTextFormField(
-                  context: context,
-                  controller: emailController,
-                  type: TextInputType.emailAddress,
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return "Please enter your email";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                Text(
-                  'Password',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                myTextFormField(
-                  context: context,
-                  controller: passwordController,
-                  type: TextInputType.text,
-                  suffixIcon: const Icon(Icons.visibility_off_outlined),
-                  hint: "● ● ● ● ● ● ● ● ●",
-                  isPassword: true,
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return "Please enter your password";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: myTextButton(
-                      context: context,
-                      label: "Forget Password?",
-                      onPressed: () {
-                        NavigateTo(context: context, widget: ForgetPassword());
-                      }),
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                myMaterialButton(
-                  context: context,
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      NavigateToReb(
-                          context: context, widget: const LayoutScreen());
-                    }
-                  },
-                  labelWidget: Text(
-                    'Log in',
-                    style: Theme.of(context).textTheme.button,
+              ),
+              mySizedBox(size: size,myHeight: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 14),
                   ),
-                ),
-                SizedBox(
-                  height: size.height * 2 / size.height,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Don't have an account?",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    myTextButton(
-                      context: context,
-                      label: "Sign up",
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                ),
-              ],
-            ),
+                  myTextButton(
+                    context: context,
+                    label: "Sign up",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ),
+              mySizedBox(size: size,myHeight: 205),
+            ],
           ),
         ),
       ),

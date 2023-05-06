@@ -20,7 +20,7 @@ class ChooseRegister extends StatelessWidget {
               Image.asset(
                 'assets/image/undraw_Community_re_cyrm 1.png',
               ),
-              SizedBox(height: size.height * 57/size.height,),
+              mySizedBox(size: size,myHeight: 57),
               myMaterialButton(
                 context: context,
                 onPressed: () {
@@ -31,8 +31,7 @@ class ChooseRegister extends StatelessWidget {
                   style: Theme.of(context).textTheme.button,
                 ),
               ),
-              SizedBox(height: size.height * 24/size.height,),
-              myMaterialButton(
+              mySizedBox(size: size,myHeight: 24),              myMaterialButton(
                 context: context,
                 onPressed: () {
                   NavigateTo(context: context, widget: SignUpUser());

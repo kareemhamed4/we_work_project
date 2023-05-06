@@ -31,9 +31,7 @@ class Onboarding extends StatelessWidget {
                       .headline6!
                       .copyWith(color: myFavColor),
                 ),
-                SizedBox(
-                  height: size.height * 50 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 39),
                 Text(
                   'helps you in your online job search to find Jobs in Egypt and Middle East. Choose the right job using our online recruitment services',
                   textAlign: TextAlign.center,
@@ -42,10 +40,7 @@ class Onboarding extends StatelessWidget {
                       .caption!
                       .copyWith(fontSize: 16, height: 1.5),
                 ),
-                SizedBox(
-                  height: size.height * 77 / size.height,
-                ),
-                myMaterialButton(
+                mySizedBox(size: size,myHeight: 77),                myMaterialButton(
                   context: context,
                   onPressed: () {
                     NavigateTo(
@@ -56,7 +51,7 @@ class Onboarding extends StatelessWidget {
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
-                SizedBox(height: size.height * 88 / size.height),
+                mySizedBox(size: size,myHeight: 88),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: myTextButton(

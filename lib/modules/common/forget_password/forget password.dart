@@ -37,9 +37,7 @@ class ForgetPassword extends StatelessWidget {
                 Image.asset(
                   'assets/image/Rectangle 3.png',
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 60),
                 Text(
                   'Please enter your email address to receive verification code',
                   textAlign: TextAlign.center,
@@ -48,16 +46,12 @@ class ForgetPassword extends StatelessWidget {
                       .caption!
                       .copyWith(fontSize: 16, height: 1.5),
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 45),
                 Text(
                   'Enter your email',
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                mySizedBox(size: size,myHeight: 8),
                 myTextFormField(
                   context: context,
                   controller: emailController,
@@ -69,9 +63,7 @@ class ForgetPassword extends StatelessWidget {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+                mySizedBox(size: size,myHeight: 141),
                 myMaterialButton(
                   context: context,
                   onPressed: () {
@@ -84,6 +76,7 @@ class ForgetPassword extends StatelessWidget {
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
+                mySizedBox(size: size,myHeight: 68),
               ],
             ),
           ),

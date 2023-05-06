@@ -29,9 +29,7 @@ class OffersScreen extends StatelessWidget {
               child: ListView.separated(
                   itemBuilder: (context, index) =>
                       buildOffersCard(size: size, context: context),
-                  separatorBuilder: (context, index) => const SizedBox(
-                        height: 23,
-                      ),
+                  separatorBuilder: (context, index) => mySizedBox(size: size,myHeight: 23),
                   itemCount: 3),
             ),
           ],

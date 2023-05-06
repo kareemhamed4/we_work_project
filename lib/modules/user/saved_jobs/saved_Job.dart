@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/components/custom_card.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -7,6 +8,7 @@ class SavedJob extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,7 +27,7 @@ class SavedJob extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                   itemBuilder: (context,index)=>buildSavedJobs(),
-                  separatorBuilder: (context,index)=>const SizedBox(height: 23,),
+                  separatorBuilder: (context,index)=> mySizedBox(size: size,myHeight: 28),
                   itemCount: 3
               ),
             ),

@@ -34,9 +34,7 @@ class ConfirmMessage extends StatelessWidget {
                 'assets/image/Rectangle 3 (1).png',
                 fit: BoxFit.cover,
               ),
-              SizedBox(
-                height: size.height * 56 / size.height,
-              ),
+              mySizedBox(size: size,myHeight: 62),
               Text(
                 'Please enter 4 digit which send to your email',
                 textAlign: TextAlign.center,
@@ -45,9 +43,7 @@ class ConfirmMessage extends StatelessWidget {
                     .caption!
                     .copyWith(fontSize: 16, height: 1.5),
               ),
-              SizedBox(
-                height: size.height * 56 / size.height,
-              ),
+              mySizedBox(size: size,myHeight: 58),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -72,9 +68,7 @@ class ConfirmMessage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    width: 24,
-                  ),
+                  mySizedBox(size: size,myWidth: 24),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -96,9 +90,7 @@ class ConfirmMessage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    width: 24,
-                  ),
+                  mySizedBox(size: size,myWidth: 24),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -120,9 +112,7 @@ class ConfirmMessage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    width: 24,
-                  ),
+                  mySizedBox(size: size,myWidth: 24),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -146,9 +136,7 @@ class ConfirmMessage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height * 120 / size.height,
-              ),
+              mySizedBox(size: size,myHeight: 174),
               myMaterialButton(
                 context: context,
                 onPressed: () {
@@ -159,6 +147,7 @@ class ConfirmMessage extends StatelessWidget {
                   style: Theme.of(context).textTheme.button,
                 ),
               ),
+              mySizedBox(size: size,myHeight: 71),
             ],
           ),
         ),

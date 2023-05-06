@@ -10,6 +10,7 @@ class MyProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     const urlImage =
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
 
@@ -35,17 +36,17 @@ class MyProfile extends StatelessWidget {
                   backgroundImage: NetworkImage(urlImage),
                 ),
               ),
-              const SizedBox(height: 15),
+              mySizedBox(size: size,myHeight: 15),
               Text(
                 "Manar Maher",
                 style: Theme.of(context).textTheme.bodyText1,
               ),
-              const SizedBox(height: 8),
+              mySizedBox(size: size,myHeight: 8),
               Text(
                 "UI,Ux designer",
                 style: Theme.of(context).textTheme.bodyText2,
               ),
-              const SizedBox(height: 26),
+              mySizedBox(size: size,myHeight: 19),
               Column(
                 children: [
                   Row(
@@ -67,13 +68,14 @@ class MyProfile extends StatelessWidget {
                       ),
                     ],
                   ),
+                  mySizedBox(size: size,myHeight: 15),
                   const AnimatedLinearProgressIndicator(
                     percentage: 0.42,
                     label: "Profile",
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              mySizedBox(size: size,myHeight: 10),
               Item(
                 iconPath: "assets/icons/activity.png",
                 title: 'Skills',

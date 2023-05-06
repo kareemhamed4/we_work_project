@@ -8,6 +8,7 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     const urlImage =
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
     return Scaffold(
@@ -42,14 +43,12 @@ class NotificationScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 23,
-              ),
+              mySizedBox(size: size,myHeight: 23),
               Row(
                 children: [
                   const CircleAvatar(
                       radius: 20, backgroundImage: NetworkImage(urlImage)),
-                  const SizedBox(width: 20),
+                  mySizedBox(size: size,myWidth: 12),
                   Flexible(
                     child: Text(
                       "manar you has apply to a job AS a ui ux designer",
@@ -65,13 +64,9 @@ class NotificationScreen extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(
-                height: 47,
-              ),
+              mySizedBox(size: size,myHeight: 47),
               myDivider(),
-              const SizedBox(
-                height: 20,
-              ),
+              mySizedBox(size: size,myHeight: 20),
               Row(
                 children: [
                   const CircleAvatar(
@@ -92,9 +87,7 @@ class NotificationScreen extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              mySizedBox(size: size,myHeight: 15),
               Row(
                 children: [
                   Expanded(
@@ -129,13 +122,9 @@ class NotificationScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              mySizedBox(size: size,myHeight: 47),
               myDivider(),
-              const SizedBox(
-                height: 20,
-              ),
+              mySizedBox(size: size,myHeight: 27),
               Row(
                 children: const [
                   CircleAvatar(

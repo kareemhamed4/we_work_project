@@ -161,3 +161,13 @@ Widget buildFeedbackBox({
     ),
   );
 }
+
+Widget mySizedBox({
+  required Size size,
+  double? myHeight,
+  double? myWidth,
+}) =>
+    SizedBox(
+      height: myHeight != null ? size.height * myHeight / size.height : 0,
+      width: myWidth != null ? size.width * myWidth / size.width : 0,
+    );
