@@ -27,7 +27,7 @@ class _CompanyFilterState extends State<CompanyFilter> {
   String selectedCountry = "Egypt";
   List<String> countries = [
     "Egypt",
-    "In other country"
+    "Palestine"
   ];
 
   String selectedCity = "Alex";
