@@ -14,6 +14,8 @@ class SignUpUser extends StatelessWidget {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController jobTypeController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController experienceTypeController = TextEditingController();
+  TextEditingController qualificationTypeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +163,46 @@ class SignUpUser extends StatelessWidget {
                   validate: (value) {
                     if (value!.length < 11) {
                       return "Please enter a valid phone number";
+                    }
+                    return null;
+                  },
+                ),
+                mySizedBox(size: size,myHeight: 21),
+                Text(
+                  'Experience',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
+                ),
+                mySizedBox(size: size,myHeight: 8),
+                myTextFormField(
+                  context: context,
+                  controller: experienceTypeController,
+                  type: TextInputType.text,
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your experience";
+                    }
+                    return null;
+                  },
+                ),
+                mySizedBox(size: size,myHeight: 21),
+                Text(
+                  'Qualification',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
+                ),
+                mySizedBox(size: size,myHeight: 8),
+                myTextFormField(
+                  context: context,
+                  controller: qualificationTypeController,
+                  type: TextInputType.text,
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your qualification";
                     }
                     return null;
                   },

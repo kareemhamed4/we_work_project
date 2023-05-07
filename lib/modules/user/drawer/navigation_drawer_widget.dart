@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -28,45 +29,47 @@ class NavigationDrawerWidget extends StatelessWidget {
               children: [
                 buildMenuItem(
                   isChecked: true,
-                  text: 'Activity',
-                  iconPath: "assets/icons/activity.png",
+                  text: 'Name',
+                  icon: FontAwesomeIcons.fileSignature,
                   onClicked: () => selectedItem(context, 0),
                 ),
                 buildMenuItem(
                   isChecked: false,
-                  text: 'Skills',
-                  iconPath: "assets/icons/activity.png",
+                  text: 'CV',
+                  icon: FontAwesomeIcons.filePdf,
                   onClicked: () => selectedItem(context, 1),
                 ),
                 buildMenuItem(
                   isChecked: false,
                   text: 'Location',
-                  iconPath: "assets/icons/location.png",
+                  icon: FontAwesomeIcons.locationDot,
                   onClicked: () => selectedItem(context, 2),
                 ),
                 buildMenuItem(
                   isChecked: false,
-                  text: 'Education',
-                  iconPath: "assets/icons/education.png",
+                  text: 'BIO',
+                  icon: FontAwesomeIcons.infoCircle,
                   onClicked: () => selectedItem(context, 3),
                 ),
                 buildMenuItem(
                   isChecked: false,
-                  text: 'Language',
-                  iconPath: "assets/icons/language.png",
+                  text: 'Education',
+                  icon: FontAwesomeIcons.graduationCap,
                   onClicked: () => selectedItem(context, 4),
                 ),
                 buildMenuItem(
                   isChecked: false,
-                  text: 'Cv',
-                  iconPath: "assets/icons/cv.png",
+                  text: 'Email',
+                  icon: FontAwesomeIcons.envelope,
                   onClicked: () => selectedItem(context, 4),
                 ),
                 const SizedBox(height: 50),
                 buildMenuItem(
                   isChecked: false,
                   text: 'Logout',
-                  iconPath: "assets/icons/log-out.png",
+                  iconColor: Colors.red,
+                  textColor: Colors.red,
+                  icon: FontAwesomeIcons.powerOff,
                   onClicked: (){
                     NavigateToReb(
                       context: context,
@@ -84,7 +87,9 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   Widget buildMenuItem({
     required String text,
-    required String iconPath,
+    required IconData icon,
+    Color? iconColor,
+    Color? textColor,
     required bool isChecked,
     VoidCallback? onClicked,
   }) {
@@ -101,11 +106,11 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: const EdgeInsets.only(left: 12),
           child: Row(
             children: [
-              Image.asset(iconPath),
+              FaIcon(icon,color: iconColor ?? myFavColor.withOpacity(0.6),),
               const SizedBox(
                 width: 15,
               ),
-              Text(text, style: TextStyle(color: myFavColor))
+              Text(text, style: TextStyle(color: textColor ?? myFavColor))
             ],
           ),
         ),

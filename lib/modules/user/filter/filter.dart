@@ -21,7 +21,7 @@ class _FilterState extends State<Filter> {
     "2-3 year",
     "more than 10 years"
   ];
-  List selectedCategories = [];
+  /*  List selectedCategories = [];
 
   Map<String, dynamic> categories = {
     "responseCode": "1",
@@ -47,24 +47,20 @@ class _FilterState extends State<Filter> {
         selectedCategories.remove(categoryId);
       });
     }
-  }
+  }*/
 
-  String verticalGroupValueInterested = "Design";
-  List<String> interested = [
-    "Design",
-    "Programming",
-    "Education",
-    "Graphic",
-    "Marketing"
-  ];
-  String verticalGroupValue = "Cairo in Egypt";
   String verticalGroupValueTypeOfWorkPlace = "Remotely";
   List<String> statusTypeOfWorkPlace = ["onsite", "Remotely"];
-  List<String> statusLocation = [
-    "Cairo in Egypt",
-    "Alex in Egypt",
-    "mansoura in Egypt ",
+  String selectedCountry = "Egypt";
+  List<String> countries = [
+    "Egypt",
     "In other country"
+  ];
+
+  String selectedCity = "Alex";
+  List<String> cities = [
+    "Cairo",
+    "Alex"
   ];
   SfRangeValues _values = const SfRangeValues(120, 300);
   @override
@@ -103,19 +99,74 @@ class _FilterState extends State<Filter> {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 25,
               ),
-              RadioGroup<String>.builder(
-                fillColor: myFavColor,
-                activeColor: myFavColor,
-                groupValue: verticalGroupValue,
-                onChanged: (value) => setState(() {
-                  verticalGroupValue = value!;
-                }),
-                items: statusLocation,
-                itemBuilder: (item) => RadioButtonBuilder(
-                  item,
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Country",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: myFavColor,fontSize: 16),
+                          ),
+                          RadioGroup<String>.builder(
+                            fillColor: myFavColor,
+                            activeColor: myFavColor,
+                            groupValue: selectedCountry,
+                            textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                            onChanged: (value) => setState(() {
+                              selectedCountry = value!;
+                            }),
+                            items: countries,
+                            itemBuilder: (item) => RadioButtonBuilder(
+                              item,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Expanded(flex: 1,child: SizedBox()),
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "City",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: myFavColor,fontSize: 16),
+                          ),
+                          RadioGroup<String>.builder(
+                            fillColor: myFavColor,
+                            activeColor: myFavColor,
+                            groupValue: selectedCity,
+                            textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                            onChanged: (value) => setState(() {
+                              selectedCity = value!;
+                            }),
+                            items: cities,
+                            itemBuilder: (item) => RadioButtonBuilder(
+                              item,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              const SizedBox(
+                height: 25,
               ),
               myDivider(),
               const SizedBox(
@@ -313,7 +364,7 @@ class _FilterState extends State<Filter> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -341,7 +392,7 @@ class _FilterState extends State<Filter> {
               ),
               const SizedBox(
                 height: 20,
-              ),
+              ),*/
               Row(
                 children: [
                   Expanded(
@@ -382,8 +433,7 @@ class _FilterState extends State<Filter> {
       ),
     );
   }
-
-  Widget buildCheckBox({
+  /*  Widget buildCheckBox({
     required int index,
   }) =>
       Row(
@@ -403,5 +453,5 @@ class _FilterState extends State<Filter> {
           ),
           Text(categories['responseBody'][index]['category_name']),
         ],
-      );
+      );*/
 }

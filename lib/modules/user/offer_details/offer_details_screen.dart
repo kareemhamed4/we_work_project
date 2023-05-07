@@ -15,9 +15,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   TextEditingController messageController = TextEditingController();
   String selectedOfferLevel = "Doing offer";
   List<String> offerLevel = [
-    "Accepted offer",
     "Doing offer",
-    "Received offer",
   ];
 
   @override
@@ -75,18 +73,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
               ),
               ListTile(
                 title: Text(
-                  "Number of offers",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 16),
-                ),
-                leading: Image.asset("assets/icons/offer.png"),
-                trailing: const Text("3 offer"),
-              ),
-              ListTile(
-                title: Text(
-                  "Money",
+                  "Budget",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2!
@@ -103,7 +90,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                 height: 20,
               ),
               Text(
-                "Experience",
+                "Offers Level",
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!

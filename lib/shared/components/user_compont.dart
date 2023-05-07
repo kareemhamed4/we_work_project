@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 class Item extends StatelessWidget {
   String iconPath;
   String title;
-  Item({super.key, required this.iconPath, required this.title});
+  double? imageHeight = 20;
+  double? imageWidth = 20;
+  Item({
+    super.key,
+    required this.iconPath,
+    required this.title,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +28,7 @@ class Item extends StatelessWidget {
             const SizedBox(
               width: 15,
             ),
-            Image.asset(iconPath),
+            Image.asset(iconPath, width: imageWidth, height: imageHeight),
             const SizedBox(
               width: 15,
             ),

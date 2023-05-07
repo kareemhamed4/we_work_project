@@ -21,7 +21,7 @@ class DrawerMyUser extends StatelessWidget {
       showShadow: true,
       angle: 0,
       drawerShadowsBackgroundColor: myFavColor5,
-      slideWidth: MediaQuery.of(context).size.width * .65,
+      slideWidth: MediaQuery.of(context).size.width * .85,
       openCurve: Curves.fastOutSlowIn,
       closeCurve: Curves.bounceIn,
     );
