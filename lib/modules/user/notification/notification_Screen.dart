@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/parser.dart';
 import 'package:we_work/modules/user/exam/Go_To_Exam.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -58,9 +60,7 @@ class NotificationScreen extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     width: 40,
-                    child: Image.asset(
-                      "assets/image/google (1) 1.png",
-                    ),
+                    child: SvgPicture.asset("assets/image/google.svg"),
                   )
                 ],
               ),
@@ -81,9 +81,7 @@ class NotificationScreen extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     width: 40,
-                    child: Image.asset(
-                      "assets/image/google (1) 1.png",
-                    ),
+                    child: SvgPicture.asset("assets/image/google.svg"),
                   )
                 ],
               ),
@@ -126,16 +124,10 @@ class NotificationScreen extends StatelessWidget {
               myDivider(),
               mySizedBox(size: size,myHeight: 27),
               Row(
-                children: const [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage(
-                      "assets/image/google (1) 1.png",
-                    ),
-                    backgroundColor: Colors.white,
-                  ),
-                  SizedBox(width: 20),
-                  Flexible(
+                children: [
+                  SvgPicture.asset("assets/image/google.svg"),
+                  const SizedBox(width: 20),
+                  const Flexible(
                       child: Text(
                     "HI,,Manar, congratulation  i hope best wishes for you ",
                     style: TextStyle(color: Colors.grey),

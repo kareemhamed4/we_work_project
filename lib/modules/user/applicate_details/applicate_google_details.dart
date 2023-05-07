@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -47,9 +48,7 @@ class ApplicateDetailsForGoogle extends StatelessWidget {
                             SizedBox(
                               height: 32,
                               width: 32,
-                              child: Image.asset(
-                                "assets/image/google (1) 1.png",
-                              ),
+                              child: SvgPicture.asset("assets/image/google.svg")
                             ),
                             const SizedBox(
                               width: 20,
