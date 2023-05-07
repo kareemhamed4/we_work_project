@@ -1,8 +1,6 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -26,12 +24,16 @@ class _CompanyFilterState extends State<CompanyFilter> {
   String verticalGroupValueTypeOfWorkPlace = "Remotely";
   List<String> statusTypeOfWorkPlace = ["onsite", "Remotely"];
 
-  String verticalGroupValue = "Cairo in Egypt";
-  List<String> statusLocation = [
-    "Cairo in Egypt",
-    "Alex in Egypt",
-    "mansoura in Egypt ",
+  String selectedCountry = "Egypt";
+  List<String> countries = [
+    "Egypt",
     "In other country"
+  ];
+
+  String selectedCity = "Alex";
+  List<String> cities = [
+    "Cairo",
+    "Alex"
   ];
   @override
   Widget build(BuildContext context) {
@@ -70,22 +72,74 @@ class _CompanyFilterState extends State<CompanyFilter> {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 25,
               ),
-              RadioGroup<String>.builder(
-                fillColor: myFavColor,
-                activeColor: myFavColor,
-                groupValue: verticalGroupValue,
-                onChanged: (value) => setState(() {
-                  verticalGroupValue = value!;
-                }),
-                items: statusLocation,
-                itemBuilder: (item) => RadioButtonBuilder(
-                  item,
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Country",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: myFavColor,fontSize: 16),
+                          ),
+                          RadioGroup<String>.builder(
+                            fillColor: myFavColor,
+                            activeColor: myFavColor,
+                            groupValue: selectedCountry,
+                            textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                            onChanged: (value) => setState(() {
+                              selectedCountry = value!;
+                            }),
+                            items: countries,
+                            itemBuilder: (item) => RadioButtonBuilder(
+                              item,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Expanded(flex: 1,child: SizedBox()),
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "City",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: myFavColor,fontSize: 16),
+                          ),
+                          RadioGroup<String>.builder(
+                            fillColor: myFavColor,
+                            activeColor: myFavColor,
+                            groupValue: selectedCity,
+                            textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 14),
+                            onChanged: (value) => setState(() {
+                              selectedCity = value!;
+                            }),
+                            items: cities,
+                            itemBuilder: (item) => RadioButtonBuilder(
+                              item,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 25,
               ),
               myDivider(),
               const SizedBox(
