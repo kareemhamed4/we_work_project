@@ -27,6 +27,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter:
+    sdk: flutter
   group_radio_button:
   syncfusion_flutter_sliders:
   cupertino_radio_choice:
@@ -44,13 +46,7 @@ dependencies:
   dio: ^5.0.1
   pretty_dio_logger: any
   font_awesome_flutter: ^10.4.0
-  flutter:
-    sdk: flutter
-flutter_native_splash:
-  color: "#649344"
-  image: assets/image/Frame 34.png
-  android: true
-  ios: true
+  animated_splash_screen: ^1.3.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
