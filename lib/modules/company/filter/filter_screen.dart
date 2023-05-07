@@ -33,7 +33,6 @@ class _CompanyFilterState extends State<CompanyFilter> {
     "mansoura in Egypt ",
     "In other country"
   ];
-  SfRangeValues _values = const SfRangeValues(120, 300);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,39 +84,8 @@ class _CompanyFilterState extends State<CompanyFilter> {
                   item,
                 ),
               ),
-              myDivider(),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Type of workplace",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(color: myFavColor),
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: myFavColor7,
-                  ),
-                ],
-              ),
               const SizedBox(
                 height: 10,
-              ),
-              RadioGroup<String>.builder(
-                fillColor: const Color(0xff649344),
-                groupValue: verticalGroupValueTypeOfWorkPlace,
-                onChanged: (value) => setState(() {
-                  verticalGroupValueTypeOfWorkPlace = value!;
-                }),
-                items: statusTypeOfWorkPlace,
-                itemBuilder: (item) => RadioButtonBuilder(
-                  item,
-                ),
               ),
               myDivider(),
               const SizedBox(
@@ -193,49 +161,7 @@ class _CompanyFilterState extends State<CompanyFilter> {
                 initialKeyValue: 'Senior',
               ),
               const SizedBox(
-                height: 20,
-              ),
-              myDivider(),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Salary",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(color: myFavColor),
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: myFavColor7,
-                  ),
-                ],
-              ),
-              SfRangeSlider(
-                  inactiveColor: myFavColor3,
-                  activeColor: myFavColor,
-                  min: 10,
-                  max: 500,
-                  stepSize: 1,
-                  enableIntervalSelection: true,
-                  showDividers: false,
-                  values: _values,
-                  interval: 40,
-                  showTicks: false,
-                  showLabels: false,
-                  enableTooltip: true,
-                  minorTicksPerInterval: 1,
-                  onChanged: (SfRangeValues values) {
-                    setState(() {
-                      _values = values;
-                    });
-                  }),
-              const SizedBox(
-                height: 20,
+                height: 30,
               ),
               myDivider(),
               const SizedBox(
@@ -273,44 +199,6 @@ class _CompanyFilterState extends State<CompanyFilter> {
                 itemBuilder: (item) => RadioButtonBuilder(
                   item,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              myDivider(),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Rating",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(color: myFavColor),
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: myFavColor7,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 20,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 6,
-                    itemBuilder: (BuildContext context, int index) => Icon(
-                          Icons.star,
-                          color: HexColor("#ffc107"),
-                        )),
               ),
               const SizedBox(
                 height: 40,

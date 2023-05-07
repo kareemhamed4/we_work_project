@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
-import '../login/company_login.dart';
 
 //ignore: must_be_immutable
 class AddJobScreen extends StatelessWidget {
@@ -16,6 +15,7 @@ class AddJobScreen extends StatelessWidget {
   TextEditingController skillsController = TextEditingController();
   TextEditingController salaryController = TextEditingController();
   TextEditingController workPlaceController = TextEditingController();
+  TextEditingController experienceController = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -229,6 +229,30 @@ class AddJobScreen extends StatelessWidget {
                   validate: (value) {
                     if (value!.isEmpty) {
                       return "Please enter required skills";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: size.height * 20 / size.height,
+                ),
+                Text(
+                  'Experience',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                myTextFormField(
+                  context: context,
+                  controller: experienceController,
+                  type: TextInputType.text,
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter job Experience";
                     }
                     return null;
                   },

@@ -85,10 +85,13 @@ class _CompanyHomeState extends State<CompanyHome> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: size.height * 12 / size.height,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -167,7 +170,11 @@ class _CompanyHomeState extends State<CompanyHome> {
                     separatorBuilder: (context, index) => const SizedBox(
                           height: 12,
                         ),
-                    itemCount: 1),
+                    itemCount: 1,
+                ),
+              SizedBox(
+                height: size.height * 20 / size.height,
+              ),
             ],
           ),
         ),
@@ -178,18 +185,29 @@ class _CompanyHomeState extends State<CompanyHome> {
   Widget buildCompanyHomeCard({
     required Size size,
     required BuildContext context,
-  }) {
-    return GestureDetector(
-      onTap: () {},
-      child: SizedBox(
+  }) =>
+      Container(
+        height: size.height * 200 / size.height,
         width: size.width * 392 / size.width,
-        height: size.height * 204 / size.height,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+                color: myFavColor6.withAlpha(20),
+                spreadRadius: 2,
+                blurRadius: 7,
+                offset: const Offset(0, 0)),
+          ],
+        ),
         child: Card(
           margin: EdgeInsets.zero,
+          elevation: 0,
           color: myFavColor5,
-          elevation: 2,
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(
+              Radius.circular(16),
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 26),
@@ -218,9 +236,9 @@ class _CompanyHomeState extends State<CompanyHome> {
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(
-                                      fontSize: 14,
-                                      color: myFavColor7,
-                                    ),
+                                  fontSize: 14,
+                                  color: myFavColor7,
+                                ),
                               ),
                               Row(
                                 children: [
@@ -234,10 +252,10 @@ class _CompanyHomeState extends State<CompanyHome> {
                                         .textTheme
                                         .bodyText1!
                                         .copyWith(
-                                          fontSize: 14,
-                                          color: myFavColor,
-                                          decoration: TextDecoration.underline,
-                                        ),
+                                      fontSize: 14,
+                                      color: myFavColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   )
                                 ],
                               ),
@@ -276,10 +294,10 @@ class _CompanyHomeState extends State<CompanyHome> {
                         Text(
                           "Alex, Egypt",
                           style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    fontSize: 14,
-                                    color: myFavColor7,
-                                  ),
+                          Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 14,
+                            color: myFavColor7,
+                          ),
                         ),
                       ],
                     ),
@@ -305,7 +323,5 @@ class _CompanyHomeState extends State<CompanyHome> {
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

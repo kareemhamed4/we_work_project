@@ -1,19 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
-import 'package:we_work/shared/components/animated_progress_indicator.dart';
 import 'package:we_work/shared/components/components.dart';
-import 'package:we_work/shared/components/user_compont.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
-class CompanyProfile extends StatelessWidget {
+class ExpansionItem {
+  String headerText;
+  String expandedText;
+  bool isExpanded;
+  IconData icon;
+
+  ExpansionItem({
+    required this.headerText,
+    required this.expandedText,
+    required this.icon,
+    this.isExpanded = false,
+  });
+}
+
+class CompanyProfile extends StatefulWidget {
   const CompanyProfile({super.key});
 
+  @override
+  State<CompanyProfile> createState() => _CompanyProfileState();
+}
+
+class _CompanyProfileState extends State<CompanyProfile> {
+  final List<ExpansionItem> data = [
+    ExpansionItem(
+      headerText: "Name",
+      expandedText: "Google",
+      icon: FontAwesomeIcons.fileSignature,
+    ),
+    ExpansionItem(
+      headerText: "Location",
+      expandedText: "Country: Egypt\nCity: Alex",
+      icon: FontAwesomeIcons.locationDot,
+    ),
+    ExpansionItem(
+      headerText: "Email",
+      expandedText: "google@gmail.com",
+      icon: FontAwesomeIcons.envelope,
+    ),
+    ExpansionItem(
+      headerText: "BIO",
+      expandedText: "bla bla bla",
+      icon: FontAwesomeIcons.infoCircle,
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -34,25 +75,48 @@ class CompanyProfile extends StatelessWidget {
                     .copyWith(fontSize: 20),
               ),
               const SizedBox(height: 34),
-              Item(
-                iconPath: "assets/icons/activity.png",
-                title: 'Skills',
-              ),
-              Item(
-                iconPath: "assets/icons/location.png",
-                title: 'Location',
-              ),
-              Item(
-                iconPath: "assets/icons/education.png",
-                title: 'Education',
-              ),
-              Item(
-                iconPath: "assets/icons/language.png",
-                title: 'Language',
-              ),
-              Item(
-                iconPath: "assets/icons/cv.png",
-                title: 'Cv',
+              ListView.builder(
+                key: UniqueKey(),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0), // Adjust the bottom padding as needed
+                    child: Card(
+                      elevation: 0.5,
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: myFavColor7.withOpacity(0.4),
+                          )
+                      ),
+                      child: ExpansionPanelList(
+                        elevation: 0,
+                        dividerColor: myFavColor7.withOpacity(0.5),
+                        expandedHeaderPadding: EdgeInsets.zero, // Removes the default header padding
+                        expansionCallback: (int panelIndex, bool isExpanded) {
+                          setState(() {
+                            data[index].isExpanded = !isExpanded;
+                          });
+                        },
+                        children: [
+                          ExpansionPanel(
+                            headerBuilder: (BuildContext context, bool isExpanded) {
+                              return ListTile(
+                                title: Text(data[index].headerText,style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 16),),
+                                leading: FaIcon(data[index].icon,color: myFavColor.withOpacity(0.6),),
+                              );
+                            },
+                            body: ListTile(
+                              title: Text(data[index].expandedText,style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 16),),
+                            ),
+                            isExpanded: data[index].isExpanded,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),

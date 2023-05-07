@@ -8,8 +8,6 @@ class AddFreelanceJobScreen extends StatelessWidget {
   TextEditingController statueController = TextEditingController();
   TextEditingController publicTimeController = TextEditingController();
   TextEditingController timeToCompleteController = TextEditingController();
-  TextEditingController doingOfferController = TextEditingController();
-  TextEditingController projectOwnerController = TextEditingController();
   TextEditingController projectDetailsController = TextEditingController();
   TextEditingController requiresSkillsController = TextEditingController();
   var formKey = GlobalKey<FormState>();
@@ -112,48 +110,7 @@ class AddFreelanceJobScreen extends StatelessWidget {
                 SizedBox(
                   height: size.height * 20 / size.height,
                 ),
-                Text(
-                  'Doing offer',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                myTextFormField(
-                  context: context,
-                  controller: doingOfferController,
-                  type: TextInputType.text,
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
-                Text(
-                  'project owner',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                myTextFormField(
-                  context: context,
-                  controller: projectOwnerController,
-                  type: TextInputType.text,
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return "Please enter project owner";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 20 / size.height,
-                ),
+
                 Text(
                   'project details',
                   style: Theme.of(context)

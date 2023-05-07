@@ -61,7 +61,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   isChecked: false,
                   text: 'Email',
                   icon: FontAwesomeIcons.envelope,
-                  onClicked: () => selectedItem(context, 4),
+                  onClicked: () => selectedItem(context, 5),
                 ),
                 const SizedBox(height: 50),
                 buildMenuItem(
