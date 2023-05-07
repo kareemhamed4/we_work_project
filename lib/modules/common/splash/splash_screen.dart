@@ -32,9 +32,13 @@ class SplashScreen extends StatelessWidget {
             ],
           ),
           if(Platform.isAndroid)
-            CupertinoActivityIndicator(
-              color: myFavColor5,
-              radius: 15,
+            SizedBox(
+              width: 30,
+              height: 30,
+              child: CircularProgressIndicator(
+                color: myFavColor5,
+                strokeWidth: 3,
+              ),
             ),
           if(Platform.isIOS)
             CupertinoActivityIndicator(
