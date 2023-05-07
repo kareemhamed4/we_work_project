@@ -54,7 +54,7 @@ class _FilterState extends State<Filter> {
   String selectedCountry = "Egypt";
   List<String> countries = [
     "Egypt",
-    "In other country"
+    "Palestine"
   ];
 
   String selectedCity = "Alex";

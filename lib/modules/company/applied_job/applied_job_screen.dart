@@ -53,7 +53,7 @@ class AppliedJobScreen extends StatelessWidget {
       GestureDetector(
         onTap: () {},
         child: Container(
-          height: size.height * 260 / size.height,
+          height: size.height * 270 / size.height,
           width: size.width * 392 / size.width,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(

@@ -47,7 +47,7 @@ class SavedJob extends StatelessWidget {
     required BuildContext context,
   }) =>
       Container(
-        height: size.height * 190 / size.height,
+        height: size.height * 200 / size.height,
         width: size.width * 392 / size.width,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
