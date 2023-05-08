@@ -20,6 +20,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -278,7 +279,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                     height: 8,
                   ),
                   SizedBox(
-                    height: 220,
+                    height: size.height * 220/780,
                     child: buildFeedbackBox(
                         context: context,
                         hint: "",

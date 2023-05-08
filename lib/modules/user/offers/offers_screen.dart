@@ -58,8 +58,8 @@ class OffersScreen extends StatelessWidget {
           );
         },
         child: Container(
-          height: size.height * 190 / size.height,
-          width: size.width * 392 / size.width,
+          height: size.height * 190 / 780,
+          width: size.width * 392 / 360,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),

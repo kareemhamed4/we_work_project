@@ -174,6 +174,6 @@ Widget mySizedBox({
   double? myWidth,
 }) =>
     SizedBox(
-      height: myHeight != null ? size.height * myHeight / size.height : 0,
-      width: myWidth != null ? size.width * myWidth / size.width : 0,
+      height: myHeight != null ? size.height * myHeight / 780 : 0,
+      width: myWidth != null ? size.width * myWidth / 360 : 0,
     );
