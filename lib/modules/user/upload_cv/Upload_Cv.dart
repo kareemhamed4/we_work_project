@@ -1,15 +1,18 @@
+import 'dart:io';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:we_work/modules/user/applicate_details/applicate_google_details.dart';
-import 'package:we_work/modules/user/applicate_details/applicate_microsoft_details.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:we_work/layout/layout_screen.dart';
+import 'package:we_work/modules/user/upload_cv/cubit/cubit.dart';
+import 'package:we_work/modules/user/upload_cv/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class UploadCv extends StatefulWidget {
-  final int index;
-  const UploadCv({super.key, required this.index});
-
+  final int jobId;
+  const UploadCv({super.key, required this.jobId});
   @override
   State<UploadCv> createState() => _UploadCvState();
 }
@@ -20,139 +23,187 @@ bool pdfIsUpload = false;
 
 class _UploadCvState extends State<UploadCv> {
   TextEditingController textMessageController = TextEditingController();
+  List<double> dashPattern = [6, 6];
+  String? nameFile;
+  bool photoIsUploaded = false;
+  PlatformFile? file;
+  FilePickerResult? result;
+  var formKey = GlobalKey<FormState>();
   String? messageEnter;
   @override
   Widget build(BuildContext context) {
-    int index = widget.index;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Upload CV',
-          style: Theme.of(context)
-              .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Add a certification to apply to a job",
-              style: Theme.of(context).textTheme.bodyText2,
+    Size size = MediaQuery.of(context).size;
+    return BlocConsumer<UserApplyJobCubit, UserApplyJobStates>(
+      listener: (context, state) {
+        if (state is UserApplyJobSuccessState) {
+          NavigateToReb(context: context, widget: const LayoutScreen());
+          buildSuccessToast(
+            title: "Done",
+            context: context,
+            description: state.msg,
+          );
+        }
+        if (state is UserApplyJobErrorState) {
+          buildErrorToast(
+            title: "Oops!",
+            context: context,
+            description: state.error,
+          );
+        }
+      },
+      builder: (context, state) {
+        UserApplyJobCubit cubit = BlocProvider.of(context);
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Upload CV',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(color: myFavColor, fontSize: 20),
             ),
-            const SizedBox(
-              height: 41,
-            ),
-            DottedBorder(
-              color: const Color(0xff649344), //color of dotted/dash line
-              strokeWidth: 1, //thickness of dash/dots
-              dashPattern: cutList,
-              //dash patterns, 10 is dash width, 6 is space width
-              child: Container(
-                //inner container
-                height: 83, //height of inner container
-                width:
-                    double.infinity, //width to 100% match to parent container.
-                color: Colors.white,
-                child: GestureDetector(
-                  onTap: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['pdf'],
-                    );
-                    if (result != null) {
-                      PlatformFile file = result.files.first;
-
-                      setState(() {
-                        nameFile = file.name;
-                        pdfIsUpload = true;
-                        cutList = [1.0];
-                      });
-                    }
-                  },
-                  child: pdfIsUpload
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
+            centerTitle: true,
+          ),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Add a certification to apply to a job",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    DottedBorder(
+                      borderType: BorderType.RRect,
+                      color: myFavColor4,
+                      dashPattern: dashPattern,
+                      radius: const Radius.circular(12),
+                      padding: const EdgeInsets.all(6),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        child: Container(
+                          width: double.infinity,
+                          height: size.height * 178 / size.height,
+                          color: myFavColor5,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset("assets/image/pdf 1.png"),
-                              const SizedBox(
-                                width: 10,
+                              SizedBox(
+                                width: 125,
+                                child: myMaterialButton(
+                                  context: context,
+                                  labelWidget: Text(
+                                    photoIsUploaded
+                                        ? "Uploaded!"
+                                        : "Upload CV",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: myFavColor5, fontSize: 16),
+                                  ),
+                                  onPressed: () async {
+                                    result =
+                                        await FilePicker.platform.pickFiles(
+                                      type: FileType.custom,
+                                      allowedExtensions: ['pdf'],
+                                    );
+                                    if (result != null) {
+                                      file = result!.files.first;
+                                      setState(() {
+                                        nameFile = file!.name;
+                                        photoIsUploaded = true;
+                                        dashPattern = [1.0];
+                                      });
+                                    }
+                                  },
+                                ),
                               ),
-                              Text(nameFile!)
+                              mySizedBox(size: size, myHeight: 6),
+                              Text(
+                                photoIsUploaded
+                                    ? nameFile!
+                                    : "PDF files only accepted",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontSize: 16, color: myFavColor4),
+                              ),
                             ],
                           ),
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.cloud_upload_outlined,
-                              color: myFavColor,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "upload your cv",
-                              style: TextStyle(color: myFavColor),
-                            )
-                          ],
                         ),
-                ), //background color of inner container
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 36,
+                    ),
+                    Text(
+                      "Information",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    buildFeedbackBox(
+                      context: context,
+                      hint: "Why you see this job Suitable for you?",
+                      messageController: textMessageController,
+                    ),
+                    const SizedBox(
+                      height: 41,
+                    ),
+                    ConditionalBuilder(
+                      condition: state is! UserApplyJobLoadingState,
+                      builder: (context) => myMaterialButton(
+                        context: context,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            if (result != null && file != null) {
+                              cubit.userApplyJob(
+                                jobId: widget.jobId,
+                                message: textMessageController.text,
+                                cvFile: File(file!.path!),
+                              );
+                            }
+                          }
+                        },
+                        labelWidget: Text(
+                          'Send',
+                          style: Theme.of(context).textTheme.button,
+                        ),
+                      ),
+                      fallback: (context) => myMaterialButton(
+                        context: context,
+                        onPressed: () {
+                          null;
+                        }, // Set the onPressed to null to disable the button
+                        labelWidget: const Center(
+                          child: SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(
-              height: 36,
-            ),
-            Text(
-              "Information",
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Expanded(
-              child: buildFeedbackBox(
-                context: context,
-                hint: "Why you see this job Suitable for you?",
-                messageController: textMessageController,
-              ),
-            ),
-            const SizedBox(
-              height: 41,
-            ),
-            myMaterialButton(
-              context: context,
-              onPressed: () {
-                if (index == 0) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const ApplicateDetailsForGoogle()));
-                }
-                if (index == 1) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const ApplicateDetailsForMicrosoft()));
-                }
-              },
-              labelWidget: Text(
-                'Send',
-                style: Theme.of(context).textTheme.button,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

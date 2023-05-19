@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -164,7 +165,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem 
                 context: context,
                 onPressed: () {
                   NavigateTo(
-                      context: context, widget: const UploadCv(index: 1,));
+                      context: context, widget: const UploadCv());
                 },
                 labelWidget: Text(
                   'Apply Job',
@@ -178,3 +179,4 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem 
     );
   }
 }
+*/

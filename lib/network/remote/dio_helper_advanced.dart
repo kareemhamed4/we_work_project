@@ -35,8 +35,8 @@ class DioHelper {
     final dioInstance = getDioInstance(baseUrl ?? "");
     dioInstance.options.headers = {
       'lang': 'en',
-      'token': token ?? '',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
     return await dioInstance.get(url, queryParameters: query);
   }
@@ -44,13 +44,16 @@ class DioHelper {
   static Future<Response> postData({
     required String url,
     Map<String, dynamic>? query,
-    Map<String, dynamic>? data,
+    dynamic data,
     String? baseUrl,
+    String? contentType,
+    String? token,
   }) async {
     final dioInstance = getDioInstance(baseUrl ?? "");
     dioInstance.options.headers = {
       'lang': 'en',
-      'Content-Type': 'application/json',
+      'Content-Type': contentType?? 'application/json',
+      'Authorization': 'Bearer $token',
     };
     return await dioInstance.post(url, queryParameters: query, data: data);
   }
@@ -65,8 +68,8 @@ class DioHelper {
     final dioInstance = getDioInstance(baseUrl ?? "");
     dioInstance.options.headers = {
       'lang': 'ar',
-      'Authorization': token,
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
     return await dioInstance.put(url, queryParameters: query, data: data);
   }
@@ -76,11 +79,13 @@ class DioHelper {
     Map<String, dynamic>? query,
     Map<String, dynamic>? data,
     String? baseUrl,
+    String? token,
   }) async {
     final dioInstance = getDioInstance(baseUrl ?? "");
     dioInstance.options.headers = {
       'lang': 'en',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
     return await dioInstance.delete(url, queryParameters: query, data: data);
   }

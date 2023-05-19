@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/models/user/user_get_job_details_model.dart';
 import 'package:we_work/modules/user/company_details/google_company.dart';
 import 'package:we_work/modules/user/upload_cv/Upload_Cv.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class GoogleJobDetails extends StatelessWidget {
-  const GoogleJobDetails({super.key});
+  final UserGetJobDetailsModel userGetJobDetailsModel;
+  const GoogleJobDetails({super.key, required this.userGetJobDetailsModel});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class GoogleJobDetails extends StatelessWidget {
                 height: 17,
               ),
               Text(
-                "Google",
+                userGetJobDetailsModel.title!,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(
@@ -54,7 +56,7 @@ class GoogleJobDetails extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    "Alex, Egypt",
+                    "${userGetJobDetailsModel.city} , ${userGetJobDetailsModel.country}",
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   const SizedBox(
@@ -82,7 +84,7 @@ class GoogleJobDetails extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    "Remotely",
+                    userGetJobDetailsModel.jobType!,
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ],
@@ -114,7 +116,7 @@ class GoogleJobDetails extends StatelessWidget {
                             height: 8,
                           ),
                           Text(
-                            "Senior",
+                            userGetJobDetailsModel.position!,
                             style: Theme.of(context)
                                 .textTheme
                                 .caption!
@@ -133,7 +135,7 @@ class GoogleJobDetails extends StatelessWidget {
                             height: 8,
                           ),
                           Text(
-                            "1-3 year",
+                            userGetJobDetailsModel.experience!,
                             style: Theme.of(context)
                                 .textTheme
                                 .caption!
@@ -152,7 +154,7 @@ class GoogleJobDetails extends StatelessWidget {
                             height: 8,
                           ),
                           Text(
-                            "500\$",
+                            userGetJobDetailsModel.salary.toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .caption!
@@ -202,7 +204,10 @@ class GoogleJobDetails extends StatelessWidget {
                               isEnabled: false,
                               labelWidget: Text(
                                 "Company",
-                                style: Theme.of(context).textTheme.button!.copyWith(color: myFavColor7),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button!
+                                    .copyWith(color: myFavColor7),
                               ),
                               onPressed: () {
                                 NavigateTo(
@@ -224,13 +229,14 @@ class GoogleJobDetails extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '''
-Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-''',
+                        userGetJobDetailsModel.description!,
                         style: Theme.of(context)
                             .textTheme
                             .caption!
-                            .copyWith(fontSize: 14,height: 1.5),
+                            .copyWith(fontSize: 14, height: 1.5),
+                      ),
+                      const SizedBox(
+                        height: 21,
                       ),
                       Text(
                         "Job Requirement",
@@ -253,59 +259,11 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem 
                             const SizedBox(
                               width: 13,
                             ),
-                            const Flexible(
+                            Flexible(
                               child: Text(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting",
-                                style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color(0xff649344)),
-                            ),
-                            const SizedBox(
-                              width: 13,
-                            ),
-                            const Flexible(
-                              child: Text(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting",
-                                style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color(0xff649344)),
-                            ),
-                            const SizedBox(
-                              width: 13,
-                            ),
-                            const Flexible(
-                              child: Text(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting",
-                                style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
+                                userGetJobDetailsModel.requirement!,
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.grey),
                               ),
                             ),
                           ],
@@ -322,7 +280,8 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem 
                 context: context,
                 onPressed: () {
                   NavigateTo(
-                      context: context, widget: const UploadCv(index: 0,));
+                      context: context,
+                      widget: UploadCv(jobId: userGetJobDetailsModel.id!,));
                 },
                 labelWidget: Text(
                   'Apply Job',

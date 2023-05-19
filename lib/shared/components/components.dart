@@ -1,3 +1,5 @@
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -123,6 +125,7 @@ Widget myTextButton({
 Widget buildFeedbackBox({
   required BuildContext context,
   required String hint,
+  int? minLines,
   required TextEditingController messageController,
   ValueChanged<String>? onChange,
 }) {
@@ -138,7 +141,7 @@ Widget buildFeedbackBox({
       controller: messageController,
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
-      minLines: 1,
+      minLines: minLines ?? 10,
       maxLines: null,
       onChanged: onChange,
       decoration: InputDecoration(
@@ -177,3 +180,74 @@ Widget mySizedBox({
       height: myHeight != null ? size.height * myHeight / 780 : 0,
       width: myWidth != null ? size.width * myWidth / 360 : 0,
     );
+
+void buildSuccessToast({
+  required BuildContext context,
+  required String title,
+  required String description,
+}) =>
+    CherryToast.success(
+      title: Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(color: myFavColor6, fontSize: 16),
+      ),
+      description: Text(
+        description,
+        style: Theme.of(context)
+            .textTheme
+            .titleLarge!
+            .copyWith(color: myFavColor6, fontSize: 12),
+      ),
+      animationType: AnimationType.fromRight,
+      animationDuration: const Duration(milliseconds: 1000),
+      autoDismiss: true,
+    ).show(context);
+
+void buildErrorToast({
+  required BuildContext context,
+  required String title,
+  required String description,
+  bool? showTitle,
+}) =>
+    CherryToast.error(
+      displayTitle: showTitle ?? true,
+      title: Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(color: myFavColor6, fontSize: 16),
+      ),
+      description: Text(
+        description,
+        style: Theme.of(context)
+            .textTheme
+            .titleLarge!
+            .copyWith(color: myFavColor6, fontSize: 12),
+      ),
+      animationType: AnimationType.fromTop,
+      animationDuration: const Duration(milliseconds: 1000),
+      autoDismiss: true,
+    ).show(context);
+
+void showProgressIndicator(BuildContext context) {
+  AlertDialog alertDialog = AlertDialog(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    content: Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(myFavColor),
+      ),
+    ),
+  );
+  showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.2),
+      barrierDismissible: false,
+      builder: (context) {
+        return alertDialog;
+      });
+}

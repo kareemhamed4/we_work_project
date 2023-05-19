@@ -1,6 +1,11 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/modules/common/forget_password/forget%20password.dart';
+import 'package:we_work/modules/user/login/cubit/cubit.dart';
+import 'package:we_work/modules/user/login/cubit/states.dart';
+import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -14,120 +19,160 @@ class LoginUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Welcome Back',
-          style: Theme.of(context)
-              .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        child: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                mySizedBox(size: size,myHeight: 8),
-                Text(
-                  'Email',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                mySizedBox(size: size,myHeight: 8),
-                myTextFormField(
-                  context: context,
-                  controller: emailController,
-                  type: TextInputType.emailAddress,
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return "Please enter your email";
-                    }
-                    return null;
-                  },
-                ),
-                mySizedBox(size: size,myHeight: 24),
-                Text(
-                  'Password',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(fontSize: 14),
-                ),
-                mySizedBox(size: size,myHeight: 8),
-                myTextFormField(
-                  context: context,
-                  controller: passwordController,
-                  type: TextInputType.text,
-                  suffixIcon: const Icon(Icons.visibility_off_outlined),
-                  hint: "● ● ● ● ● ● ● ● ●",
-                  isPassword: true,
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return "Please enter your password";
-                    }
-                    return null;
-                  },
-                ),
-                mySizedBox(size: size,myHeight: 8),
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: myTextButton(
-                      context: context,
-                      label: "Forget Password?",
-                      onPressed: () {
-                        NavigateTo(context: context, widget: ForgetPassword());
-                      }),
-                ),
-                mySizedBox(size: size,myHeight: 200),
-                myMaterialButton(
-                  context: context,
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      NavigateToReb(
-                          context: context, widget: const LayoutScreen());
-                    }
-                  },
-                  labelWidget: Text(
-                    'Log in',
-                    style: Theme.of(context).textTheme.button,
-                  ),
-                ),
-                mySizedBox(size: size,myHeight: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+    return BlocConsumer<UserLoginCubit,UserLoginStates>(
+      listener: (context,state){
+        if(state is UserLoginSuccessState){
+          CacheHelper.saveData(key: "userToken", value: state.userLoginModel.token!).then((value){
+            NavigateToReb(context: context, widget: const LayoutScreen());
+          });
+        }
+        if(state is UserLoginErrorState){
+          buildErrorToast(
+            title: "Oops!",
+            context: context,
+            description: state.error,
+          );
+        }
+      },
+      builder: (context,state){
+        UserLoginCubit cubit = BlocProvider.of(context);
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Welcome Back',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(color: myFavColor, fontSize: 20),
+            ),
+            centerTitle: true,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    mySizedBox(size: size,myHeight: 8),
                     Text(
-                      "Don't have an account?",
+                      'Email',
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    myTextButton(
+                    mySizedBox(size: size,myHeight: 8),
+                    myTextFormField(
                       context: context,
-                      label: "Sign up",
-                      onPressed: () {
-                        Navigator.pop(context);
+                      controller: emailController,
+                      type: TextInputType.emailAddress,
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your email";
+                        }
+                        return null;
                       },
-                    )
+                    ),
+                    mySizedBox(size: size,myHeight: 24),
+                    Text(
+                      'Password',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: 14),
+                    ),
+                    mySizedBox(size: size,myHeight: 8),
+                    myTextFormField(
+                      context: context,
+                      controller: passwordController,
+                      type: TextInputType.text,
+                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      hint: "● ● ● ● ● ● ● ● ●",
+                      isPassword: true,
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your password";
+                        }
+                        return null;
+                      },
+                    ),
+                    mySizedBox(size: size,myHeight: 8),
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: myTextButton(
+                          context: context,
+                          label: "Forget Password?",
+                          onPressed: () {
+                            NavigateTo(context: context, widget: ForgetPassword());
+                          }),
+                    ),
+                    mySizedBox(size: size,myHeight: 200),
+                    ConditionalBuilder(
+                      condition: state is! UserLoginLoadingState,
+                      builder: (context) => myMaterialButton(
+                        context: context,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            cubit.userLogin(
+                              email: emailController.text,
+                              password: passwordController.text
+                            );
+                          }
+                        },
+                        labelWidget: Text(
+                          'Log in',
+                          style: Theme.of(context).textTheme.button,
+                        ),
+                      ),
+                      fallback: (context) => myMaterialButton(
+                        context: context,
+                        onPressed: () {
+                          null;
+                        },
+                        labelWidget: const Center(
+                          child: SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    mySizedBox(size: size,myHeight: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Don't have an account?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2!
+                              .copyWith(fontSize: 14),
+                        ),
+                        myTextButton(
+                          context: context,
+                          label: "Sign up",
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ),
+                    mySizedBox(size: size,myHeight: 205),
                   ],
                 ),
-                mySizedBox(size: size,myHeight: 205),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -163,7 +163,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem 
                 context: context,
                 onPressed: () {
                   NavigateTo(
-                      context: context, widget: const UploadCv(index: 0,));
+                      context: context, widget: const UploadCv(jobId: 17,));
                 },
                 labelWidget: Text(
                   'Apply Job',
