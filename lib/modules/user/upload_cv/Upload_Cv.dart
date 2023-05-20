@@ -4,7 +4,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
+import 'package:we_work/modules/user/saved_jobs/cubit/cubit.dart';
 import 'package:we_work/modules/user/upload_cv/cubit/cubit.dart';
 import 'package:we_work/modules/user/upload_cv/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -36,12 +38,15 @@ class _UploadCvState extends State<UploadCv> {
     return BlocConsumer<UserApplyJobCubit, UserApplyJobStates>(
       listener: (context, state) {
         if (state is UserApplyJobSuccessState) {
-          NavigateToReb(context: context, widget: const LayoutScreen());
-          buildSuccessToast(
-            title: "Done",
-            context: context,
-            description: state.msg,
-          );
+          UserGetAppliedJobsCubit.get(context).userGetAppliedJobs().then((value){
+            NavigateToReb(context: context, widget: const LayoutScreen());
+            LayoutCubit.get(context).changeIndex(2);
+            buildSuccessToast(
+              title: "Done",
+              context: context,
+              description: state.msg,
+            );
+          });
         }
         if (state is UserApplyJobErrorState) {
           buildErrorToast(

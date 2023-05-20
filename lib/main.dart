@@ -10,7 +10,10 @@ import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/otp/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/login/cubit/cubit.dart';
+import 'package:we_work/modules/user/offers/cubit/cubit.dart';
+import 'package:we_work/modules/user/profile/cubit/cubit.dart';
 import 'package:we_work/modules/user/register/cubit/cubit.dart';
+import 'package:we_work/modules/user/saved_jobs/cubit/cubit.dart';
 import 'package:we_work/modules/user/upload_cv/cubit/cubit.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
@@ -49,6 +52,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => UserNewPasswordCubit()),
           BlocProvider(create: (BuildContext context) => UserHomeCubit()..userGetAllJob()..userGetRemotlyJob()),
           BlocProvider(create: (BuildContext context) => UserApplyJobCubit()),
+          BlocProvider(create: (BuildContext context) => UserGetAppliedJobsCubit()..userGetAppliedJobs()),
+          BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserInfo()),
+          BlocProvider(create: (BuildContext context) => UserOffersCubit()..userGetOffers()),
           BlocProvider(create: (BuildContext context) => LayoutCubit()),
           BlocProvider(create: (BuildContext context) => LayoutCompanyCubit()),
         ],

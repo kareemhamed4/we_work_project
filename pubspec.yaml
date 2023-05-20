@@ -32,7 +32,6 @@ dependencies:
   group_radio_button:
   syncfusion_flutter_sliders:
   cupertino_radio_choice:
-  file_picker:
   dotted_border:
   flutter_zoom_drawer:
   persistent_bottom_nav_bar_v2:
@@ -50,6 +49,8 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   cherry_toast: ^1.2.1
   pin_code_fields: ^7.4.0
+  file_picker: ^5.2.11
+  image_picker: ^0.8.7+5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
