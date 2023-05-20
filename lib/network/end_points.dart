@@ -16,3 +16,11 @@ const USERGETPROFILE = "User/profile/User";
 const USERUPDATEPROFILE = "Account/UpateBio";
 const USERUPLOADIMAGE = "Account/uploadimage";
 const USERGETALLOFFERS = "Offer/GetReceivedOffers";
+
+//company endPoints
+const COMPANYREGISTER = "Account/register/Company";
+const COMPANYCREATENORMALJOB = "Job/CreateJob";
+const COMPANYCREATEFREELANCEJOB = "Frelancer/CreateFreelancer";
+const COMPANYGETALLUSERSWHOAPPLIED = "ApplyJob/getForCompany";
+const COMPANYGETALLUSERS = "User/Getuser";
+const COMPANYSENDOFFERTOUSER = "Offer/SendofferToUser/";

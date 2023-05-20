@@ -33,7 +33,7 @@ class LayoutCompanyScreen extends StatelessWidget {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        cubit.changeIndex(0);
+                        cubit.changeIndex(0,context);
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +60,7 @@ class LayoutCompanyScreen extends StatelessWidget {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        cubit.changeIndex(1);
+                        cubit.changeIndex(1,context);
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,7 +88,7 @@ class LayoutCompanyScreen extends StatelessWidget {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        cubit.changeIndex(3);
+                        cubit.changeIndex(3,context);
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -116,7 +116,7 @@ class LayoutCompanyScreen extends StatelessWidget {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        cubit.changeIndex(4);
+                        cubit.changeIndex(4,context);
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

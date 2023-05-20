@@ -48,44 +48,59 @@ class GoogleJobDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.location_pin,
-                    color: myFavColor,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.location_pin,
+                          color: myFavColor,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          "${userGetJobDetailsModel.city} , ${userGetJobDetailsModel.country}",
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(
-                    width: 4,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.calendar_month_sharp,
+                          color: myFavColor,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          userGetJobDetailsModel.jobType ?? "",
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    "${userGetJobDetailsModel.city} , ${userGetJobDetailsModel.country}",
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Icon(
-                    Icons.calendar_month_sharp,
-                    color: myFavColor,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    "Full time",
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Icon(
-                    Icons.business,
-                    color: myFavColor,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    userGetJobDetailsModel.jobType!,
-                    style: Theme.of(context).textTheme.bodyText2,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.business,
+                          color: myFavColor,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          userGetJobDetailsModel.workPlace ?? "",
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -103,67 +118,60 @@ class GoogleJobDetails extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10))),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        width: 15,
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/image/positive-vote 1.png"),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              userGetJobDetailsModel.position!,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset("assets/image/positive-vote 1.png"),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            userGetJobDetailsModel.position!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(fontSize: 14),
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/image/experience 1.png"),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              userGetJobDetailsModel.experience!,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(
-                        width: 80,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset("assets/image/experience 1.png"),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            userGetJobDetailsModel.experience!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 80,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset("assets/image/earning 1.png"),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            userGetJobDetailsModel.salary.toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 15,
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/image/earning 1.png"),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              userGetJobDetailsModel.salary.toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

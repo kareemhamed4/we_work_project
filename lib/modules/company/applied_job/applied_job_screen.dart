@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/models/company/company_get_user_applied_model.dart';
+import 'package:we_work/modules/company/notification/cubit/cubit.dart';
+import 'package:we_work/modules/company/notification/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -9,52 +13,72 @@ class AppliedJobScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Applied job',
-          style: Theme.of(context)
-              .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 8,
-              ),
-              ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) =>
-                    buildAppliedJobCard(size: size, context: context),
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 23,
-                ),
-                itemCount: 2,
-              ),
-            ],
+    return BlocConsumer<CompanyGetUsersWhoAppliedCubit,
+        CompanyGetUsersWhoAppliedStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        CompanyGetUsersWhoAppliedCubit cubit = BlocProvider.of(context);
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Applied job',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(color: myFavColor, fontSize: 20),
+            ),
+            centerTitle: true,
           ),
-        ),
-      ),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  if (cubit.companyGetAllUsersApplied != null)
+                    ListView.separated(
+                      reverse: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => buildAppliedJobCard(
+                        size: size,
+                        context: context,
+                        index: index,
+                        model: cubit.companyGetAllUsersApplied!,
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 23,
+                      ),
+                      itemCount: cubit.companyGetAllUsersApplied!.length,
+                    ),
+                  if (cubit.companyGetAllUsersApplied == null)
+                    Center(
+                        child: CircularProgressIndicator(
+                      color: myFavColor,
+                    )),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget buildAppliedJobCard({
     required Size size,
     required BuildContext context,
+    required List<CompanyGetAllUsersApplied> model,
+    required int index,
   }) =>
       GestureDetector(
         onTap: () {},
         child: Container(
-          height: size.height * 270 / size.height,
-          width: size.width * 392 / size.width,
+          /*height: size.height * 270 / size.height,
+          width: size.width * 392 / size.width,*/
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -97,7 +121,7 @@ class AppliedJobScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Manar Maher",
+                                  model[index].displayName ?? "",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1!
@@ -113,7 +137,11 @@ class AppliedJobScreen extends StatelessWidget {
                                       width: 11,
                                     ),
                                     Text(
-                                      "13 dec 2022",
+                                      model[index].dateApplied != null
+                                          ? model[index]
+                                              .dateApplied!
+                                              .substring(0, 10)
+                                          : "",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText1!
@@ -130,14 +158,14 @@ class AppliedJobScreen extends StatelessWidget {
                               height: 8,
                             ),
                             Text(
-                              "UI,UX Designer",
+                              model[index].titleOfJob ?? "",
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                             const SizedBox(
                               height: 8,
                             ),
                             Text(
-                              "manar applied for a job as ui ux designer",
+                              "manar applied for a job as \"${model[index].titleOfJob ?? ""}\"",
                               style:
                                   Theme.of(context).textTheme.caption!.copyWith(
                                         fontSize: 16,
@@ -148,27 +176,32 @@ class AppliedJobScreen extends StatelessWidget {
                               height: 18,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "google@qwyu.com",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption!
-                                      .copyWith(
-                                        fontSize: 16,
-                                        color: myFavColor.withOpacity(0.8),
-                                      ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Text(
+                                    model[index].email!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption!
+                                        .copyWith(
+                                          fontSize: 14,
+                                          color: myFavColor.withOpacity(0.8),
+                                        ),
+                                  ),
                                 ),
-                                Text(
-                                  "Job Id:8",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption!
-                                      .copyWith(
-                                        fontSize: 16,
-                                        color: myFavColor.withOpacity(0.8),
-                                      ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    "Job Id:${model[index].jobid ?? ""}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption!
+                                        .copyWith(
+                                          fontSize: 12,
+                                          color: myFavColor.withOpacity(0.8),
+                                        ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -193,7 +226,11 @@ class AppliedJobScreen extends StatelessWidget {
                       labelWidget: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          FaIcon(FontAwesomeIcons.filePdf,color: myFavColor5,size: 20,),
+                          FaIcon(
+                            FontAwesomeIcons.filePdf,
+                            color: myFavColor5,
+                            size: 20,
+                          ),
                           const SizedBox(
                             width: 12,
                           ),

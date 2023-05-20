@@ -83,12 +83,12 @@ Future NavigateTo({
 }) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
-Widget myDivider({double? paddingValue}) => Padding(
+Widget myDivider({double? paddingValue,double? height}) => Padding(
       padding: EdgeInsets.only(
         right: paddingValue ?? 12,
         left: paddingValue ?? 12,
-        top: 0,
-        bottom: 0,
+        top: height ??0,
+        bottom: height ??0,
       ),
       child: Container(
         width: double.infinity,
@@ -126,6 +126,7 @@ Widget buildFeedbackBox({
   required BuildContext context,
   required String hint,
   int? minLines,
+  String? Function(String?)? validate,
   required TextEditingController messageController,
   ValueChanged<String>? onChange,
 }) {
@@ -137,8 +138,9 @@ Widget buildFeedbackBox({
       ),
     ),
     width: double.infinity,
-    child: TextField(
+    child: TextFormField(
       controller: messageController,
+      validator: validate,
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
       minLines: minLines ?? 10,

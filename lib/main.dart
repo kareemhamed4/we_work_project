@@ -5,9 +5,16 @@ import 'package:we_work/bloc_observer.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
+import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
 import 'package:we_work/modules/common/forget_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/otp/cubit/cubit.dart';
+import 'package:we_work/modules/company/add_freelance_job/cubit/cubit.dart';
+import 'package:we_work/modules/company/add_job/cubit/cubit.dart';
+import 'package:we_work/modules/company/home/cubit/cubit.dart';
+import 'package:we_work/modules/company/notification/cubit/cubit.dart';
+import 'package:we_work/modules/company/register/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/login/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
@@ -56,13 +63,18 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserInfo()),
           BlocProvider(create: (BuildContext context) => UserOffersCubit()..userGetOffers()),
           BlocProvider(create: (BuildContext context) => LayoutCubit()),
+          BlocProvider(create: (BuildContext context) => CompanyRegisterCubit()),
+          BlocProvider(create: (BuildContext context) => CompanyAddJobCubit()),
+          BlocProvider(create: (BuildContext context) => CompanyAddFreelanceJobCubit()),
+          BlocProvider(create: (BuildContext context) => CompanyGetUsersWhoAppliedCubit()..companyGetAllUsersWhoApplied()),
+          BlocProvider(create: (BuildContext context) => CompanyHomeCubit()..companyGetAllUsers()),
           BlocProvider(create: (BuildContext context) => LayoutCompanyCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           themeMode: ThemeMode.light,
-          home: const LayoutScreen(),
+          home: const LayoutCompanyScreen(),
         ),
       ),
     );

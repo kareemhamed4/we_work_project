@@ -79,10 +79,10 @@ class CompanyOffersScreen extends StatelessWidget {
   }) =>
       GestureDetector(
         onTap: () {
-          NavigateTo(
+          /*NavigateTo(
             context: context,
             widget: const MessageOfferScreen(),
-          );
+          );*/
         },
         child: Container(
           height: size.height * 165 / size.height,

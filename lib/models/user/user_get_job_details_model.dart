@@ -12,6 +12,7 @@ class UserGetJobDetailsModel {
   String? skill;
   int? salary;
   String? experience;
+  String? workPlace;
   String? user;
   String? userId;
 
@@ -29,6 +30,7 @@ class UserGetJobDetailsModel {
         this.skill,
         this.salary,
         this.experience,
+        this.workPlace,
         this.user,
         this.userId});
 
@@ -37,6 +39,7 @@ class UserGetJobDetailsModel {
     pictureUrl = json['pictureUrl'];
     title = json['title'];
     description = json['description'];
+    workPlace = json['workPlace'];
     position = json['position'];
     jobType = json['jobType'];
     requirement = json['requirement'];

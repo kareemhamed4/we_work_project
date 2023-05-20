@@ -7,6 +7,7 @@ import 'package:we_work/modules/user/register/cubit/cubit.dart';
 import 'package:we_work/modules/user/register/cubit/states.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
+import 'package:we_work/shared/constants/constants.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
@@ -31,6 +32,7 @@ class SignUpUser extends StatelessWidget {
       listener: (context,state){
         if(state is UserRegisterSuccessState){
           CacheHelper.saveData(key: "userToken", value: state.userRegisterModel.token!).then((value){
+            userToken = state.userRegisterModel.token!;
             NavigateToReb(context: context, widget: const LayoutScreen());
             buildSuccessToast(
                 context: context,
