@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
+import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/saved_jobs/cubit/cubit.dart';
 import 'package:we_work/modules/user/upload_cv/cubit/cubit.dart';
 import 'package:we_work/modules/user/upload_cv/cubit/states.dart';
@@ -19,17 +20,9 @@ class UploadCv extends StatefulWidget {
   State<UploadCv> createState() => _UploadCvState();
 }
 
-List<double> cutList = [16, 10];
-String? nameFile;
-bool pdfIsUpload = false;
-
 class _UploadCvState extends State<UploadCv> {
   TextEditingController textMessageController = TextEditingController();
   List<double> dashPattern = [6, 6];
-  String? nameFile;
-  bool photoIsUploaded = false;
-  PlatformFile? file;
-  FilePickerResult? result;
   var formKey = GlobalKey<FormState>();
   String? messageEnter;
   @override
@@ -39,6 +32,7 @@ class _UploadCvState extends State<UploadCv> {
       listener: (context, state) {
         if (state is UserApplyJobSuccessState) {
           UserGetAppliedJobsCubit.get(context).userGetAppliedJobs().then((value){
+            UserHomeCubit.get(context).userGetAllJob();
             NavigateToReb(context: context, widget: const LayoutScreen());
             LayoutCubit.get(context).changeIndex(2);
             buildSuccessToast(
@@ -106,7 +100,7 @@ class _UploadCvState extends State<UploadCv> {
                                 child: myMaterialButton(
                                   context: context,
                                   labelWidget: Text(
-                                    photoIsUploaded
+                                    cubit.result != null
                                         ? "Uploaded!"
                                         : "Upload CV",
                                     style: Theme.of(context)
@@ -116,26 +110,14 @@ class _UploadCvState extends State<UploadCv> {
                                             color: myFavColor5, fontSize: 16),
                                   ),
                                   onPressed: () async {
-                                    result =
-                                        await FilePicker.platform.pickFiles(
-                                      type: FileType.custom,
-                                      allowedExtensions: ['pdf'],
-                                    );
-                                    if (result != null) {
-                                      file = result!.files.first;
-                                      setState(() {
-                                        nameFile = file!.name;
-                                        photoIsUploaded = true;
-                                        dashPattern = [1.0];
-                                      });
-                                    }
+                                    cubit.choosePdf();
                                   },
                                 ),
                               ),
                               mySizedBox(size: size, myHeight: 6),
                               Text(
-                                photoIsUploaded
-                                    ? nameFile!
+                                cubit.result != null
+                                    ? cubit.fileName!
                                     : "PDF files only accepted",
                                 style: Theme.of(context)
                                     .textTheme
@@ -171,11 +153,10 @@ class _UploadCvState extends State<UploadCv> {
                         context: context,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            if (result != null && file != null) {
-                              cubit.userApplyJob(
+                            if (cubit.result != null && cubit.file != null) {
+                              cubit.userApplyToJobNew(
                                 jobId: widget.jobId,
                                 message: textMessageController.text,
-                                cvFile: File(file!.path!),
                               );
                             }
                           }
@@ -187,9 +168,9 @@ class _UploadCvState extends State<UploadCv> {
                       ),
                       fallback: (context) => myMaterialButton(
                         context: context,
-                        onPressed: () {
+                        onPressed: (){
                           null;
-                        }, // Set the onPressed to null to disable the button
+                        }, // Disable the button when loading
                         labelWidget: const Center(
                           child: SizedBox(
                             width: 22,

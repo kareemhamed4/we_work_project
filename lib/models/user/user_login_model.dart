@@ -1,3 +1,4 @@
+/*
 class UserLoginModel {
   int? count;
   String? token;
@@ -53,4 +54,4 @@ class Data {
     user = json['user'];
     isCompanyOrNot = json['isCompanyOrNot'];
   }
-}
+}*/

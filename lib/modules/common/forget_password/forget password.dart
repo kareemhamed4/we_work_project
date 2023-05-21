@@ -19,7 +19,7 @@ class ForgetPassword extends StatelessWidget {
     return BlocConsumer<UserForgetPasswordCubit, UserForgetPasswordStates>(
       listener: (context, state) {
         if (state is UserForgetPasswordSuccessState) {
-          NavigateTo(context: context, widget: ConfirmMessage());
+          NavigateTo(context: context, widget: ConfirmMessage(email: emailController.text,));
         }
         if (state is UserForgetPasswordErrorState) {
           buildErrorToast(

@@ -11,3 +11,13 @@ class UserGetAppliedJobsErrorState extends UserGetAppliedJobsStates {
   final String error;
   UserGetAppliedJobsErrorState(this.error);
 }
+
+class UserDeleteApplicantLoadingState extends UserGetAppliedJobsStates {}
+class UserDeleteApplicantSuccessState extends UserGetAppliedJobsStates {
+  final String msg;
+  UserDeleteApplicantSuccessState(this.msg);
+}
+class UserDeleteApplicantErrorState extends UserGetAppliedJobsStates {
+  final String error;
+  UserDeleteApplicantErrorState(this.error);
+}

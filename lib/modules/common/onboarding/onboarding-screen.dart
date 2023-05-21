@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
+import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 

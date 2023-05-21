@@ -2,11 +2,13 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/layout_screen.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/modules/common/forget_password/forget%20password.dart';
-import 'package:we_work/modules/user/login/cubit/cubit.dart';
-import 'package:we_work/modules/user/login/cubit/states.dart';
+import 'package:we_work/modules/common/login/cubit/cubit.dart';
+import 'package:we_work/modules/common/login/cubit/states.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
+import 'package:we_work/shared/constants/constants.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
@@ -22,9 +24,17 @@ class LoginUser extends StatelessWidget {
     return BlocConsumer<UserLoginCubit,UserLoginStates>(
       listener: (context,state){
         if(state is UserLoginSuccessState){
-          CacheHelper.saveData(key: "userToken", value: state.userLoginModel.token!).then((value){
-            NavigateToReb(context: context, widget: const LayoutScreen());
-          });
+          if(state.userLoginModel.isCompany == false){
+            CacheHelper.saveData(key: "userToken", value: state.userLoginModel.token!).then((value){
+              userToken = state.userLoginModel.token!;
+              NavigateToReb(context: context, widget: const LayoutScreen());
+            });
+          }else if(state.userLoginModel.isCompany == true){
+            CacheHelper.saveData(key: "companyToken", value: state.userLoginModel.token!).then((value){
+              companyToken = state.userLoginModel.token!;
+              NavigateToReb(context: context, widget: const LayoutCompanyScreen());
+            });
+          }
         }
         if(state is UserLoginErrorState){
           buildErrorToast(

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:we_work/models/user/user_login_model.dart';
-import 'package:we_work/modules/user/login/cubit/states.dart';
+import 'package:we_work/models/common/user_login_model.dart';
+import 'package:we_work/modules/common/login/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
 

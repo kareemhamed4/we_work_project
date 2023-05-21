@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/cubit/states.dart';
 import 'package:we_work/modules/user/offers/offers_screen.dart';
 import 'package:we_work/modules/user/drawer/drawer.dart';
-import 'package:we_work/modules/user/profile/myProfile.dart';
+import 'package:we_work/modules/user/profile/user_profile.dart';
 import 'package:we_work/modules/user/notification/notification_Screen.dart';
 import 'package:we_work/modules/user/saved_jobs/saved_Job.dart';
 

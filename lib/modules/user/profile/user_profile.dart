@@ -2,7 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:we_work/modules/common/choose_signup/Selection%20sign%20up.dart';
+import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/user/edit_profile/edit_profile_screen.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
 import 'package:we_work/modules/user/profile/cubit/states.dart';
@@ -51,7 +51,7 @@ class _MyProfileState extends State<MyProfile> {
     ExpansionItem(
       headerText: "BIO",
       expandedText: "",
-      icon: FontAwesomeIcons.infoCircle,
+      icon: FontAwesomeIcons.circleInfo,
     ),
     ExpansionItem(
       headerText: "Education",
@@ -67,8 +67,6 @@ class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    const urlImage =
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
     return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {
         if(state is ProfileImageUploadSuccessState){
@@ -78,7 +76,7 @@ class _MyProfileState extends State<MyProfile> {
       builder: (context, state) {
         UserProfileCubit cubit = BlocProvider.of(context);
         data[0].expandedText = cubit.userProfileModel?.displayName ?? "";
-        data[1].expandedText = cubit.userProfileModel?.displayName ?? "";
+        data[1].expandedText = cubit.userProfileModel?.cv ?? "";
         data[2].expandedText =
             "Country: ${cubit.userProfileModel?.country ?? ""}\nCity: ${cubit.userProfileModel?.city ?? ""}";
         data[3].expandedText = cubit.userProfileModel?.bio ?? "";

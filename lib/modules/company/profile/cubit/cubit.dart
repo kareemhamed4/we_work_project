@@ -2,46 +2,46 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:we_work/models/user/user_get_profile_model.dart';
-import 'package:we_work/modules/user/profile/cubit/states.dart';
+import 'package:we_work/models/company/company_get_profile_model.dart';
+import 'package:we_work/modules/company/profile/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
 import 'package:we_work/shared/constants/constants.dart';
 
-class UserProfileCubit extends Cubit<UserProfileStates> {
-  UserProfileCubit() : super(UserProfileInitialState());
+class CompanyProfileCubit extends Cubit<CompanyProfileStates> {
+  CompanyProfileCubit() : super(CompanyProfileInitialState());
 
-  static UserProfileCubit get(context) => BlocProvider.of(context);
+  static CompanyProfileCubit get(context) => BlocProvider.of(context);
 
-  UserProfileModel? userProfileModel;
-  void getUserInfo() {
-    emit(UserGetProfileLoadingState());
+  CompanyProfileModel? companyProfileModel;
+  void getCompanyInfo() {
+    emit(CompanyGetProfileLoadingState());
     DioHelper.getData(
-      url: USERGETPROFILE,
+      url: COMPANYGETPROFILE,
       baseUrl: BASEURL,
-      token: userToken,
+      token: companyToken,
     ).then((value){
-      userProfileModel = UserProfileModel.fromJson(value.data);
-      emit(UserGetProfileSuccessState(userProfileModel!));
+      companyProfileModel = CompanyProfileModel.fromJson(value.data);
+      emit(CompanyGetProfileSuccessState(companyProfileModel!));
     }).catchError((error){
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
           final responseData = error.response?.data;
           final errorMessage = responseData[""];
-          emit(UserGetProfileErrorState(errorMessage));
+          emit(CompanyGetProfileErrorState(errorMessage));
         }else{
-          emit(UserGetProfileErrorState(error.toString()));
+          emit(CompanyGetProfileErrorState(error.toString()));
         }
     }else{
-        emit(UserGetProfileErrorState(error.toString()));
+        emit(CompanyGetProfileErrorState(error.toString()));
       }
     });
   }
 
-  void updateUserInfo({
+  void updateCompanyInfo({
     required String bio,
 }) {
-    emit(UserUpdateProfileLoadingState());
+    emit(CompanyUpdateProfileLoadingState());
     DioHelper.postData(
       url: USERUPDATEPROFILE,
       baseUrl: BASEURL,
@@ -50,20 +50,20 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
         "Bio": bio
       },
     ).then((value){
-      getUserInfo();
+      getCompanyInfo();
       final message = value.data.toString();
-      emit(UserUpdateProfileSuccessState(message));
+      emit(CompanyUpdateProfileSuccessState(message));
     }).catchError((error){
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
           final responseData = error.response?.data;
           final errorMessage = responseData["title"];
-          emit(UserUpdateProfileErrorState(errorMessage));
+          emit(CompanyUpdateProfileErrorState(errorMessage));
         }else{
-          emit(UserUpdateProfileErrorState(error.toString()));
+          emit(CompanyUpdateProfileErrorState(error.toString()));
         }
       }else{
-        emit(UserUpdateProfileErrorState(error.toString()));
+        emit(CompanyUpdateProfileErrorState(error.toString()));
       }
     });
   }
@@ -98,7 +98,7 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
     DioHelper.postData(
       url: USERUPLOADIMAGE,
       baseUrl: BASEURL,
-      token: userToken,
+      token: companyToken,
       data: formData,
       contentType: "multipart/form-data",
     ).then((value) {

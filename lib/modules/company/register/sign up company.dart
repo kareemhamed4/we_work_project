@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/modules/company/register/cubit/cubit.dart';
 import 'package:we_work/modules/company/register/cubit/states.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/constants/constants.dart';
 import 'package:we_work/shared/styles/colors.dart';
-import '../login/company_login.dart';
 
 //ignore: must_be_immutable
 class SignUpCompany extends StatelessWidget {
@@ -313,7 +313,7 @@ class SignUpCompany extends StatelessWidget {
                           label: "Log in",
                           onPressed: () {
                             NavigateTo(
-                                context: context, widget: CompanyLogIn());
+                                context: context, widget: LoginUser());
                           },
                         )
                       ],

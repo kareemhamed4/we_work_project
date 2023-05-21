@@ -20,6 +20,7 @@ class UserGetAllJobsModel {
 class Data {
   int? id;
   String? title;
+  bool? hasApplied;
   String? pictureUrl;
   String? description;
   String? city;
@@ -38,12 +39,14 @@ class Data {
         this.country,
         this.salary,
         this.appUserId,
+        this.hasApplied,
         this.user,
         this.isCompanyOrNot});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    hasApplied = json['hasApplied'];
     pictureUrl = json['pictureUrl'];
     description = json['description'];
     city = json['city'];

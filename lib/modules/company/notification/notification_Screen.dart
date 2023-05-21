@@ -32,7 +32,8 @@ class CompanyNotificationScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: cubit.companyGetAllUsersApplied != null
                 ? SingleChildScrollView(
-                  child: Column(
+              physics: const BouncingScrollPhysics(),
+                    child: Column(
                       children: [
                         Row(
                           children: [
@@ -112,11 +113,12 @@ class CompanyNotificationScreen extends StatelessWidget {
                           ),
                       ],
                     ),
-                )
+                  )
                 : Center(
                     child: CircularProgressIndicator(
-                    color: myFavColor,
-                  )),
+                      color: myFavColor,
+                    ),
+                  ),
           ),
         );
       },

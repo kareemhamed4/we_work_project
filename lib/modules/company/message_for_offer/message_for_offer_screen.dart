@@ -6,34 +6,30 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/modules/company/home/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/states.dart';
+import 'package:we_work/modules/company/offers/cubit/cubit.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
 class MessageOfferScreen extends StatelessWidget {
   final String userId;
-  MessageOfferScreen({Key? key,required this.userId}) : super(key: key);
+  MessageOfferScreen({Key? key, required this.userId}) : super(key: key);
   TextEditingController messageController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<CompanyHomeCubit,CompanyHomeStates>(
-      listener: (context,state){
-        if(state is CompanySendOfferToUserSuccessState){
-          SystemChannels.textInput
-              .invokeMethod('TextInput.hide')
-              .then((value) {
+    return BlocConsumer<CompanyHomeCubit, CompanyHomeStates>(
+      listener: (context, state) {
+        if (state is CompanySendOfferToUserSuccessState) {
+          SystemChannels.textInput.invokeMethod('TextInput.hide').then((value) {
+            CompanyOffersCubit.get(context).companyGetAllSentOffers();
             Navigator.pop(context);
             buildSuccessToast(
-                context: context,
-                title: "Done",
-                description: state.msg
-            );
+                context: context, title: "Done", description: state.msg);
           });
-        }else if (state is CompanySendOfferToUserErrorState) {
+        } else if (state is CompanySendOfferToUserErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
@@ -41,7 +37,7 @@ class MessageOfferScreen extends StatelessWidget {
           );
         }
       },
-      builder: (context,state){
+      builder: (context, state) {
         CompanyHomeCubit cubit = BlocProvider.of(context);
         return Scaffold(
           appBar: AppBar(
@@ -69,7 +65,7 @@ class MessageOfferScreen extends StatelessWidget {
                           .bodyText2!
                           .copyWith(color: myFavColor),
                     ),
-                    mySizedBox(size: size,myHeight: 18),
+                    mySizedBox(size: size, myHeight: 18),
                     buildFeedbackBox(
                       context: context,
                       minLines: 20,
@@ -82,7 +78,7 @@ class MessageOfferScreen extends StatelessWidget {
                       hint: "Type your offer here...",
                       messageController: messageController,
                     ),
-                    mySizedBox(size: size,myHeight: 120),
+                    mySizedBox(size: size, myHeight: 120),
                     ConditionalBuilder(
                       condition: state is! CompanySendOfferToUserLoadingState,
                       builder: (context) => myMaterialButton(
@@ -117,7 +113,7 @@ class MessageOfferScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 18),
+                    mySizedBox(size: size, myHeight: 18),
                   ],
                 ),
               ),

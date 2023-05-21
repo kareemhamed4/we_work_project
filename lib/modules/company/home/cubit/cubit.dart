@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/models/company/company_get_all_users_model.dart';
+import 'package:we_work/models/company/company_get_jobs_model.dart';
 import 'package:we_work/modules/company/home/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
@@ -94,4 +95,32 @@ class CompanyHomeCubit extends Cubit<CompanyHomeStates> {
     }
   }
 
+  List<CompanyGetJobsModel>? companyGetJobsModel;
+  void companyGetHerJobs() async {
+    emit(CompanyGetHerJobsLoadingState());
+    try {
+      final response = await DioHelper.getData(
+        url: COMPANYGETALLHERJOBS,
+        baseUrl: BASEURL,
+        token: companyToken,
+      );
+      List<dynamic> responseList = response.data;
+      companyGetJobsModel = responseList.map((json) {
+        return CompanyGetJobsModel.fromJson(json);
+      }).toList();
+      emit(CompanyGetHerJobsSuccessState(companyGetJobsModel!));
+    } catch (error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 400) {
+          final responseData = error.response?.data;
+          final errorMessage = responseData["errors"];
+          emit(CompanyGetHerJobsErrorState(errorMessage));
+        } else {
+          emit(CompanyGetHerJobsErrorState(error.toString()));
+        }
+      } else {
+        emit(CompanyGetHerJobsErrorState(error.toString()));
+      }
+    }
+  }
 }

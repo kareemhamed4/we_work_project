@@ -1,5 +1,6 @@
 abstract class UserApplyJobStates{}
 class UserApplyJobInitialState extends UserApplyJobStates {}
+class FilePickedSuccessState extends UserApplyJobStates {}
 class UserApplyJobLoadingState extends UserApplyJobStates {}
 class UserApplyJobSuccessState extends UserApplyJobStates {
   final String msg;

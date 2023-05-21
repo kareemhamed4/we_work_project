@@ -11,7 +11,8 @@ import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
 class ConfirmMessage extends StatelessWidget {
-  ConfirmMessage({super.key});
+  final String email;
+  ConfirmMessage({super.key,required this.email});
   var formKey = GlobalKey<FormState>();
   TextEditingController otpController = TextEditingController();
 
@@ -126,6 +127,7 @@ class ConfirmMessage extends StatelessWidget {
                           if (formKey.currentState!.validate()) {
                             cubit.userVerifyOTP(
                               verificationCode: otpController.text,
+                              email: email,
                             );
                           }
                         },

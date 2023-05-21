@@ -2,7 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/layout_screen.dart';
-import 'package:we_work/modules/user/login/user_login.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/user/register/cubit/cubit.dart';
 import 'package:we_work/modules/user/register/cubit/states.dart';
 import 'package:we_work/network/local/cache_helper.dart';

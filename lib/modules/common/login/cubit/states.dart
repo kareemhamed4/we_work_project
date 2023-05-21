@@ -1,4 +1,4 @@
-import 'package:we_work/models/user/user_login_model.dart';
+import 'package:we_work/models/common/user_login_model.dart';
 
 abstract class UserLoginStates{}
 class UserLoginInitialState extends UserLoginStates {}

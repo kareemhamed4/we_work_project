@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/layout_screen.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/new_password/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -21,7 +22,12 @@ class ChangePassword extends StatelessWidget {
     return BlocConsumer<UserNewPasswordCubit,UserNewPasswordStates>(
       listener: (context,state){
         if (state is UserNewPasswordSuccessState) {
-          NavigateTo(context: context, widget: const LayoutScreen());
+          NavigateToReb(context: context, widget: LoginUser());
+          buildSuccessToast(
+            title: "Done!",
+            context: context,
+            description: state.msg,
+          );
         }
         if (state is UserNewPasswordErrorState) {
           buildErrorToast(

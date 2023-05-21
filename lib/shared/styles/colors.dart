@@ -8,6 +8,7 @@ Color myFavColor4 = HexColor("#686868"); //grey
 Color myFavColor5 = HexColor("#FFFFFF"); //white
 Color myFavColor6 = HexColor("#000000"); //black
 Color myFavColor7 = HexColor("#949494"); //grey2
+Color myFavColor8 = HexColor("#ff4b54"); //red
 // dark mood
 
 

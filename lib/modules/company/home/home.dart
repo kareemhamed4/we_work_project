@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/company/company_get_all_users_model.dart';
+import 'package:we_work/modules/company/company_jobs/company_jobs_screen.dart';
 import 'package:we_work/modules/company/filter/filter_screen.dart';
 import 'package:we_work/modules/company/home/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/states.dart';
@@ -73,7 +74,9 @@ class _CompanyHomeState extends State<CompanyHome> {
                           horizontal: 16, vertical: 8),
                       child: GestureDetector(
                         onTap: () {
-                          print(companyToken);
+                          NavigateTo(
+                              context: context,
+                              widget: const CompanyJobsScreen());
                         },
                         child: Container(
                           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -185,7 +188,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                                       const SizedBox(
                                         height: 12,
                                       ),
-                                  itemCount: 6),
+                                  itemCount: cubit
+                                      .companyGetAllUsersModel!.data!.length),
                             ],
                           ),
                         if (searchController.text.isNotEmpty)
@@ -202,7 +206,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                                 const SizedBox(
                               height: 12,
                             ),
-                            itemCount: 1,
+                            itemCount:
+                                cubit.companyGetAllUsersModel!.data!.length,
                           ),
                         SizedBox(
                           height: size.height * 20 / size.height,
@@ -273,11 +278,13 @@ class _CompanyHomeState extends State<CompanyHome> {
                                   .textTheme
                                   .bodyText1!
                                   .copyWith(
-                                fontSize: 14,
-                                color: myFavColor7,
-                              ),
+                                    fontSize: 14,
+                                    color: myFavColor7,
+                                  ),
                             ),
-                            const SizedBox(height: 6,),
+                            const SizedBox(
+                              height: 6,
+                            ),
                             Text(
                               model.data![index].bio ?? "",
                               style: Theme.of(context).textTheme.bodyText1,
@@ -288,20 +295,21 @@ class _CompanyHomeState extends State<CompanyHome> {
                     ),
                     Row(
                       children: [
-                        const FaIcon(FontAwesomeIcons.filePdf,color: Colors.red,),
+                        const FaIcon(
+                          FontAwesomeIcons.filePdf,
+                          color: Colors.red,
+                        ),
                         const SizedBox(
                           width: 8,
                         ),
                         Text(
                           "Show CV",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(
-                            fontSize: 14,
-                            color: myFavColor,
-                            decoration: TextDecoration.underline,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    fontSize: 14,
+                                    color: myFavColor,
+                                    decoration: TextDecoration.underline,
+                                  ),
                         )
                       ],
                     ),
@@ -344,7 +352,9 @@ class _CompanyHomeState extends State<CompanyHome> {
                         onPressed: () {
                           NavigateTo(
                               context: context,
-                              widget: MessageOfferScreen(userId: model.data![index].id!,));
+                              widget: MessageOfferScreen(
+                                userId: model.data![index].id!,
+                              ));
                         },
                         labelWidget: Text(
                           'Create Offer',

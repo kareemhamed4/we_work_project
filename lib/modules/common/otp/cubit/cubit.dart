@@ -11,10 +11,11 @@ class UserVerifyOTPCubit extends Cubit<UserVerifyOTPStates> {
 
   void userVerifyOTP({
     required String verificationCode,
+    required String email,
 }) {
     emit(UserVerifyOTPLoadingState());
     DioHelper.postData(
-      url: USERVERIFYOTP,
+      url: "$USERVERIFYOTP$email",
       baseUrl: BASEURL,
       data: {
         "verificationcode": verificationCode,

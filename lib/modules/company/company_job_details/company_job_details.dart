@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:we_work/models/user/user_get_job_details_model.dart';
-import 'package:we_work/modules/user/company_details/google_company.dart';
-import 'package:we_work/modules/user/upload_cv/Upload_Cv.dart';
+import 'package:we_work/models/company/company_get_jobs_model.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
-class GoogleJobDetails extends StatelessWidget {
-  final UserGetJobDetailsModel userGetJobDetailsModel;
-  const GoogleJobDetails({super.key, required this.userGetJobDetailsModel});
+class CompanyJobDetails extends StatelessWidget {
+  final CompanyGetJobsModel companyGetJobsModel;
+  const CompanyJobDetails({super.key, required this.companyGetJobsModel});
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +26,27 @@ class GoogleJobDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 76,
-                width: 97,
-                child: Image.asset(
-                  "assets/image/Google.png",
+              if (companyGetJobsModel.pictureUrl != null)
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: myFavColor3,
+                  backgroundImage:
+                  NetworkImage(companyGetJobsModel.pictureUrl!),
                 ),
-              ),
+              if (companyGetJobsModel.pictureUrl == null)
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: myFavColor3,
+                  child: Icon(
+                    Icons.image_not_supported_outlined,
+                    color: myFavColor4,
+                  ),
+                ),
               const SizedBox(
                 height: 17,
               ),
               Text(
-                userGetJobDetailsModel.title!,
+                companyGetJobsModel.title!,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(
@@ -60,7 +67,7 @@ class GoogleJobDetails extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          "${userGetJobDetailsModel.city} , ${userGetJobDetailsModel.country}",
+                          "${companyGetJobsModel.city} , ${companyGetJobsModel.country}",
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ],
@@ -78,7 +85,7 @@ class GoogleJobDetails extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          userGetJobDetailsModel.jobType ?? "",
+                          companyGetJobsModel.jobType ?? "",
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ],
@@ -96,7 +103,7 @@ class GoogleJobDetails extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          userGetJobDetailsModel.workPlace ?? "",
+                          companyGetJobsModel.workPlace ?? "",
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ],
@@ -128,7 +135,7 @@ class GoogleJobDetails extends StatelessWidget {
                               height: 8,
                             ),
                             Text(
-                              userGetJobDetailsModel.position!,
+                              companyGetJobsModel.position!,
                               style: Theme.of(context)
                                   .textTheme
                                   .caption!
@@ -146,7 +153,7 @@ class GoogleJobDetails extends StatelessWidget {
                               height: 8,
                             ),
                             Text(
-                              userGetJobDetailsModel.experience!,
+                              companyGetJobsModel.experience!,
                               style: Theme.of(context)
                                   .textTheme
                                   .caption!
@@ -164,7 +171,7 @@ class GoogleJobDetails extends StatelessWidget {
                               height: 8,
                             ),
                             Text(
-                              userGetJobDetailsModel.salary.toString(),
+                              companyGetJobsModel.salary.toString(),
                               style: Theme.of(context)
                                   .textTheme
                                   .caption!
@@ -191,41 +198,6 @@ class GoogleJobDetails extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: myMaterialButton(
-                              context: context,
-                              onPressed: () {},
-                              labelWidget: Text(
-                                "Description",
-                                style: Theme.of(context).textTheme.button,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 36,
-                          ),
-                          Expanded(
-                            child: myMaterialButton(
-                              context: context,
-                              isEnabled: false,
-                              labelWidget: Text(
-                                "Company",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .button!
-                                    .copyWith(color: myFavColor7),
-                              ),
-                              onPressed: () {
-                                NavigateTo(
-                                    context: context,
-                                    widget: const GoogleCompany());
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15, bottom: 15),
                         child: Text(
@@ -237,7 +209,7 @@ class GoogleJobDetails extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        userGetJobDetailsModel.description!,
+                        companyGetJobsModel.description!,
                         style: Theme.of(context)
                             .textTheme
                             .caption!
@@ -269,7 +241,7 @@ class GoogleJobDetails extends StatelessWidget {
                             ),
                             Flexible(
                               child: Text(
-                                userGetJobDetailsModel.requirement!,
+                                companyGetJobsModel.requirement!,
                                 style: const TextStyle(
                                     fontSize: 14, color: Colors.grey),
                               ),
@@ -286,13 +258,13 @@ class GoogleJobDetails extends StatelessWidget {
               ),
               myMaterialButton(
                 context: context,
+                bgColorForNotEnabled: myFavColor8,
+                isEnabled: false,
                 onPressed: () {
-                  NavigateTo(
-                      context: context,
-                      widget: UploadCv(jobId: userGetJobDetailsModel.id!,));
+
                 },
                 labelWidget: Text(
-                  'Apply Job',
+                  'Delete Job',
                   style: Theme.of(context).textTheme.button,
                 ),
               ),

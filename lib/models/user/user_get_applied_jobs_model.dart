@@ -1,5 +1,6 @@
 class UserGetAppliedJobsModel {
   String? userId;
+  String? applicantId;
   String? name;
   String? piCtrueUrl;
   String? title;
@@ -13,6 +14,7 @@ class UserGetAppliedJobsModel {
         this.piCtrueUrl,
         this.title,
         this.dateApplied,
+        this.applicantId,
         this.message,
         this.jobid});
 
@@ -21,6 +23,7 @@ class UserGetAppliedJobsModel {
     name = json['name'];
     piCtrueUrl = json['piCtrueUrl'];
     title = json['title'];
+    applicantId = json['applicantId'];
     dateApplied = json['dateApplied'];
     message = json['message'];
     jobid = json['jobid'];
