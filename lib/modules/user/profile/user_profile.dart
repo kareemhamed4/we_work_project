@@ -359,7 +359,7 @@ class _MyProfileState extends State<MyProfile> {
                   mySizedBox(size: size, myHeight: 8),
                   Text(
                     cubit.userProfileModel != null
-                        ? cubit.userProfileModel!.education ?? ""
+                        ? cubit.userProfileModel!.bio ?? ""
                         : "",
                     style: Theme.of(context).textTheme.bodyText2,
                   ),

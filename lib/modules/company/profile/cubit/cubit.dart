@@ -56,9 +56,8 @@ class CompanyProfileCubit extends Cubit<CompanyProfileStates> {
     }).catchError((error){
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
-          final responseData = error.response?.data;
-          final errorMessage = responseData["title"];
-          emit(CompanyUpdateProfileErrorState(errorMessage));
+          final errorMessage = error.response?.data.toString();
+          emit(CompanyUpdateProfileErrorState(errorMessage!));
         }else{
           emit(CompanyUpdateProfileErrorState(error.toString()));
         }

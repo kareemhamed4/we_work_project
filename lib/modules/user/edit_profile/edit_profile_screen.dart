@@ -16,8 +16,14 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController bioController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
+    TextEditingController educationController = TextEditingController();
     var model = UserProfileCubit.get(context).userProfileModel;
     bioController.text = model != null ? model.bio ?? bioController.text : " ";
+    nameController.text =
+        model != null ? model.displayName ?? nameController.text : " ";
+    educationController.text =
+        model != null ? model.education ?? educationController.text : " ";
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {
@@ -62,6 +68,46 @@ class EditProfileScreen extends StatelessWidget {
                 children: [
                   mySizedBox(size: size, myHeight: 8),
                   Text(
+                    'Name',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 14),
+                  ),
+                  mySizedBox(size: size, myHeight: 8),
+                  myTextFormField(
+                    context: context,
+                    controller: nameController,
+                    type: TextInputType.text,
+                    validate: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter your name";
+                      }
+                      return null;
+                    },
+                  ),
+                  mySizedBox(size: size, myHeight: 20),
+                  Text(
+                    'Education',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 14),
+                  ),
+                  mySizedBox(size: size, myHeight: 8),
+                  myTextFormField(
+                    context: context,
+                    controller: educationController,
+                    type: TextInputType.text,
+                    validate: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter your education";
+                      }
+                      return null;
+                    },
+                  ),
+                  mySizedBox(size: size, myHeight: 20),
+                  Text(
                     'Bio',
                     style: Theme.of(context)
                         .textTheme
@@ -80,15 +126,18 @@ class EditProfileScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  mySizedBox(size: size, myHeight: 24),
-                  Spacer(),
+                  const Spacer(),
                   ConditionalBuilder(
                     condition: state is! UserUpdateProfileLoadingState,
                     builder: (context) => myMaterialButton(
                       context: context,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          cubit.updateUserInfo(bio: bioController.text);
+                          cubit.updateUserInfo(
+                              bio: bioController.text,
+                              /*name: nameController.text,
+                              education: educationController.text*/
+                          );
                         }
                       },
                       labelWidget: Text(
@@ -113,7 +162,7 @@ class EditProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  mySizedBox(size: size, myHeight: 40),
                 ],
               ),
             ),
