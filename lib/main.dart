@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/bloc_observer.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
+import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/common/forget_password/cubit/cubit.dart';
@@ -16,6 +17,7 @@ import 'package:we_work/modules/company/notification/cubit/cubit.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
 import 'package:we_work/modules/company/profile/cubit/cubit.dart';
 import 'package:we_work/modules/company/register/cubit/cubit.dart';
+import 'package:we_work/modules/user/filter/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
@@ -62,6 +64,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => UserGetAppliedJobsCubit()..userGetAppliedJobs()),
           BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserInfo()),
           BlocProvider(create: (BuildContext context) => UserOffersCubit()..userGetOffers()),
+          BlocProvider(create: (BuildContext context) => UserFilterJobsCubit()),
           BlocProvider(create: (BuildContext context) => LayoutCubit()),
           BlocProvider(create: (BuildContext context) => CompanyRegisterCubit()),
           BlocProvider(create: (BuildContext context) => CompanyAddJobCubit()),
@@ -76,7 +79,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           themeMode: ThemeMode.light,
-          home: const ChooseRegister(),
+          home: const LayoutScreen(),
         ),
       ),
     );

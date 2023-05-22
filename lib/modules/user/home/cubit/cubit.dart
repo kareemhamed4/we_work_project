@@ -15,17 +15,43 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
   static UserHomeCubit get(context) => BlocProvider.of(context);
 
   UserGetAllJobsModel? userGetAllJobsModel;
-  void userGetAllJob() async {
+  UserGetAllJobsModel? userGetFilterJobsModel;
+  void userGetAllJob({
+    int? salaryMin,
+    int? salaryMax,
+    String? country,
+    String? position,
+    String? experience,
+    String? jobType,
+    String? city,
+  }) async {
     emit(UserGetAllJobsLoadingState());
-
     try {
       final response = await DioHelper.getData(
         url: USERGETALLJOBS,
         baseUrl: BASEURL,
         token: userToken,
+        query: {
+          "SalaryMin": salaryMin ?? "",
+          "SalaryMax": salaryMax ?? "",
+          "country": country ?? "",
+          "Position": position ?? "",
+          "experince": experience ?? "",
+          "jobType": jobType ?? "",
+          "city": city ?? "",
+        },
       );
-
-      userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
+      if (salaryMin != null &&
+          salaryMax != null &&
+          country != null &&
+          position != null &&
+          experience != null &&
+          jobType != null &&
+          city != null){
+        userGetFilterJobsModel = UserGetAllJobsModel.fromJson(response.data);
+      }else{
+        userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
+      }
       emit(UserGetAllJobsSuccessState(userGetAllJobsModel!));
     } catch (error) {
       if (error is DioError) {
@@ -74,7 +100,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
   UserGetJobDetailsModel? userGetJobDetailsModel;
   Future<void> userGetJobDetails({
     required int id,
-}) async {
+  }) async {
     emit(UserGetJobDetailsLoadingState());
     try {
       final response = await DioHelper.getData(
@@ -110,8 +136,10 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
         baseUrl: BASEURL,
         token: userToken,
       );
-      userGetFreelanceDetailsModel = UserGetFreelanceDetailsModel.fromJson(response.data);
-      emit(UserGetFreelanceJobDetailsSuccessState(userGetFreelanceDetailsModel!));
+      userGetFreelanceDetailsModel =
+          UserGetFreelanceDetailsModel.fromJson(response.data);
+      emit(UserGetFreelanceJobDetailsSuccessState(
+          userGetFreelanceDetailsModel!));
     } catch (error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
@@ -140,11 +168,10 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           baseUrl: BASEURL,
           token: userToken,
           data: {
-            "OfferDetails":offerDetails,
-            "OfferValue":offerValue,
-            "TimeToRecive":timeToRecieve,
-          }
-      );
+            "OfferDetails": offerDetails,
+            "OfferValue": offerValue,
+            "TimeToRecive": timeToRecieve,
+          });
       emit(UserSendOfferToFreelanceJobSuccessState(response.data.toString()));
     } catch (error) {
       if (error is DioError) {

@@ -11,7 +11,6 @@ import 'package:we_work/modules/user/home/cubit/states.dart';
 import 'package:we_work/modules/user/job_details/freelance_job_details.dart';
 import 'package:we_work/modules/user/job_details/job_details.dart';
 import 'package:we_work/shared/components/components.dart';
-import 'package:we_work/shared/components/custom_card.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
@@ -178,7 +177,8 @@ class _HomeState extends State<Home> {
                         height: size.height * 20 / size.height,
                       ),
                       if (cubit.userGetAllJobsModel != null)
-                        SizedBox(
+                        if(cubit.userGetAllJobsModel!.count! > 0)
+                          SizedBox(
                           height: size.height * 192 / 780,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
@@ -216,7 +216,6 @@ class _HomeState extends State<Home> {
                                           context: context,
                                           size: size,
                                           index: index,
-                                          isSaved: false,
                                           model: cubit.userGetAllJobsModel!,
                                         ),
                                       ),
@@ -234,9 +233,11 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
+                      if (cubit.userGetAllJobsModel != null)
+                        if(cubit.userGetAllJobsModel!.count! == 0)
+                          const Center(child: Text("No available jobs right now")),
                       if (cubit.userGetAllJobsModel == null)
-                        Center(
-                            child: CircularProgressIndicator(
+                        Center(child: CircularProgressIndicator(
                           color: myFavColor,
                         )),
                       SizedBox(
@@ -257,6 +258,7 @@ class _HomeState extends State<Home> {
                         height: size.height * 20 / size.height,
                       ),
                       if (cubit.userGetFreelanceJobsModel != null)
+                        if(cubit.userGetFreelanceJobsModel!.isNotEmpty)
                         SizedBox(
                           height: size.height * 192 / 780,
                           child: Padding(
@@ -304,7 +306,6 @@ class _HomeState extends State<Home> {
                                           context: context,
                                           size: size,
                                           index: index,
-                                          isSaved: false,
                                           model:
                                               cubit.userGetFreelanceJobsModel!,
                                         ),
@@ -323,6 +324,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
+                      if (cubit.userGetFreelanceJobsModel != null)
+                        if(cubit.userGetFreelanceJobsModel!.isEmpty)
+                          const Center(child: Text("No available Freelance jobs right now")),
                       if (cubit.userGetFreelanceJobsModel == null)
                         Center(
                             child: CircularProgressIndicator(
@@ -340,7 +344,6 @@ class _HomeState extends State<Home> {
                         context: context,
                         size: size,
                         index: index,
-                        isSaved: false,
                         model: cubit.userGetAllJobsModel!,
                       ),
                       separatorBuilder: (context, index) => const SizedBox(
@@ -362,7 +365,6 @@ class _HomeState extends State<Home> {
     required BuildContext context,
     required UserGetAllJobsModel model,
     required int index,
-    bool isSaved = false,
   }) =>
       Container(
         width: size.width - 40,
@@ -494,7 +496,6 @@ class _HomeState extends State<Home> {
     required BuildContext context,
     required List<UserGetFreelanceJobsModel> model,
     required int index,
-    bool isSaved = false,
   }) =>
       Container(
         width: size.width - 40,
@@ -558,9 +559,7 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                         FaIcon(
-                          isSaved
-                              ? FontAwesomeIcons.solidBookmark
-                              : FontAwesomeIcons.bookmark,
+                          FontAwesomeIcons.bookmark,
                           color: myFavColor.withOpacity(0.5),
                           size: 20,
                         ),
