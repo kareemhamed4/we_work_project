@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
 import 'package:we_work/modules/user/filter/filter.dart';
+import 'package:we_work/modules/user/freelance_details/freelance_details_screen.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/states.dart';
-import 'package:we_work/modules/user/job_details/freelance_job_details.dart';
 import 'package:we_work/modules/user/job_details/job_details.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
+import 'package:we_work/test/cubit/cubit.dart';
 
 //ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -82,22 +82,27 @@ class _HomeState extends State<Home> {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
-                      child: Container(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: myFavColor7,
-                              blurRadius: 2, // adjust the blur radius here
-                            ),
-                          ],
-                        ),
-                        child: Image.asset(
-                          "assets/image/Frame 34.png",
+                      child: GestureDetector(
+                        onTap: (){
+                          CVCubit.get(context).chooseCVFile();
+                        },
+                        child: Container(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: myFavColor7,
+                                blurRadius: 2, // adjust the blur radius here
+                              ),
+                            ],
+                          ),
+                          child: Image.asset(
+                            "assets/image/Frame 34.png",
+                          ),
                         ),
                       ),
                     )
@@ -177,67 +182,79 @@ class _HomeState extends State<Home> {
                         height: size.height * 20 / size.height,
                       ),
                       if (cubit.userGetAllJobsModel != null)
-                        if(cubit.userGetAllJobsModel!.count! > 0)
+                        if (cubit.userGetAllJobsModel!.count! > 0)
                           SizedBox(
-                          height: size.height * 192 / 780,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: cubit.userGetAllJobsModel!.count!,
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          cubit
-                                              .userGetJobDetails(
-                                                  id: cubit.userGetAllJobsModel!
-                                                      .data![index].id!)
-                                              .then((value) {
-                                            Navigator.pop(context);
-                                            NavigateTo(
-                                                context: context,
-                                                widget: JobDetailsScreen(
-                                                  userGetJobDetailsModel: cubit
-                                                      .userGetJobDetailsModel!,
-                                                ));
-                                          });
-                                        },
-                                        child: buildHomeJobCard(
-                                          context: context,
-                                          size: size,
-                                          index: index,
-                                          model: cubit.userGetAllJobsModel!,
+                            height: size.height * 192 / 780,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: cubit.userGetAllJobsModel!.count!,
+                                itemBuilder: (context, index) => Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 8,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                width: 10,
+                                        GestureDetector(
+                                          onTap: () {
+                                            cubit
+                                                .userGetJobDetails(
+                                                    id: cubit
+                                                        .userGetAllJobsModel!
+                                                        .data![index]
+                                                        .id!)
+                                                .then((value) {
+                                              cubit
+                                                  .getUserWithId(
+                                                      userId: cubit
+                                                          .userGetAllJobsModel!
+                                                          .data![index]
+                                                          .appUserId!)
+                                                  .then((value) {
+                                                Navigator.pop(context);
+                                                NavigateTo(
+                                                    context: context,
+                                                    widget: JobDetailsScreen(
+                                                      userGetJobDetailsModel: cubit
+                                                          .userGetJobDetailsModel!,
+                                                    ));
+                                              });
+                                            });
+                                          },
+                                          child: buildHomeJobCard(
+                                            context: context,
+                                            size: size,
+                                            index: index,
+                                            model: cubit.userGetAllJobsModel!,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                  width: 10,
+                                ),
                               ),
                             ),
                           ),
-                        ),
                       if (cubit.userGetAllJobsModel != null)
-                        if(cubit.userGetAllJobsModel!.count! == 0)
-                          const Center(child: Text("No available jobs right now")),
+                        if (cubit.userGetAllJobsModel!.count! == 0)
+                          const Center(
+                              child: Text("No available jobs right now")),
                       if (cubit.userGetAllJobsModel == null)
-                        Center(child: CircularProgressIndicator(
+                        Center(
+                            child: CircularProgressIndicator(
                           color: myFavColor,
                         )),
                       SizedBox(
@@ -258,75 +275,83 @@ class _HomeState extends State<Home> {
                         height: size.height * 20 / size.height,
                       ),
                       if (cubit.userGetFreelanceJobsModel != null)
-                        if(cubit.userGetFreelanceJobsModel!.isNotEmpty)
-                        SizedBox(
-                          height: size.height * 192 / 780,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  cubit.userGetFreelanceJobsModel!.length,
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          cubit
-                                              .userGetFreelanceJobDetails(
-                                                  id: cubit
-                                                      .userGetFreelanceJobsModel![
-                                                          index]
-                                                      .id!)
-                                              .then((value) {
-                                            Navigator.pop(context);
-                                            NavigateTo(
-                                                context: context,
-                                                widget:
-                                                    FreelanceJobDetailsScreen(
-                                                  userGetFreelanceDetailsModel:
-                                                      cubit
-                                                          .userGetFreelanceDetailsModel!,
-                                                  id: cubit
-                                                      .userGetFreelanceJobsModel![
-                                                          index]
-                                                      .id!,
-                                                ));
-                                          });
-                                        },
-                                        child: buildHomeFreelanceJobCard(
-                                          context: context,
-                                          size: size,
-                                          index: index,
-                                          model:
-                                              cubit.userGetFreelanceJobsModel!,
+                        if (cubit.userGetFreelanceJobsModel!.isNotEmpty)
+                          SizedBox(
+                            height: size.height * 192 / 780,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    cubit.userGetFreelanceJobsModel!.length,
+                                itemBuilder: (context, index) => Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 8,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                width: 10,
+                                        GestureDetector(
+                                          onTap: () {
+                                            cubit
+                                                .userGetFreelanceJobDetails(
+                                              id: cubit
+                                                  .userGetFreelanceJobsModel![
+                                                      index]
+                                                  .id!,
+                                            )
+                                                .then((value) {
+                                              Navigator.pop(context);
+                                              NavigateTo(
+                                                  context: context,
+                                                  widget:
+                                                      FreelanceDetailsScreen(
+                                                    userGetFreelanceDetailsModel:
+                                                        cubit
+                                                            .userGetFreelanceDetailsModel!,
+                                                    id: cubit
+                                                        .userGetFreelanceJobsModel![
+                                                            index]
+                                                        .id!,
+                                                    pictureUrl: cubit
+                                                            .userGetFreelanceJobsModel![
+                                                                index]
+                                                            .pictureUrl ??
+                                                        "null",
+                                                  ));
+                                            });
+                                          },
+                                          child: buildHomeFreelanceJobCard(
+                                            context: context,
+                                            size: size,
+                                            index: index,
+                                            model: cubit
+                                                .userGetFreelanceJobsModel!,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                  width: 10,
+                                ),
                               ),
                             ),
                           ),
-                        ),
                       if (cubit.userGetFreelanceJobsModel != null)
-                        if(cubit.userGetFreelanceJobsModel!.isEmpty)
-                          const Center(child: Text("No available Freelance jobs right now")),
+                        if (cubit.userGetFreelanceJobsModel!.isEmpty)
+                          const Center(
+                              child: Text(
+                                  "No available Freelance jobs right now")),
                       if (cubit.userGetFreelanceJobsModel == null)
                         Center(
                             child: CircularProgressIndicator(
@@ -399,7 +424,22 @@ class _HomeState extends State<Home> {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset("assets/image/google.svg"),
+                            if (model.data![index].pictureUrl != null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                backgroundImage: NetworkImage(
+                                    model.data![index].pictureUrl!),
+                              ),
+                            if (model.data![index].pictureUrl == null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                child: Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: myFavColor4,
+                                ),
+                              ),
                             const SizedBox(
                               width: 10,
                             ),
@@ -530,7 +570,22 @@ class _HomeState extends State<Home> {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset("assets/image/google.svg"),
+                            if (model[index].pictureUrl != null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                backgroundImage:
+                                    NetworkImage(model[index].pictureUrl!),
+                              ),
+                            if (model[index].pictureUrl == null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                child: Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: myFavColor4,
+                                ),
+                              ),
                             const SizedBox(
                               width: 10,
                             ),

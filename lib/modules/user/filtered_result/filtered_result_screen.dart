@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/modules/user/filter/cubit/cubit.dart';
@@ -235,7 +234,22 @@ class FilteredResultScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset("assets/image/google.svg"),
+                            if (model.data![index].pictureUrl != null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                backgroundImage: NetworkImage(
+                                    model.data![index].pictureUrl!),
+                              ),
+                            if (model.data![index].pictureUrl == null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                child: Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: myFavColor4,
+                                ),
+                              ),
                             const SizedBox(
                               width: 10,
                             ),

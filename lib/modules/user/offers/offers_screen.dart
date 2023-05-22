@@ -1,9 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_work/models/user/user_get_offers_model.dart';
-import 'package:we_work/modules/user/offer_details/offer_details_screen.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -76,197 +74,202 @@ class OffersScreen extends StatelessWidget {
     required int index,
     required List<UserGetOffersModel> model,
   }) =>
-      GestureDetector(
-        onTap: () {
-          NavigateTo(
-            context: context,
-            widget: const OfferDetailsScreen(),
-          );
-        },
-        child: Container(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                  color: myFavColor6.withAlpha(20),
-                  spreadRadius: 2,
-                  blurRadius: 7,
-                  offset: const Offset(0, 0)),
-            ],
-          ),
-          child: Card(
-            margin: EdgeInsets.zero,
-            elevation: 0,
-            color: myFavColor5,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(16),
-              ),
+      Container(
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+                color: myFavColor6.withAlpha(20),
+                spreadRadius: 2,
+                blurRadius: 7,
+                offset: const Offset(0, 0)),
+          ],
+        ),
+        child: Card(
+          margin: EdgeInsets.zero,
+          elevation: 0,
+          color: myFavColor5,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(16),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 27),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            "assets/image/google.svg",
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 27),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        if (model[index].pictureUrl != null)
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: myFavColor3,
+                            backgroundImage: NetworkImage(
+                                model[index].pictureUrl!),
                           ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Text(
-                            model[index].userName ?? "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(
-                              fontSize: 14,
-                              color: myFavColor7,
+                        if (model[index].pictureUrl == null)
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: myFavColor3,
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              color: myFavColor4,
                             ),
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(Icons.calendar_month_outlined),
-                          const SizedBox(
-                            width: 6,
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Text(
+                          model[index].userName ?? "",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                            fontSize: 14,
+                            color: myFavColor7,
                           ),
-                          Text(
-                            model[index].offerdDate != null
-                                ? model[index]
-                                .offerdDate!
-                                .substring(0, 10)
-                                : "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(
-                              fontSize: 14,
-                              color: myFavColor7,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.calendar_month_outlined),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          model[index].offerdDate != null
+                              ? model[index]
+                              .offerdDate!
+                              .substring(0, 10)
+                              : "",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                            fontSize: 14,
+                            color: myFavColor7,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 60,right: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model[index].message ?? "",
+                          style:
+                          Theme.of(context).textTheme.caption!.copyWith(
+                            fontSize: 16,
+                            color: myFavColor7,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          model[index].email ?? "",
+                          style:
+                          Theme.of(context).textTheme.caption!.copyWith(
+                            fontSize: 16,
+                            color: myFavColor.withOpacity(0.8),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 60,right: 16),
-                    child: SizedBox(
-                      width: double.infinity,
+                ),
+                /*Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/image/google.svg",
+                    ),
+                    const SizedBox(
+                      width: 26,
+                    ),
+                    Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                model[index].userName ?? "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 14,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(Icons.calendar_month_outlined),
+                                  const SizedBox(
+                                    width: 11,
+                                  ),
+                                  Text(
+                                    model[index].offerdDate != null
+                                        ? model[index]
+                                            .offerdDate!
+                                            .substring(0, 10)
+                                        : "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                          fontSize: 14,
+                                          color: myFavColor7,
+                                        ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
                           Text(
                             model[index].message ?? "",
                             style:
-                            Theme.of(context).textTheme.caption!.copyWith(
-                              fontSize: 16,
-                              color: myFavColor7,
-                            ),
+                                Theme.of(context).textTheme.caption!.copyWith(
+                                      fontSize: 16,
+                                      color: myFavColor7,
+                                    ),
                           ),
                           const SizedBox(
-                            height: 6,
+                            height: 18,
                           ),
                           Text(
                             model[index].email ?? "",
                             style:
-                            Theme.of(context).textTheme.caption!.copyWith(
-                              fontSize: 16,
-                              color: myFavColor.withOpacity(0.8),
-                            ),
+                                Theme.of(context).textTheme.caption!.copyWith(
+                                      fontSize: 16,
+                                      color: myFavColor.withOpacity(0.8),
+                                    ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  /*Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/image/google.svg",
-                      ),
-                      const SizedBox(
-                        width: 26,
-                      ),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  model[index].userName ?? "",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(
-                                        fontSize: 14,
-                                        color: myFavColor7,
-                                      ),
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.calendar_month_outlined),
-                                    const SizedBox(
-                                      width: 11,
-                                    ),
-                                    Text(
-                                      model[index].offerdDate != null
-                                          ? model[index]
-                                              .offerdDate!
-                                              .substring(0, 10)
-                                          : "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                            fontSize: 14,
-                                            color: myFavColor7,
-                                          ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            Text(
-                              model[index].message ?? "",
-                              style:
-                                  Theme.of(context).textTheme.caption!.copyWith(
-                                        fontSize: 16,
-                                        color: myFavColor7,
-                                      ),
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            Text(
-                              model[index].email ?? "",
-                              style:
-                                  Theme.of(context).textTheme.caption!.copyWith(
-                                        fontSize: 16,
-                                        color: myFavColor.withOpacity(0.8),
-                                      ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),*/
-                ],
-              ),
+                  ],
+                ),*/
+              ],
             ),
           ),
         ),

@@ -4,6 +4,7 @@ import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_details_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
 import 'package:we_work/models/user/user_get_job_details_model.dart';
+import 'package:we_work/models/user/user_get_profile_model.dart';
 import 'package:we_work/modules/user/home/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
@@ -47,9 +48,9 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           position != null &&
           experience != null &&
           jobType != null &&
-          city != null){
+          city != null) {
         userGetFilterJobsModel = UserGetAllJobsModel.fromJson(response.data);
-      }else{
+      } else {
         userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
       }
       emit(UserGetAllJobsSuccessState(userGetAllJobsModel!));
@@ -183,6 +184,34 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
         }
       } else {
         emit(UserSendOfferToFreelanceJobErrorState(error.toString()));
+      }
+    }
+  }
+
+  UserProfileModel? userProfileModel;
+  Future<void> getUserWithId({
+    required String userId,
+  }) async {
+    emit(GetUserWithIdLoadingState());
+    try {
+      final response = await DioHelper.getData(
+        url: "$GETUSERWITHID$userId",
+        baseUrl: BASEURL,
+        token: userToken,
+      );
+      userProfileModel = UserProfileModel.fromJson(response.data);
+      emit(GetUserWithIdSuccessState(userProfileModel!));
+    } catch (error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final responseData = error.response?.data;
+          final errorMessage = responseData["title"];
+          emit(GetUserWithIdErrorState(errorMessage));
+        } else {
+          emit(GetUserWithIdErrorState(error.toString()));
+        }
+      } else {
+        emit(GetUserWithIdErrorState(error.toString()));
       }
     }
   }

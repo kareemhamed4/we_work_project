@@ -5,7 +5,6 @@ import 'package:we_work/bloc_observer.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
-import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/common/forget_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/login/cubit/cubit.dart';
 import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
@@ -18,17 +17,18 @@ import 'package:we_work/modules/company/notification/cubit/cubit.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
 import 'package:we_work/modules/company/profile/cubit/cubit.dart';
 import 'package:we_work/modules/company/register/cubit/cubit.dart';
+import 'package:we_work/modules/user/apply_job/cubit/cubit.dart';
 import 'package:we_work/modules/user/filter/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
 import 'package:we_work/modules/user/register/cubit/cubit.dart';
 import 'package:we_work/modules/user/saved_jobs/cubit/cubit.dart';
-import 'package:we_work/modules/user/upload_cv/cubit/cubit.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
 import 'package:we_work/shared/constants/constants.dart';
 import 'package:we_work/shared/styles/themes.dart';
+import 'package:we_work/test/cubit/cubit.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,6 +76,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => CompanyOffersCubit()..companyGetAllSentOffers()..companyGetAllFreelanceOffers()),
           BlocProvider(create: (BuildContext context) => LayoutCompanyCubit()),
           BlocProvider(create: (BuildContext context) => CompanyFilterUsersCubit()),
+          BlocProvider(create: (BuildContext context) => CVCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

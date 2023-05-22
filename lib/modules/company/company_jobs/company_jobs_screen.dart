@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/company/company_get_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
@@ -62,7 +61,6 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                             context: context,
                             size: size,
                             index: index,
-                            isSaved: false,
                             model: cubit.companyGetJobsModel!,
                           ),
                         ),
@@ -156,7 +154,6 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
     required BuildContext context,
     required List<CompanyGetJobsModel> model,
     required int index,
-    bool isSaved = false,
   }) =>
       Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -299,7 +296,6 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
     required BuildContext context,
     required List<UserGetFreelanceJobsModel> model,
     required int index,
-    bool isSaved = false,
   }) =>
       Container(
         width: size.width - 40,
@@ -334,7 +330,6 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset("assets/image/google.svg"),
                             const SizedBox(
                               width: 10,
                             ),
@@ -363,9 +358,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                           ],
                         ),
                         FaIcon(
-                          isSaved
-                              ? FontAwesomeIcons.solidBookmark
-                              : FontAwesomeIcons.bookmark,
+                          FontAwesomeIcons.bookmark,
                           color: myFavColor.withOpacity(0.5),
                           size: 20,
                         ),

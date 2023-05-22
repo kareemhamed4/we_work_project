@@ -20,6 +20,7 @@ const USERUPDATEPROFILE = "Account/UpateBio";
 const USERUPLOADIMAGE = "Account/uploadimage";
 const USERGETALLOFFERS = "Offer/GetReceivedOffers";
 const USERSENDOFFERTOFREELANCEJOB = "Frelancer/SendOfferFreelance/";
+const GETUSERWITHID = "User/UserById/";
 
 //company endPoints
 const COMPANYREGISTER = "Account/register/Company";

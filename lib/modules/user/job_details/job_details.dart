@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:we_work/models/user/user_get_job_details_model.dart';
+import 'package:we_work/modules/user/apply_job/apply_job_screen.dart';
 import 'package:we_work/modules/user/company_details/google_company.dart';
-import 'package:we_work/modules/user/upload_cv/Upload_Cv.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -28,13 +28,22 @@ class JobDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 76,
-                width: 97,
-                child: Image.asset(
-                  "assets/image/Google.png",
+              if (userGetJobDetailsModel.pictureUrl != null)
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: myFavColor3,
+                  backgroundImage:
+                  NetworkImage(userGetJobDetailsModel.pictureUrl!),
                 ),
-              ),
+              if (userGetJobDetailsModel.pictureUrl == null)
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: myFavColor3,
+                  child: Icon(
+                    Icons.image_not_supported_outlined,
+                    color: myFavColor4,
+                  ),
+                ),
               const SizedBox(
                 height: 17,
               ),
@@ -220,7 +229,7 @@ class JobDetailsScreen extends StatelessWidget {
                               onPressed: () {
                                 NavigateTo(
                                     context: context,
-                                    widget: const GoogleCompany());
+                                    widget: const CompanyDetails());
                               },
                             ),
                           ),
@@ -289,7 +298,7 @@ class JobDetailsScreen extends StatelessWidget {
                 onPressed: () {
                   NavigateTo(
                       context: context,
-                      widget: UploadCv(jobId: userGetJobDetailsModel.id!,));
+                      widget: ApplyJobScreen(jobId: userGetJobDetailsModel.id!,));
                 },
                 labelWidget: Text(
                   'Apply Job',

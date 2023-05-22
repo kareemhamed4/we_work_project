@@ -32,7 +32,7 @@ class CompanyNotificationScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: cubit.companyGetAllUsersApplied != null
                 ? SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     child: Column(
                       children: [
                         Row(
@@ -68,7 +68,22 @@ class CompanyNotificationScreen extends StatelessWidget {
                               },
                               child: Row(
                                 children: [
-                                  SvgPicture.asset("assets/image/google.svg"),
+                                  if (cubit.companyGetAllUsersApplied![index].pictureUrl != null)
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor: myFavColor3,
+                                      backgroundImage: NetworkImage(
+                                          cubit.companyGetAllUsersApplied![index].pictureUrl!),
+                                    ),
+                                  if (cubit.companyGetAllUsersApplied![index].pictureUrl == null)
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor: myFavColor3,
+                                      child: Icon(
+                                        Icons.image_not_supported_outlined,
+                                        color: myFavColor4,
+                                      ),
+                                    ),
                                   const SizedBox(width: 20),
                                   Flexible(
                                     child: Column(

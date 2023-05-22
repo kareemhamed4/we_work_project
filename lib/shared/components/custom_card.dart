@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:we_work/modules/user/job_details/job_details.dart';
-import 'package:we_work/modules/user/job_details/freelance_job_details.dart';
-import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class CustomCard extends StatelessWidget {

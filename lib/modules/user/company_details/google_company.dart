@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
-import '../upload_cv/Upload_Cv.dart';
 
-class GoogleCompany extends StatelessWidget {
-  const GoogleCompany({super.key});
+class CompanyDetails extends StatelessWidget {
+  const CompanyDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,18 +25,34 @@ class GoogleCompany extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 76,
-                width: 97,
-                child: Image.asset(
-                  "assets/image/Google.png",
+              if (UserHomeCubit.get(context)
+                      .userProfileModel!
+                      .profilePictureUrl !=
+                  null)
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: myFavColor3,
+                  backgroundImage: NetworkImage(UserHomeCubit.get(context)
+                      .userProfileModel!
+                      .profilePictureUrl!),
                 ),
-              ),
+              if (UserHomeCubit.get(context)
+                      .userProfileModel!
+                      .profilePictureUrl ==
+                  null)
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: myFavColor3,
+                  child: Icon(
+                    Icons.image_not_supported_outlined,
+                    color: myFavColor4,
+                  ),
+                ),
               const SizedBox(
                 height: 16,
               ),
               Text(
-                "Google",
+                UserHomeCubit.get(context).userProfileModel!.displayName?? "",
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(
@@ -44,14 +60,14 @@ class GoogleCompany extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.location_pin,
                     color: Color(0xff649344),
                   ),
                   Text(
-                    "Alex , Egypt",
-                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                    "${UserHomeCubit.get(context).userProfileModel!.city?? ""} , ${UserHomeCubit.get(context).userProfileModel!.country?? ""}",
+                    style: const TextStyle(fontSize: 15, color: Colors.grey),
                   ),
                 ],
               ),
@@ -102,72 +118,89 @@ class GoogleCompany extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 15, bottom: 15),
-                        child: Text(
-                          "About Company",
-                          style:
-                              TextStyle(fontSize: 14, color: Color(0xff649344)),
-                        ),
+                      const SizedBox(
+                        height: 30,
                       ),
                       const Text(
-                        '''
-Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-''',
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                        "About Company",
+                        style:
+                            TextStyle(fontSize: 14, color: Color(0xff649344)),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        UserHomeCubit.get(context).userProfileModel!.bio?? "",
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       const Text(
                         "Since",
                         style:
                             TextStyle(fontSize: 14, color: Color(0xff649344)),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 15, bottom: 15),
-                        child: Text(
-                          "15-6-1999",
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      const Text(
+                        "15-6-1999",
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       const Text(
                         "Industry",
                         style:
                             TextStyle(fontSize: 14, color: Color(0xff649344)),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 15, bottom: 15),
-                        child: Text(
-                          "In marketing",
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        UserHomeCubit.get(context).userProfileModel!.education ?? "",
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       const Text(
                         "Number of Employee",
                         style:
                             TextStyle(fontSize: 14, color: Color(0xff649344)),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 15, bottom: 15),
-                        child: Text(
-                          "120 employer",
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      const Text(
+                        "120 employer",
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        "Email",
+                        style:
+                            TextStyle(fontSize: 14, color: Color(0xff649344)),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        UserHomeCubit.get(context).userProfileModel!.email ?? "",
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              myMaterialButton(
-                context: context,
-                onPressed: () {
-                  NavigateTo(
-                      context: context, widget: const UploadCv(jobId: 17,));
-                },
-                labelWidget: Text(
-                  'Apply Job',
-                  style: Theme.of(context).textTheme.button,
                 ),
               ),
             ],

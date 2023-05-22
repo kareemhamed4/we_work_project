@@ -263,7 +263,22 @@ class _CompanyHomeState extends State<CompanyHome> {
                   children: [
                     Row(
                       children: [
-                        Image.asset("assets/image/person.png"),
+                        if (model.data![index].pictureUrl != null)
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: myFavColor3,
+                            backgroundImage: NetworkImage(
+                                model.data![index].pictureUrl!),
+                          ),
+                        if (model.data![index].pictureUrl == null)
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: myFavColor3,
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              color: myFavColor4,
+                            ),
+                          ),
                         const SizedBox(
                           width: 16,
                         ),

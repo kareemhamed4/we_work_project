@@ -109,7 +109,22 @@ class AppliedJobScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset("assets/image/person.png"),
+                      if (model[index].pictureUrl != null)
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundColor: myFavColor3,
+                          backgroundImage: NetworkImage(
+                              model[index].pictureUrl!),
+                        ),
+                      if (model[index].pictureUrl == null)
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundColor: myFavColor3,
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            color: myFavColor4,
+                          ),
+                        ),
                       const SizedBox(
                         width: 26,
                       ),

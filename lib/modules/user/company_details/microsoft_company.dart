@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
-import '../upload_cv/Upload_Cv.dart';
+import '../upload_cv/apply_job_screen.dart';
 
 class MicrosoftCompany extends StatelessWidget {
   const MicrosoftCompany({super.key});
