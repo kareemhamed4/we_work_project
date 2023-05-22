@@ -13,16 +13,37 @@ class CompanyHomeCubit extends Cubit<CompanyHomeStates> {
   static CompanyHomeCubit get(context) => BlocProvider.of(context);
 
   CompanyGetAllUsersModel? companyGetAllUsersModel;
-  void companyGetAllUsers() async {
+  CompanyGetAllUsersModel? companyGetFilteredUsersModel;
+  void companyGetAllUsers({
+    String? country,
+    String? city,
+    String? jobType,
+    String? position,
+    String? experience,
+}) async {
     emit(CompanyGetAllUsersLoadingState());
-
     try {
       final response = await DioHelper.getData(
         url: COMPANYGETALLUSERS,
         baseUrl: BASEURL,
         token: companyToken,
+        query: {
+          "country": country ?? "",
+          "city": city ?? "",
+          "jobType": jobType ?? "",
+          "position": position ?? "",
+          "experince": experience ?? "",
+        },
       );
-      companyGetAllUsersModel = CompanyGetAllUsersModel.fromJson(response.data);
+      if (country != null &&
+          position != null &&
+          experience != null &&
+          jobType != null &&
+          city != null){
+        companyGetFilteredUsersModel = CompanyGetAllUsersModel.fromJson(response.data);
+      }else{
+        companyGetAllUsersModel = CompanyGetAllUsersModel.fromJson(response.data);
+      }
       emit(CompanyGetAllUsersSuccessState(companyGetAllUsersModel!));
     } catch (error) {
       if (error is DioError) {

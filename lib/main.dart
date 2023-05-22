@@ -12,6 +12,7 @@ import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/otp/cubit/cubit.dart';
 import 'package:we_work/modules/company/add_freelance_job/cubit/cubit.dart';
 import 'package:we_work/modules/company/add_job/cubit/cubit.dart';
+import 'package:we_work/modules/company/filter/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/cubit.dart';
 import 'package:we_work/modules/company/notification/cubit/cubit.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => CompanyProfileCubit()..getCompanyInfo()),
           BlocProvider(create: (BuildContext context) => CompanyOffersCubit()..companyGetAllSentOffers()..companyGetAllFreelanceOffers()),
           BlocProvider(create: (BuildContext context) => LayoutCompanyCubit()),
+          BlocProvider(create: (BuildContext context) => CompanyFilterUsersCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

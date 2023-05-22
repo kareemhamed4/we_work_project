@@ -3,11 +3,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/user/user_get_all_jobs_model.dart';
+import 'package:we_work/modules/user/filter/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/states.dart';
 import 'package:we_work/modules/user/job_details/job_details.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
+
+class FilterationChoices {
+  final String? country;
+  final String? city;
+  final String? position;
+  final dynamic salaryMin;
+  final dynamic salaryMax;
+  final String? experience;
+  final String? jobType;
+  FilterationChoices({
+    this.country,
+    this.city,
+    this.position,
+    this.salaryMin,
+    this.salaryMax,
+    this.experience,
+    this.jobType,
+  });
+}
 
 class FilteredResultScreen extends StatelessWidget {
   final UserGetAllJobsModel userGetFilteredJobs;
@@ -16,10 +36,31 @@ class FilteredResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FilterationChoices filterationChoices = FilterationChoices(
+      country: UserFilterJobsCubit.get(context).selectedCountry,
+      city: UserFilterJobsCubit.get(context).selectedCity,
+      position: UserFilterJobsCubit.get(context).selectedPosition,
+      salaryMin: UserFilterJobsCubit.get(context).selectedMinSalary,
+      salaryMax: UserFilterJobsCubit.get(context).selectedMaxSalary,
+      experience: UserFilterJobsCubit.get(context).selectedExperience,
+      jobType: UserFilterJobsCubit.get(context).selectedJobType,
+    );
+    String filterChoice = '';
     return BlocConsumer<UserHomeCubit, UserHomeStates>(
       listener: (context, state) {
         if (state is UserGetJobDetailsLoadingState) {
           showProgressIndicator(context);
+        }
+        if (state is UserGetJobDetailsSuccessState) {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          NavigateTo(
+            context: context,
+            widget: JobDetailsScreen(
+              userGetJobDetailsModel:
+                  UserHomeCubit.get(context).userGetJobDetailsModel!,
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -28,12 +69,92 @@ class FilteredResultScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               'Filteration Result',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+              style: Theme.of(context).textTheme.headline5!.copyWith(
+                    color: myFavColor,
+                    fontSize: 20,
+                  ),
             ),
             centerTitle: true,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(40),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    height: 40,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        switch (index) {
+                          case 0:
+                            filterChoice = filterationChoices.country ?? '';
+                            break;
+                          case 1:
+                            filterChoice = filterationChoices.city ?? '';
+                            break;
+                          case 2:
+                            filterChoice = filterationChoices.position ?? '';
+                            break;
+                          case 3:
+                            filterChoice = filterationChoices.salaryMin != null
+                                ? filterationChoices.salaryMin
+                                    .toInt()
+                                    .toString()
+                                : '';
+                            break;
+                          case 4:
+                            filterChoice = filterationChoices.salaryMax != null
+                                ? filterationChoices.salaryMax
+                                    .toInt()
+                                    .toString()
+                                : '';
+                            break;
+                          case 5:
+                            filterChoice = filterationChoices.experience ?? '';
+                            break;
+                          case 6:
+                            filterChoice = filterationChoices.jobType ?? '';
+                            break;
+                        }
+                        return (filterChoice != "All" &&
+                                filterChoice != "0" &&
+                                filterChoice != "30000")
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  color: myFavColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      filterChoice,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                              fontSize: 14, color: myFavColor5),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink();
+                      },
+                      separatorBuilder: (context, index) =>
+                          (filterChoice != "All" &&
+                                  filterChoice != "0" &&
+                                  filterChoice != "30000")
+                              ? const SizedBox(width: 15)
+                              : const SizedBox.shrink(),
+                      itemCount: 7,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -51,17 +172,9 @@ class FilteredResultScreen extends StatelessWidget {
                         onTap: () {
                           cubit
                               .userGetJobDetails(
-                            id: userGetFilteredJobs.data![index].id!,
-                          )
-                              .then((value) {
-                            Navigator.pop(context);
-                            NavigateTo(
-                                context: context,
-                                widget: JobDetailsScreen(
-                                  userGetJobDetailsModel:
-                                      cubit.userGetJobDetailsModel!,
-                                ));
-                          });
+                                id: userGetFilteredJobs.data![index].id!,
+                              )
+                              .then((value) {});
                         },
                         child: buildJobFilterationResultCard(
                           context: context,

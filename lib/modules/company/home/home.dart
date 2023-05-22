@@ -4,12 +4,11 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/company/company_get_all_users_model.dart';
 import 'package:we_work/modules/company/company_jobs/company_jobs_screen.dart';
-import 'package:we_work/modules/company/filter/filter_screen.dart';
+import 'package:we_work/modules/company/filter/filter.dart';
 import 'package:we_work/modules/company/home/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/states.dart';
 import 'package:we_work/modules/company/message_for_offer/message_for_offer_screen.dart';
 import 'package:we_work/shared/components/components.dart';
-import 'package:we_work/shared/constants/constants.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class CompanyHome extends StatefulWidget {
