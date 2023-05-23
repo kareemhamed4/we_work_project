@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
 import 'package:we_work/modules/user/filter/filter.dart';
@@ -169,13 +170,20 @@ class _HomeState extends State<Home> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Available Jobs",
-                          style:
-                              Theme.of(context).textTheme.headline5!.copyWith(
-                                    fontSize: 20,
-                                    color: myFavColor,
-                                  ),
+                        child: GestureDetector(
+                          onTap: (){
+                            LayoutCompanyCubit.get(context).createZoomMeeting(topic: "this is topics From Api from 11 Am     ", agenda: "this is agenda", date: "2023-05-30", time: "11", duration: 30);
+                            //print(LayoutCompanyCubit.get(context).meetingUrl);
+                            //LayoutCompanyCubit.get(context).launchZoomMeeting();
+                          },
+                          child: Text(
+                            "Available Jobs",
+                            style:
+                                Theme.of(context).textTheme.headline5!.copyWith(
+                                      fontSize: 20,
+                                      color: myFavColor,
+                                    ),
+                          ),
                         ),
                       ),
                       SizedBox(

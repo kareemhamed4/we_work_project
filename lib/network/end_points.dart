@@ -34,3 +34,4 @@ const COMPANYGETSENTOFFERS = "offer/GetSentOffers";
 const COMPANYGETFREELANCEOFFERS = "Frelancer/GetOffersForCompany";
 const COMPANYGETALLHERJOBS = "Job/GetCompanyJob";
 const COMPANYDELETESENDOFFER = "offer/DeleteOffer/";
+const CREATEZOOMMEETING = "ZoomApi";
