@@ -20,6 +20,7 @@ import 'package:we_work/modules/company/register/cubit/cubit.dart';
 import 'package:we_work/modules/user/apply_job/cubit/cubit.dart';
 import 'package:we_work/modules/user/filter/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
+import 'package:we_work/modules/user/notification/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
 import 'package:we_work/modules/user/register/cubit/cubit.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserInfo()),
           BlocProvider(create: (BuildContext context) => UserOffersCubit()..userGetOffers()),
           BlocProvider(create: (BuildContext context) => UserFilterJobsCubit()),
+          BlocProvider(create: (BuildContext context) => UserNotificationCubit()..userGetNotification()),
           BlocProvider(create: (BuildContext context) => LayoutCubit()),
           BlocProvider(create: (BuildContext context) => CompanyRegisterCubit()),
           BlocProvider(create: (BuildContext context) => CompanyAddJobCubit()),

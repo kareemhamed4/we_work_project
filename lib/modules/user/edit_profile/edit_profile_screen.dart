@@ -18,12 +18,13 @@ class EditProfileScreen extends StatelessWidget {
     TextEditingController bioController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController educationController = TextEditingController();
+    TextEditingController positionController = TextEditingController();
+    TextEditingController jobTypeController = TextEditingController();
     var model = UserProfileCubit.get(context).userProfileModel;
     bioController.text = model != null ? model.bio ?? bioController.text : " ";
     nameController.text =
         model != null ? model.displayName ?? nameController.text : " ";
-    educationController.text =
-        model != null ? model.education ?? educationController.text : " ";
+    educationController.text = model != null ? model.education ?? educationController.text : " ";
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {
@@ -134,9 +135,11 @@ class EditProfileScreen extends StatelessWidget {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           cubit.updateUserInfo(
+                              name: nameController.text,
                               bio: bioController.text,
-                              /*name: nameController.text,
-                              education: educationController.text*/
+                              education: educationController.text,
+                              position: positionController.text,
+                              jobType: jobTypeController.text,
                           );
                         }
                       },

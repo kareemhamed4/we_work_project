@@ -21,6 +21,7 @@ const USERUPLOADIMAGE = "Account/uploadimage";
 const USERGETALLOFFERS = "Offer/GetReceivedOffers";
 const USERSENDOFFERTOFREELANCEJOB = "Frelancer/SendOfferFreelance/";
 const GETUSERWITHID = "User/UserById/";
+const GETUSERNOTIFICATION = "Meeting/GetToUser";
 
 //company endPoints
 const COMPANYREGISTER = "Account/register/Company";

@@ -20,49 +20,59 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
       url: USERGETPROFILE,
       baseUrl: BASEURL,
       token: userToken,
-    ).then((value){
+    ).then((value) {
       userProfileModel = UserProfileModel.fromJson(value.data);
       emit(UserGetProfileSuccessState(userProfileModel!));
-    }).catchError((error){
+    }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
           final responseData = error.response?.data;
           final errorMessage = responseData[""];
           emit(UserGetProfileErrorState(errorMessage));
-        }else{
+        } else {
           emit(UserGetProfileErrorState(error.toString()));
         }
-    }else{
+      } else {
         emit(UserGetProfileErrorState(error.toString()));
       }
     });
   }
 
   void updateUserInfo({
+    required String name,
     required String bio,
-}) {
+    required String education,
+    required String position,
+    required String jobType,
+  }) {
     emit(UserUpdateProfileLoadingState());
     DioHelper.postData(
       url: USERUPDATEPROFILE,
       baseUrl: BASEURL,
       token: userToken,
       query: {
-        "Bio": bio
+        "Bio": name,
+        "Name": bio,
+        "Education": education,
+        "Position": position,
+        "JobType": jobType,
       },
-    ).then((value){
-      getUserInfo();
-      final message = value.data.toString();
-      emit(UserUpdateProfileSuccessState(message));
-    }).catchError((error){
+    ).then((value) {
+      if (value.statusCode == 200) {
+        getUserInfo();
+        emit(UserUpdateProfileSuccessState(
+            "Profile Info Updated Successfully!"));
+      }
+    }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
           final responseData = error.response?.data;
           final errorMessage = responseData["title"];
           emit(UserUpdateProfileErrorState(errorMessage));
-        }else{
+        } else {
           emit(UserUpdateProfileErrorState(error.toString()));
         }
-      }else{
+      } else {
         emit(UserUpdateProfileErrorState(error.toString()));
       }
     });
