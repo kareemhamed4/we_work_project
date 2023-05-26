@@ -31,6 +31,7 @@ class NotificationScreen extends StatelessWidget {
           body: (cubit.userNotificationModel != null &&
                   cubit.userNotificationModel!.isNotEmpty)
               ? SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -122,7 +123,7 @@ class NotificationScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              const  Expanded(child: SizedBox()),
+              const Expanded(child: SizedBox()),
               Expanded(
                 child: myMaterialButton(
                   context: context,
@@ -158,6 +159,7 @@ class NotificationScreen extends StatelessWidget {
       context: context,
       builder: (dialogContext) => Center(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Container(
             width: size.width - 60,
             decoration: BoxDecoration(
@@ -179,15 +181,16 @@ class NotificationScreen extends StatelessWidget {
                   ),
                   mySizedBox(size: size, myHeight: 12),
                   GestureDetector(
-                    onTap: (){
-                      LayoutCubit.get(context).launchZoomMeeting(meetingUrl: model[index].meetingLink);
+                    onTap: () {
+                      LayoutCubit.get(context).launchZoomMeeting(
+                          meetingUrl: model[index].meetingLink);
                     },
                     child: Text(
                       model[index].meetingLink!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.blueAccent, fontSize: 12),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Colors.blueAccent,
+                          fontSize: 12,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
                   mySizedBox(size: size, myHeight: 20),

@@ -38,6 +38,10 @@ import 'package:we_work/test/cubit/cubit.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await CacheHelper.init();
   DioHelper.init();
   userToken = CacheHelper.getData(key: 'userToken');

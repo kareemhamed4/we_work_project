@@ -23,3 +23,13 @@ class CompanyGetMeetingsErrorState extends CompanyGetUsersWhoAppliedStates {
   final String error;
   CompanyGetMeetingsErrorState(this.error);
 }
+
+class CompanyDeleteSentAcceptedOfferLoadingState extends CompanyGetUsersWhoAppliedStates {}
+class CompanyDeleteSentAcceptedOfferSuccessState extends CompanyGetUsersWhoAppliedStates {
+  final String msg;
+  CompanyDeleteSentAcceptedOfferSuccessState(this.msg);
+}
+class CompanyDeleteSentAcceptedOfferErrorState extends CompanyGetUsersWhoAppliedStates {
+  final String error;
+  CompanyDeleteSentAcceptedOfferErrorState(this.error);
+}

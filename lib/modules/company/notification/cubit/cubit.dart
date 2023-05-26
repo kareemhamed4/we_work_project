@@ -71,4 +71,31 @@ class CompanyGetUsersWhoAppliedCubit extends Cubit<CompanyGetUsersWhoAppliedStat
       }
     });
   }
+
+  Future<void> companyDeleteAcceptedOffer({
+    required int meetingId,
+  }) async{
+    emit(CompanyDeleteSentAcceptedOfferLoadingState());
+    await DioHelper.deleteData(
+      url: "$COMPANYDELETEACCEPTEDOFFER$meetingId",
+      token: companyToken,
+      baseUrl: BASEURL,
+    ).then((value) {
+      emit(CompanyDeleteSentAcceptedOfferSuccessState(value.data.toString()));
+      companyGetAllMeetings();
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final errorMessage = error.response?.data.toString();
+          emit(CompanyDeleteSentAcceptedOfferErrorState(errorMessage!));
+        } else {
+          // Handle other DioError cases
+          emit(CompanyDeleteSentAcceptedOfferErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        // Handle non-DioError cases
+        emit(CompanyDeleteSentAcceptedOfferErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
 }

@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/user/apply_job/cubit/cubit.dart';
 import 'package:we_work/modules/user/apply_job/cubit/states.dart';
@@ -485,12 +486,20 @@ class _MyProfileState extends State<MyProfile> {
                                         );
                                       },
                                       body: ListTile(
-                                        title: Text(
-                                          data[index].expandedText,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2!
-                                              .copyWith(fontSize: 16),
+                                        title: GestureDetector(
+                                          onTap: (){
+                                            final Uri url = Uri.parse(cubit.userProfileModel!.cv!);
+                                            index == 1
+                                                ? LayoutCubit.get(context).launchInBrowser(url) :
+                                            null;
+                                          },
+                                          child: Text(
+                                            data[index].expandedText,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2!
+                                                .copyWith(fontSize: 16,color: index == 1 ? Colors.blueAccent: myFavColor4,decoration: index == 1 ? TextDecoration.underline : TextDecoration.none),
+                                          ),
                                         ),
                                         trailing: index == 1
                                             ? Padding(
