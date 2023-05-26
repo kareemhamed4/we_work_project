@@ -5,6 +5,7 @@ import 'package:we_work/models/company/company_get_freelance_offers.dart';
 import 'package:we_work/models/company/company_get_sent_offers_model.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
 import 'package:we_work/modules/company/offers/cubit/states.dart';
+import 'package:we_work/modules/company/send_accept/send_accept_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -72,7 +73,8 @@ class CompanyOffersScreen extends StatelessWidget {
                       ),
                   if (cubit.companyGetSentOffersModel != null)
                     if (cubit.companyGetSentOffersModel!.isEmpty)
-                      const Center(child: Text("You haven't sent any offer yet.")),
+                      const Center(
+                          child: Text("You haven't sent any offer yet.")),
                   if (cubit.companyGetSentOffersModel == null)
                     Center(
                         child: CircularProgressIndicator(
@@ -212,26 +214,30 @@ class CompanyOffersScreen extends StatelessWidget {
                             const SizedBox(
                               width: 16,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  model[index].reciver ?? "",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(
-                                        fontSize: 14,
-                                        color: myFavColor7,
-                                      ),
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Text(model[index].bio ?? "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1),
-                              ],
+                            SizedBox(
+                              width: 120,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    model[index].reciver ?? "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                          fontSize: 14,
+                                          color: myFavColor7,
+                                        ),
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(model[index].bio ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -289,7 +295,25 @@ class CompanyOffersScreen extends StatelessWidget {
     required int index,
     required List<CompanyGetFreelanceOffersModel> model,
   }) =>
-      GestureDetector(
+      Slidable(
+        startActionPane: ActionPane(motion: const StretchMotion(), children: [
+          SlidableAction(
+            onPressed: ((context) {
+              NavigateTo(context: context, widget: SendAcceptScreen(userId: model[index].userId!));
+            }),
+            backgroundColor: myFavColor.withOpacity(0.7),
+            icon: Icons.check,
+          ),
+        ]),
+        endActionPane: ActionPane(motion: const StretchMotion(), children: [
+          SlidableAction(
+            onPressed: ((context) {
+              NavigateTo(context: context, widget: SendAcceptScreen(userId: model[index].userId!));
+            }),
+            backgroundColor: myFavColor.withOpacity(0.7),
+            icon: Icons.check,
+          ),
+        ]),
         child: Container(
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(
@@ -318,7 +342,7 @@ class CompanyOffersScreen extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (model[index].pictureUrl != null)
                         CircleAvatar(
@@ -337,140 +361,185 @@ class CompanyOffersScreen extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(
-                        width: 26,
+                        width: 12,
                       ),
                       Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  model[index].displayName ?? "",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(
-                                        fontSize: 14,
-                                        color: myFavColor7,
-                                      ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.calendar_month_outlined),
-                                      const SizedBox(
-                                        width: 11,
-                                      ),
-                                      Text(
-                                        model[index].dateTime != null
-                                            ? model[index]
-                                                .dateTime!
-                                                .substring(0, 10)
-                                            : "",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .copyWith(
-                                              fontSize: 14,
-                                              color: myFavColor7,
-                                            ),
-                                      )
-                                    ],
+                            SizedBox(
+                              width: 120,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    model[index].displayName ?? "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                          fontSize: 14,
+                                          color: myFavColor7,
+                                        ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    model[index].offerDetails ?? "",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ],
+                              ),
                             ),
-                            Text(
-                              model[index].title ?? "",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset("assets/icons/status.png"),
-                                    const SizedBox(
-                                      width: 6,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Offer Value",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .copyWith(
-                                                fontSize: 14,
-                                                color: myFavColor7,
-                                              ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.calendar_month_outlined),
+                                  const SizedBox(
+                                    width: 11,
+                                  ),
+                                  Text(
+                                    model[index].dateTime != null
+                                        ? model[index]
+                                            .dateTime!
+                                            .substring(0, 10)
+                                        : "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                          fontSize: 14,
+                                          color: myFavColor7,
                                         ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Text(
-                                          model[index].offerValue != null
-                                              ? model[index]
-                                                  .offerValue
-                                                  .toString()
-                                              : "",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .copyWith(
-                                                fontSize: 14,
-                                                color: myFavColor7,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Image.asset("assets/icons/time.png"),
-                                    const SizedBox(
-                                      width: 6,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Time to complete",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .copyWith(
-                                                fontSize: 14,
-                                                color: myFavColor7,
-                                              ),
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Text(
-                                          model[index].timeToComplete ?? "",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .copyWith(
-                                                fontSize: 14,
-                                                color: myFavColor7,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ],
                         ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset("assets/icons/status.png"),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "Offer Value",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 12,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                model[index].offerValue != null
+                                    ? model[index].offerValue.toString()
+                                    : "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 10,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Image.asset("assets/icons/time.png"),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "Time to complete",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 12,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                model[index].timeToComplete ?? "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 10,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            color: myFavColor.withOpacity(0.7),
+                            size: 22,
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "About job",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 12,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                model[index].title ?? "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 10,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),

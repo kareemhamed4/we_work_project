@@ -28,10 +28,12 @@ class SignUpUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<UserRegisterCubit,UserRegisterStates>(
-      listener: (context,state){
-        if(state is UserRegisterSuccessState){
-          CacheHelper.saveData(key: "userToken", value: state.userRegisterModel.token!).then((value){
+    return BlocConsumer<UserRegisterCubit, UserRegisterStates>(
+      listener: (context, state) {
+        if (state is UserRegisterSuccessState) {
+          CacheHelper.saveData(
+                  key: "userToken", value: state.userRegisterModel.token!)
+              .then((value) {
             userToken = state.userRegisterModel.token!;
             NavigateToReb(context: context, widget: const LayoutScreen());
             buildSuccessToast(
@@ -40,7 +42,7 @@ class SignUpUser extends StatelessWidget {
                 description: "Account Created Successfully!");
           });
         }
-        if(state is UserRegisterErrorState){
+        if (state is UserRegisterErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
@@ -48,7 +50,7 @@ class SignUpUser extends StatelessWidget {
           );
         }
       },
-      builder: (context,state){
+      builder: (context, state) {
         UserRegisterCubit cubit = BlocProvider.of(context);
         return Scaffold(
           appBar: AppBar(
@@ -71,7 +73,7 @@ class SignUpUser extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     Text(
                       'Name',
                       style: Theme.of(context)
@@ -79,7 +81,7 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: nameController,
@@ -91,7 +93,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Text(
                       'Email',
                       style: Theme.of(context)
@@ -99,7 +101,7 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: emailController,
@@ -111,7 +113,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Text(
                       'Password',
                       style: Theme.of(context)
@@ -119,14 +121,19 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: passwordController,
                       type: TextInputType.text,
-                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      suffixIcon: IconButton(
+                        icon: Icon(cubit.suffixIcon),
+                        onPressed: () {
+                          cubit.changePasswordSuffixIcon();
+                        },
+                      ),
                       hint: "● ● ● ● ● ● ● ● ●",
-                      isPassword: true,
+                      isPassword: cubit.isPassword,
                       validate: (value) {
                         if (value!.length < 8) {
                           return "password shouldn't be less than 8 characters";
@@ -134,7 +141,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Text(
                       'Confirm Password',
                       style: Theme.of(context)
@@ -142,14 +149,19 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: confirmPasswordController,
                       type: TextInputType.text,
-                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      suffixIcon: IconButton(
+                        icon: Icon(cubit.suffixConfirmIcon),
+                        onPressed: () {
+                          cubit.changeConfirmPasswordSuffixIcon();
+                        },
+                      ),
                       hint: "● ● ● ● ● ● ● ● ●",
-                      isPassword: true,
+                      isPassword: cubit.isConfirmPassword,
                       validate: (value) {
                         if (value != passwordController.text) {
                           return "password must be matched";
@@ -157,7 +169,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Text(
                       'Job Type',
                       style: Theme.of(context)
@@ -165,7 +177,7 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: jobTypeController,
@@ -177,7 +189,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Text(
                       'Phone Number',
                       style: Theme.of(context)
@@ -185,7 +197,7 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: phoneController,
@@ -197,7 +209,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Text(
                       'Experience',
                       style: Theme.of(context)
@@ -205,7 +217,7 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: experienceTypeController,
@@ -217,7 +229,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Text(
                       'Qualification',
                       style: Theme.of(context)
@@ -225,7 +237,7 @@ class SignUpUser extends StatelessWidget {
                           .bodyText2!
                           .copyWith(fontSize: 14),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    mySizedBox(size: size, myHeight: 8),
                     myTextFormField(
                       context: context,
                       controller: qualificationTypeController,
@@ -237,7 +249,7 @@ class SignUpUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     Row(
                       children: [
                         Expanded(
@@ -251,7 +263,7 @@ class SignUpUser extends StatelessWidget {
                                     .bodyText2!
                                     .copyWith(fontSize: 14),
                               ),
-                              mySizedBox(size: size,myHeight: 13),
+                              mySizedBox(size: size, myHeight: 13),
                               myTextFormField(
                                 context: context,
                                 controller: countryController,
@@ -266,7 +278,7 @@ class SignUpUser extends StatelessWidget {
                             ],
                           ),
                         ),
-                        mySizedBox(size: size,myWidth: 23),
+                        mySizedBox(size: size, myWidth: 23),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +290,7 @@ class SignUpUser extends StatelessWidget {
                                     .bodyText2!
                                     .copyWith(fontSize: 14),
                               ),
-                              mySizedBox(size: size,myHeight: 13),
+                              mySizedBox(size: size, myHeight: 13),
                               myTextFormField(
                                 context: context,
                                 controller: cityController,
@@ -295,7 +307,7 @@ class SignUpUser extends StatelessWidget {
                         ),
                       ],
                     ),
-                    mySizedBox(size: size,myHeight: 21),
+                    mySizedBox(size: size, myHeight: 21),
                     ConditionalBuilder(
                       condition: state is! UserRegisterLoadingState,
                       builder: (context) => myMaterialButton(
@@ -303,16 +315,16 @@ class SignUpUser extends StatelessWidget {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             cubit.userRegister(
-                                name: nameController.text,
-                                email: emailController.text,
-                                city: cityController.text,
-                                country: countryController.text,
-                                experience: experienceTypeController.text,
-                                qualification: qualificationTypeController.text,
-                                password: passwordController.text,
-                                confirmPassword: confirmPasswordController.text,
-                                phoneNumber: phoneController.text,
-                                jobType: jobTypeController.text,
+                              name: nameController.text,
+                              email: emailController.text,
+                              city: cityController.text,
+                              country: countryController.text,
+                              experience: experienceTypeController.text,
+                              qualification: qualificationTypeController.text,
+                              password: passwordController.text,
+                              confirmPassword: confirmPasswordController.text,
+                              phoneNumber: phoneController.text,
+                              jobType: jobTypeController.text,
                             );
                           }
                         },
@@ -338,7 +350,7 @@ class SignUpUser extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 14),
+                    mySizedBox(size: size, myHeight: 14),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -358,7 +370,7 @@ class SignUpUser extends StatelessWidget {
                         ),
                       ],
                     ),
-                    mySizedBox(size: size,myHeight: 51),
+                    mySizedBox(size: size, myHeight: 51),
                   ],
                 ),
               ),

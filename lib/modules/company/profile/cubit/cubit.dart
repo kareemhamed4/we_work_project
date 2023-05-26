@@ -39,29 +39,40 @@ class CompanyProfileCubit extends Cubit<CompanyProfileStates> {
   }
 
   void updateCompanyInfo({
+    required String name,
     required String bio,
-}) {
+    required String education,
+    required String position,
+    required String jobType,
+  }) {
     emit(CompanyUpdateProfileLoadingState());
     DioHelper.postData(
       url: USERUPDATEPROFILE,
       baseUrl: BASEURL,
-      token: userToken,
+      token: companyToken,
       query: {
-        "Bio": bio
+        "Bio": name,
+        "Name": bio,
+        "Education": education,
+        "Position": position,
+        "JobType": jobType,
       },
-    ).then((value){
-      getCompanyInfo();
-      final message = value.data.toString();
-      emit(CompanyUpdateProfileSuccessState(message));
-    }).catchError((error){
+    ).then((value) {
+      if (value.statusCode == 200) {
+        getCompanyInfo();
+        emit(CompanyUpdateProfileSuccessState(
+            "Profile Info Updated Successfully!"));
+      }
+    }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
-          final errorMessage = error.response?.data.toString();
-          emit(CompanyUpdateProfileErrorState(errorMessage!));
-        }else{
+          final responseData = error.response?.data;
+          final errorMessage = responseData["title"];
+          emit(CompanyUpdateProfileErrorState(errorMessage));
+        } else {
           emit(CompanyUpdateProfileErrorState(error.toString()));
         }
-      }else{
+      } else {
         emit(CompanyUpdateProfileErrorState(error.toString()));
       }
     });

@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
-import 'package:we_work/modules/user/profile/cubit/cubit.dart';
-import 'package:we_work/modules/user/profile/cubit/states.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
+import 'package:we_work/modules/company/profile/cubit/cubit.dart';
+import 'package:we_work/modules/company/profile/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
-class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({super.key});
+class CompanyEditProfileScreen extends StatelessWidget {
+  CompanyEditProfileScreen({super.key});
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -20,18 +21,15 @@ class EditProfileScreen extends StatelessWidget {
     TextEditingController educationController = TextEditingController();
     TextEditingController positionController = TextEditingController();
     TextEditingController jobTypeController = TextEditingController();
-    var model = UserProfileCubit.get(context).userProfileModel;
+    var model = CompanyProfileCubit.get(context).companyProfileModel;
     bioController.text = model != null ? model.bio ?? bioController.text : " ";
     nameController.text =
         model != null ? model.displayName ?? nameController.text : " ";
-    educationController.text = model != null ? model.education ?? educationController.text : " ";
-    positionController.text = model != null ? model.position ?? positionController.text : " ";
-    jobTypeController.text = model != null ? model.jobType ?? jobTypeController.text : " ";
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<UserProfileCubit, UserProfileStates>(
+    return BlocConsumer<CompanyProfileCubit, CompanyProfileStates>(
       listener: (context, state) {
-        if (state is UserUpdateProfileSuccessState) {
-          NavigateToReb(context: context, widget: const LayoutScreen());
+        if (state is CompanyUpdateProfileSuccessState) {
+          NavigateToReb(context: context, widget: const LayoutCompanyScreen());
           LayoutCubit.get(context).changeIndex(4);
           buildSuccessToast(
             title: "Done",
@@ -39,7 +37,7 @@ class EditProfileScreen extends StatelessWidget {
             description: state.msg,
           );
         }
-        if (state is UserUpdateProfileErrorState) {
+        if (state is CompanyUpdateProfileErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
@@ -48,7 +46,7 @@ class EditProfileScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        UserProfileCubit cubit = BlocProvider.of(context);
+        CompanyProfileCubit cubit = BlocProvider.of(context);
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -93,26 +91,6 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     mySizedBox(size: size, myHeight: 20),
                     Text(
-                      'Education',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    mySizedBox(size: size, myHeight: 8),
-                    myTextFormField(
-                      context: context,
-                      controller: educationController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your education";
-                        }
-                        return null;
-                      },
-                    ),
-                    mySizedBox(size: size, myHeight: 20),
-                    Text(
                       'Bio',
                       style: Theme.of(context)
                           .textTheme
@@ -132,58 +110,19 @@ class EditProfileScreen extends StatelessWidget {
                       },
                     ),
                     mySizedBox(size: size, myHeight: 20),
-                    Text(
-                      'Position',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    mySizedBox(size: size, myHeight: 8),
-                    myTextFormField(
-                      context: context,
-                      controller: positionController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your position";
-                        }
-                        return null;
-                      },
-                    ),
-                    mySizedBox(size: size, myHeight: 20),
-                    Text(
-                      'JobType',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    mySizedBox(size: size, myHeight: 8),
-                    myTextFormField(
-                      context: context,
-                      controller: jobTypeController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your jobType";
-                        }
-                        return null;
-                      },
-                    ),
                     mySizedBox(size: size, myHeight: 80),
                     ConditionalBuilder(
-                      condition: state is! UserUpdateProfileLoadingState,
+                      condition: state is! CompanyUpdateProfileLoadingState,
                       builder: (context) => myMaterialButton(
                         context: context,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            cubit.updateUserInfo(
+                            cubit.updateCompanyInfo(
                                 name: nameController.text,
                                 bio: bioController.text,
-                                education: educationController.text,
-                                position: positionController.text,
-                                jobType: jobTypeController.text,
+                                education: "null",
+                                position: "null",
+                                jobType: "null",
                             );
                           }
                         },

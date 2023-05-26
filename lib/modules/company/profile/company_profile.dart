@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
+import 'package:we_work/modules/company/edit_profile/edit_profile_screen.dart';
 import 'package:we_work/modules/company/profile/cubit/cubit.dart';
 import 'package:we_work/modules/company/profile/cubit/states.dart';
+import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -54,7 +56,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
   ];
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<CompanyProfileCubit,CompanyProfileStates>(
       listener: (context,state){
         if(state is ProfileImageUploadSuccessState){
@@ -69,7 +70,19 @@ class _CompanyProfileState extends State<CompanyProfile> {
         data[2].expandedText = cubit.companyProfileModel?.email ?? "";
         data[3].expandedText = cubit.companyProfileModel?.bio ?? "";
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                onPressed: () {
+                  NavigateTo(context: context, widget: CompanyEditProfileScreen());
+                },
+                icon: Icon(
+                  Icons.edit_outlined,
+                  color: myFavColor,
+                ),
+              ),
+            ],
+          ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
@@ -373,6 +386,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     padding: const EdgeInsets.only(top: 10),
                     child: GestureDetector(
                       onTap: () {
+                        CacheHelper.removeData(key: "companyToken");
                         NavigateToReb(
                           context: context,
                           widget: const ChooseRegister(),

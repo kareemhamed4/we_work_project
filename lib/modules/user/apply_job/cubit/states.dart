@@ -12,3 +12,13 @@ class UserApplyJobErrorState extends UserApplyJobStates {
   final String error;
   UserApplyJobErrorState(this.error);
 }
+
+class UserUploadCVLoadingState extends UserApplyJobStates {}
+class UserUploadCVSuccessState extends UserApplyJobStates {
+  final String msg;
+  UserUploadCVSuccessState(this.msg);
+}
+class UserUploadCVErrorState extends UserApplyJobStates {
+  final String error;
+  UserUploadCVErrorState(this.error);
+}

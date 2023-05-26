@@ -2,17 +2,28 @@ import 'dart:io';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:we_work/layout/layout_screen.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
+import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/common/onboarding/onboarding-screen.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  final bool isLoginBefore;
+  final bool isCompany;
+  const SplashScreen(
+      {Key? key, required this.isLoginBefore, required this.isCompany})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return AnimatedSplashScreen(
-      nextScreen: const Onboarding(),
+      nextScreen: isLoginBefore
+          ? isCompany
+              ? const LayoutCompanyScreen()
+              : const LayoutScreen()
+          : const ChooseRegister(),
       splash: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -20,18 +31,21 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                  "assets/image/Frame 34.png",
+                "assets/image/Frame 34.png",
                 width: 120,
                 height: 114,
               ),
-              const SizedBox(height: 38,),
+              const SizedBox(
+                height: 38,
+              ),
               Text(
                 "WE WORK",
-                style: Theme.of(context).textTheme.button!.copyWith(fontSize: 24),
+                style:
+                    Theme.of(context).textTheme.button!.copyWith(fontSize: 24),
               ),
             ],
           ),
-          if(Platform.isAndroid)
+          if (Platform.isAndroid)
             SizedBox(
               width: 30,
               height: 30,
@@ -40,7 +54,7 @@ class SplashScreen extends StatelessWidget {
                 strokeWidth: 3,
               ),
             ),
-          if(Platform.isIOS)
+          if (Platform.isIOS)
             CupertinoActivityIndicator(
               color: myFavColor5,
               radius: 15,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:we_work/models/company/company_get_freelance_offers.dart';
 import 'package:we_work/models/company/company_get_sent_offers_model.dart';
 import 'package:we_work/modules/company/offers/cubit/states.dart';
@@ -93,6 +94,87 @@ class CompanyOffersCubit extends Cubit<CompanyOffersStates> {
       } else {
         // Handle non-DioError cases
         emit(CompanyDeleteSentOfferErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
+
+  String? meetingUrl;
+  Future<void> createZoomMeeting({
+    required String topic,
+    required String agenda,
+    required String date,
+    required double time,
+    required int duration,
+  }) async {
+    emit(CreateMeetingLoadingState());
+    DioHelper.postData(
+      url: CREATEZOOMMEETING,
+      baseUrl: BASEURL,
+      data: {
+        "id": "string",
+        "topic": topic,
+        "agenda": agenda,
+        "date": date,
+        "time": time,
+        "duration": duration,
+        "timeZone": "string",
+      },
+    ).then((value){
+      if(value.statusCode == 200){
+        meetingUrl = value.data.last;
+        emit(CreateMeetingSuccessState(meetingUrl!));
+      }
+    }).catchError((error){
+      emit(CreateMeetingErrorState(error.toString()));
+    });
+  }
+
+  void launchZoomMeeting({
+    required String? meetingUrl,
+  }) async {
+    if (meetingUrl == null) {
+      throw 'Meeting URL is null or not assigned.';
+    }
+    final String url = meetingUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      await launch(url);
+    }
+  }
+
+
+  Future<void> companyAcceptFreelanceOffer({
+    required String userId,
+    required String message,
+    required String meetingDate,
+    required String meetingLink,
+  }) async{
+    emit(CompanyAcceptFreeLanceOfferLoadingState());
+    await DioHelper.postData(
+      url: "$COMPANYACCEPTFREELANCEOFFER$userId",
+      token: companyToken,
+      baseUrl: BASEURL,
+      data: {
+        "Message": message,
+        "MeedtingDate": meetingDate,
+        "MeetingLink": meetingLink,
+      },
+    ).then((value) {
+      emit(CompanyAcceptFreeLanceOfferSuccessState(value.data.toString()));
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 400) {
+          final errorResponse = error.response?.data;
+          final errorMessage = errorResponse["errors"];
+          emit(CompanyAcceptFreeLanceOfferErrorState(errorMessage!));
+        } else {
+          print(error.toString());
+          emit(CompanyAcceptFreeLanceOfferErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        print(error.toString());
+        emit(CompanyAcceptFreeLanceOfferErrorState('An error occurred. Please try again.'));
       }
     });
   }

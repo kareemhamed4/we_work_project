@@ -9,7 +9,7 @@ Widget myTextFormField({
   TextEditingController? controller,
   TextInputType? type,
   bool? isPassword,
-  Function? onTap,
+  VoidCallback? onTap,
   ValueChanged<String>? onChange,
   String? Function(String?)? validate,
   ValueChanged<String>? onSubmit,
@@ -25,9 +25,8 @@ Widget myTextFormField({
       controller: controller,
       keyboardType: type,
       obscureText: isPassword ?? false,
-      onTap: () {
-        onTap;
-      },
+      onTap: onTap,
+
       onChanged: onChange,
       onFieldSubmitted: onSubmit,
       validator: validate,
@@ -35,7 +34,10 @@ Widget myTextFormField({
       inputFormatters: [
         LengthLimitingTextInputFormatter(maxLength2),
       ],
-      style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 18),
+      style: Theme.of(context)
+          .textTheme
+          .bodyText2!
+          .copyWith(fontSize: 16, color: myFavColor6),
       decoration: InputDecoration(
         hintText: hint ?? '',
         hintStyle: Theme.of(context)

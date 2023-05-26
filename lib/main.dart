@@ -5,10 +5,14 @@ import 'package:we_work/bloc_observer.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
+import 'package:we_work/layout_company/layout_screen.dart';
+import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/common/forget_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/login/cubit/cubit.dart';
 import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
+import 'package:we_work/modules/common/onboarding/onboarding-screen.dart';
 import 'package:we_work/modules/common/otp/cubit/cubit.dart';
+import 'package:we_work/modules/common/splash/splash_screen.dart';
 import 'package:we_work/modules/company/add_freelance_job/cubit/cubit.dart';
 import 'package:we_work/modules/company/add_job/cubit/cubit.dart';
 import 'package:we_work/modules/company/filter/cubit/cubit.dart';
@@ -35,14 +39,31 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
+  DioHelper.init();
   userToken = CacheHelper.getData(key: 'userToken');
   companyToken = CacheHelper.getData(key: 'companyToken');
-  DioHelper.init();
-  runApp(const MyApp());
+  bool? onBoarding = CacheHelper.getData(key: "onBoarding");
+  Widget widget;
+  if(onBoarding != null){
+    if(userToken != null){
+      widget = const SplashScreen(isLoginBefore: true,isCompany: false);
+    }else if(companyToken != null){
+      widget = const SplashScreen(isLoginBefore: true,isCompany: true);
+    } else{
+      widget = const SplashScreen(isLoginBefore: false,isCompany: true);
+    }
+  }else {
+    widget = const Onboarding();
+  }
+
+  runApp(MyApp(
+    startWidget: widget,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final Widget startWidget;
+  const MyApp({Key? key,required this.startWidget}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +93,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => CompanyRegisterCubit()),
           BlocProvider(create: (BuildContext context) => CompanyAddJobCubit()),
           BlocProvider(create: (BuildContext context) => CompanyAddFreelanceJobCubit()),
-          BlocProvider(create: (BuildContext context) => CompanyGetUsersWhoAppliedCubit()..companyGetAllUsersWhoApplied()),
+          BlocProvider(create: (BuildContext context) => CompanyGetUsersWhoAppliedCubit()..companyGetAllUsersWhoApplied()..companyGetAllMeetings()),
           BlocProvider(create: (BuildContext context) => CompanyHomeCubit()..companyGetAllUsers()..companyGetHerJobs()),
           BlocProvider(create: (BuildContext context) => CompanyProfileCubit()..getCompanyInfo()),
           BlocProvider(create: (BuildContext context) => CompanyOffersCubit()..companyGetAllSentOffers()..companyGetAllFreelanceOffers()),
@@ -84,7 +105,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           themeMode: ThemeMode.light,
-          home: const LayoutScreen(),
+          home: startWidget,
         ),
       ),
     );

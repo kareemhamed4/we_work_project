@@ -2,6 +2,8 @@ import 'package:we_work/models/user/user_register_model.dart';
 
 abstract class CompanyRegisterStates{}
 class CompanyRegisterInitialState extends CompanyRegisterStates {}
+class ChangePasswordSuffixState extends CompanyRegisterStates {}
+class ChangeConfirmPasswordSuffixState extends CompanyRegisterStates {}
 class CompanyRegisterLoadingState extends CompanyRegisterStates {}
 class CompanyRegisterSuccessState extends CompanyRegisterStates {
   final UserRegisterModel userRegisterModel;

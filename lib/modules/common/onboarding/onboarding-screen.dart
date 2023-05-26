@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
+import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -31,7 +32,7 @@ class Onboarding extends StatelessWidget {
                       .headline6!
                       .copyWith(color: myFavColor),
                 ),
-                mySizedBox(size: size,myHeight: 39),
+                mySizedBox(size: size, myHeight: 39),
                 Text(
                   'helps you in your online job search to find Jobs in Egypt and Middle East. Choose the right job using our online recruitment services',
                   textAlign: TextAlign.center,
@@ -40,25 +41,33 @@ class Onboarding extends StatelessWidget {
                       .caption!
                       .copyWith(fontSize: 16, height: 1.5),
                 ),
-                mySizedBox(size: size,myHeight: 77),                myMaterialButton(
+                mySizedBox(size: size, myHeight: 77),
+                myMaterialButton(
                   context: context,
                   onPressed: () {
-                    NavigateTo(
-                        context: context, widget: const ChooseRegister());
+                    CacheHelper.saveData(key: "onBoarding", value: true)
+                        .then((value) {
+                      NavigateTo(
+                          context: context, widget: const ChooseRegister());
+                    });
                   },
                   labelWidget: Text(
                     'Continue',
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
-                mySizedBox(size: size,myHeight: 88),
+                mySizedBox(size: size, myHeight: 88),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: myTextButton(
                       context: context,
                       label: "SKIP",
                       onPressed: () {
-                        NavigateTo(context: context, widget: ChooseRegister());
+                        CacheHelper.saveData(key: "onBoarding", value: true)
+                            .then((value) {
+                          NavigateTo(
+                              context: context, widget: const ChooseRegister());
+                        });
                       }),
                 ),
               ],

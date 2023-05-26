@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/new_password/cubit/states.dart';
@@ -113,9 +112,14 @@ class ChangePassword extends StatelessWidget {
                       context: context,
                       controller: passwordController,
                       type: TextInputType.text,
-                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      suffixIcon: IconButton(
+                        icon: Icon(cubit.suffixIcon),
+                        onPressed: () {
+                          cubit.changePasswordSuffixIcon();
+                        },
+                      ),
                       hint: "● ● ● ● ● ● ● ● ●",
-                      isPassword: true,
+                      isPassword: cubit.isPassword,
                       validate: (value) {
                         if (value!.length < 8) {
                           return "password shouldn't be less than 8 characters";
@@ -139,9 +143,14 @@ class ChangePassword extends StatelessWidget {
                       context: context,
                       controller: confirmPasswordController,
                       type: TextInputType.text,
-                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      suffixIcon: IconButton(
+                        icon: Icon(cubit.suffixConfirmIcon),
+                        onPressed: () {
+                          cubit.changeConfirmPasswordSuffixIcon();
+                        },
+                      ),
                       hint: "● ● ● ● ● ● ● ● ●",
-                      isPassword: true,
+                      isPassword: cubit.isConfirmPassword,
                       validate: (value) {
                         if (value != passwordController.text) {
                           return "password must be matched";

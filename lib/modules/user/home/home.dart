@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           CVCubit.get(context).chooseCVFile();
                         },
                         child: Container(
@@ -170,20 +170,13 @@ class _HomeState extends State<Home> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
-                        child: GestureDetector(
-                          onTap: (){
-                            LayoutCompanyCubit.get(context).createZoomMeeting(topic: "this is topics From Api from 11 Am     ", agenda: "this is agenda", date: "2023-05-30", time: "11", duration: 30);
-                            //print(LayoutCompanyCubit.get(context).meetingUrl);
-                            //LayoutCompanyCubit.get(context).launchZoomMeeting();
-                          },
-                          child: Text(
-                            "Available Jobs",
-                            style:
-                                Theme.of(context).textTheme.headline5!.copyWith(
-                                      fontSize: 20,
-                                      color: myFavColor,
-                                    ),
-                          ),
+                        child: Text(
+                          "Available Jobs",
+                          style:
+                              Theme.of(context).textTheme.headline5!.copyWith(
+                                    fontSize: 20,
+                                    color: myFavColor,
+                                  ),
                         ),
                       ),
                       SizedBox(

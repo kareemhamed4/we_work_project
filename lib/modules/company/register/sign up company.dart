@@ -125,9 +125,14 @@ class SignUpCompany extends StatelessWidget {
                       context: context,
                       controller: passwordController,
                       type: TextInputType.text,
-                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      suffixIcon: IconButton(
+                        icon: Icon(cubit.suffixIcon),
+                        onPressed: () {
+                          cubit.changePasswordSuffixIcon();
+                        },
+                      ),
                       hint: "● ● ● ● ● ● ● ● ●",
-                      isPassword: true,
+                      isPassword: cubit.isPassword,
                       validate: (value) {
                         if (value!.length < 8) {
                           return "password shouldn't be less than 8 characters";
@@ -148,9 +153,14 @@ class SignUpCompany extends StatelessWidget {
                       context: context,
                       controller: confirmPasswordController,
                       type: TextInputType.text,
-                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      suffixIcon: IconButton(
+                        icon: Icon(cubit.suffixConfirmIcon),
+                        onPressed: () {
+                          cubit.changeConfirmPasswordSuffixIcon();
+                        },
+                      ),
                       hint: "● ● ● ● ● ● ● ● ●",
-                      isPassword: true,
+                      isPassword: cubit.isConfirmPassword,
                       validate: (value) {
                         if (value != passwordController.text) {
                           return "password must be matched";
@@ -312,8 +322,7 @@ class SignUpCompany extends StatelessWidget {
                           context: context,
                           label: "Log in",
                           onPressed: () {
-                            NavigateTo(
-                                context: context, widget: LoginUser());
+                            NavigateTo(context: context, widget: LoginUser());
                           },
                         )
                       ],

@@ -18,6 +18,7 @@ class LayoutCompanyScreen extends StatelessWidget {
       builder: (context, state) {
         LayoutCompanyCubit cubit = BlocProvider.of(context);
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: cubit.companyScreens[cubit.currentIndex],
           bottomNavigationBar: BottomAppBar(
             color: myFavColor,

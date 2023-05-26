@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/models/common/user_login_model.dart';
 import 'package:we_work/modules/common/login/cubit/states.dart';
@@ -9,6 +10,16 @@ class UserLoginCubit extends Cubit<UserLoginStates> {
   UserLoginCubit() : super(UserLoginInitialState());
 
   static UserLoginCubit get(context) => BlocProvider.of(context);
+
+  bool isPassword = true;
+  IconData suffixIcon = Icons.visibility_off_outlined;
+
+  void changeLoginSuffixIcon() {
+    isPassword = !isPassword;
+    suffixIcon =
+    isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+    emit(ChangePasswordVisibilityState());
+  }
 
   UserLoginModel? userLoginModel;
   void userLogin({

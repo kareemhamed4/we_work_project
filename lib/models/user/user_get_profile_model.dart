@@ -7,6 +7,8 @@ class UserProfileModel {
   String? bio;
   String? country;
   String? education;
+  String? position;
+  String? jobType;
 
   UserProfileModel(
       {this.displayName,
@@ -16,6 +18,8 @@ class UserProfileModel {
         this.city,
         this.bio,
         this.country,
+        this.position,
+        this.jobType,
         this.education});
 
   UserProfileModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,8 @@ class UserProfileModel {
     city = json['city'];
     bio = json['bio'];
     country = json['country'];
+    position = json['position'];
+    jobType = json['jobType'];
     education = json['education'];
   }
 }

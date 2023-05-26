@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:we_work/layout/cubit/states.dart';
 import 'package:we_work/modules/user/offers/offers_screen.dart';
 import 'package:we_work/modules/user/drawer/drawer.dart';
@@ -24,5 +25,19 @@ class LayoutCubit extends Cubit<LayoutStates> {
   void changeIndex(index) {
     currentIndex = index;
     emit(ChangeBottomNavBarState());
+  }
+
+  void launchZoomMeeting({
+    required String? meetingUrl,
+  }) async {
+    if (meetingUrl == null) {
+      throw 'Meeting URL is null or not assigned.';
+    }
+    final String url = meetingUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      await launch(url);
+    }
   }
 }

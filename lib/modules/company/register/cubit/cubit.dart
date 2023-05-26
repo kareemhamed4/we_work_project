@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/models/user/user_register_model.dart';
 import 'package:we_work/modules/company/register/cubit/states.dart';
@@ -9,6 +10,25 @@ class CompanyRegisterCubit extends Cubit<CompanyRegisterStates> {
   CompanyRegisterCubit() : super(CompanyRegisterInitialState());
 
   static CompanyRegisterCubit get(context) => BlocProvider.of(context);
+
+  bool isPassword = true;
+  bool isConfirmPassword = true;
+  IconData suffixIcon = Icons.visibility_off_outlined;
+  IconData suffixConfirmIcon = Icons.visibility_off_outlined;
+
+  void changePasswordSuffixIcon() {
+    isPassword = !isPassword;
+    suffixIcon =
+    isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+    emit(ChangePasswordSuffixState());
+  }
+
+  void changeConfirmPasswordSuffixIcon() {
+    isConfirmPassword = !isConfirmPassword;
+    suffixConfirmIcon =
+    isConfirmPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+    emit(ChangeConfirmPasswordSuffixState());
+  }
 
   UserRegisterModel? companyRegisterModel;
   void companyRegister({

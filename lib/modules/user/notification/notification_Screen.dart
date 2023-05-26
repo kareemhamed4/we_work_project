@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/models/user/user_get_notification_model.dart';
-import 'package:we_work/modules/user/exam/Go_To_Exam.dart';
 import 'package:we_work/modules/user/notification/cubit/cubit.dart';
 import 'package:we_work/modules/user/notification/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
-import 'package:we_work/shared/constants/constants.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -124,29 +122,12 @@ class NotificationScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Expanded(
-                child: myMaterialButton(
-                  context: context,
-                  onPressed: () {},
-                  isEnabled: false,
-                  bgColorForNotEnabled: myFavColor2,
-                  labelWidget: Text(
-                    "Deny",
-                    style: Theme.of(context)
-                        .textTheme
-                        .button!
-                        .copyWith(color: myFavColor),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 36,
-              ),
+              const  Expanded(child: SizedBox()),
               Expanded(
                 child: myMaterialButton(
                   context: context,
                   labelWidget: Text(
-                    "Accept",
+                    "Show Details",
                     style: Theme.of(context).textTheme.button,
                   ),
                   onPressed: () {
@@ -180,10 +161,11 @@ class NotificationScreen extends StatelessWidget {
           child: Container(
             width: size.width - 60,
             decoration: BoxDecoration(
-                color: myFavColor5,
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
+              color: myFavColor5,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -196,12 +178,17 @@ class NotificationScreen extends StatelessWidget {
                         .copyWith(color: myFavColor6, fontSize: 18),
                   ),
                   mySizedBox(size: size, myHeight: 12),
-                  Text(
-                    model[index].meetingLink!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: Colors.blueAccent, fontSize: 12),
+                  GestureDetector(
+                    onTap: (){
+                      LayoutCubit.get(context).launchZoomMeeting(meetingUrl: model[index].meetingLink);
+                    },
+                    child: Text(
+                      model[index].meetingLink!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.blueAccent, fontSize: 12),
+                    ),
                   ),
                   mySizedBox(size: size, myHeight: 20),
                   Text(
@@ -213,7 +200,7 @@ class NotificationScreen extends StatelessWidget {
                   ),
                   mySizedBox(size: size, myHeight: 12),
                   Text(
-                    model[index].meedtingDate!.substring(0,10),
+                    model[index].meedtingDate!.substring(0, 10),
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
@@ -229,7 +216,7 @@ class NotificationScreen extends StatelessWidget {
                   ),
                   mySizedBox(size: size, myHeight: 12),
                   Text(
-                    model[index].meedtingDate!.substring(12,16),
+                    model[index].meedtingDate!.substring(12, 16),
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!

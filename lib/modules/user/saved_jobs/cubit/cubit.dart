@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/models/user/user_get_applied_jobs_model.dart';
-import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/saved_jobs/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
@@ -37,7 +35,6 @@ class UserGetAppliedJobsCubit extends Cubit<UserGetAppliedJobsStates> {
         }
     }
       else{
-        print(error.toString());
         emit(UserGetAppliedJobsErrorState(error.toString()));
       }
     });

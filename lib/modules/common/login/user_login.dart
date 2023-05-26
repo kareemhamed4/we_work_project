@@ -100,9 +100,14 @@ class LoginUser extends StatelessWidget {
                       context: context,
                       controller: passwordController,
                       type: TextInputType.text,
-                      suffixIcon: const Icon(Icons.visibility_off_outlined),
+                      suffixIcon: IconButton(
+                        icon: Icon(cubit.suffixIcon),
+                        onPressed: () {
+                          cubit.changeLoginSuffixIcon();
+                        },
+                      ),
                       hint: "● ● ● ● ● ● ● ● ●",
-                      isPassword: true,
+                      isPassword: cubit.isPassword,
                       validate: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your password";

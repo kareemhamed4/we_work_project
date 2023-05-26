@@ -42,48 +42,23 @@ class LayoutCompanyCubit extends Cubit<LayoutCompanyStates> {
     emit(ChangeFloatingToggleCompanyState());
   }
 
-  String? meetingUrl;
-  Future<void> createZoomMeeting({
-    required String topic,
-    required String agenda,
-    required String date,
-    required String time,
-    required int duration,
-  }) async {
-    emit(CreateMeetingLoadingState());
-    DioHelper.postData(
-      url: CREATEZOOMMEETING,
-      baseUrl: BASEURL,
-      data: {
-        "id": "string",
-        "topic": topic,
-        "agenda": agenda,
-        "date": date,
-        "time": time,
-        "duration": duration,
-        "timeZone": "string",
-      },
-    ).then((value){
-      if(value.statusCode == 200){
-        meetingUrl = value.data.last;
-        emit(CreateMeetingSuccessState(meetingUrl!));
-      }
-    }).catchError((error){
-      emit(CreateMeetingErrorState(error.toString()));
-    });
+  Future<void> launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
   }
 
-  void launchZoomMeeting() async {
-    if (meetingUrl == null) {
-      throw 'Meeting URL is null or not assigned.';
-    }
-
-    final String url = meetingUrl!;
-
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      await launch(url);
+  Future<void> launchInWebViewOrVC(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(
+          headers: <String, String>{'my_header_key': 'my_header_value'}),
+    )) {
+      throw Exception('Could not launch $url');
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/models/company/company_get_all_users_model.dart';
 import 'package:we_work/modules/company/filter/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/cubit.dart';
@@ -130,10 +131,18 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: companyGetFilteredUsersModel.data!.length,
-                      itemBuilder: (context, index) => buildJobFilterationResultCard(
+                      itemBuilder: (context, index) =>
+                          buildJobFilterationResultCard(
                         context: context,
                         index: index,
                         model: companyGetFilteredUsersModel,
+                        filePath: cubit.companyGetFilteredUsersModel!.data![index]
+                                    .cvUrl !=
+                                null
+                            ? cubit.companyGetFilteredUsersModel!.data![index].cvUrl!
+                                .split('/')
+                                .last
+                            : "null",
                       ),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 10,
@@ -142,7 +151,8 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                   ),
                 if (companyGetFilteredUsersModel.data!.isEmpty)
                   const Center(
-                      child: Text("No available Users regard your filteration")),
+                      child:
+                          Text("No available Users regard your filteration")),
               ],
             ),
           ),
@@ -150,8 +160,10 @@ class CompanyFilteredResultScreen extends StatelessWidget {
       },
     );
   }
+
   Widget buildJobFilterationResultCard({
     required int index,
+    required String filePath,
     required BuildContext context,
     required CompanyGetAllUsersModel model,
   }) =>
@@ -192,8 +204,8 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                           CircleAvatar(
                             radius: 25,
                             backgroundColor: myFavColor3,
-                            backgroundImage: NetworkImage(
-                                model.data![index].pictureUrl!),
+                            backgroundImage:
+                                NetworkImage(model.data![index].pictureUrl!),
                           ),
                         if (model.data![index].pictureUrl == null)
                           CircleAvatar(
@@ -207,28 +219,31 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                         const SizedBox(
                           width: 16,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              model.data![index].displayName ?? "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                fontSize: 14,
-                                color: myFavColor7,
+                        SizedBox(
+                          width: 120,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                model.data![index].displayName ?? "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 14,
+                                      color: myFavColor7,
+                                    ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              model.data![index].bio ?? "",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                model.data![index].bio ?? "",
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -241,13 +256,29 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                         const SizedBox(
                           width: 8,
                         ),
-                        Text(
-                          "Show CV",
-                          style:
-                          Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontSize: 14,
-                            color: myFavColor,
-                            decoration: TextDecoration.underline,
+                        GestureDetector(
+                          onTap: () {
+                            final Uri toLaunch = Uri(
+                              scheme: 'http',
+                              host: 'mohamed2132-001-site1.ftempurl.com',
+                              path: "/Documentaion/$filePath",
+                            );
+                            filePath != "null"
+                                ? LayoutCompanyCubit.get(context)
+                                    .launchInBrowser(toLaunch)
+                                : buildErrorToast(
+                                    context: context,
+                                    title: "Oops!",
+                                    description: "No CV found!");
+                          },
+                          child: Text(
+                            "Show CV",
+                            style:
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      fontSize: 14,
+                                      color: myFavColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                           ),
                         )
                       ],
@@ -277,10 +308,10 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                           Text(
                             "${model.data![index].city ?? ""}, ${model.data![index].country ?? ""}",
                             style:
-                            Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontSize: 14,
-                              color: myFavColor7,
-                            ),
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      fontSize: 14,
+                                      color: myFavColor7,
+                                    ),
                           ),
                         ],
                       ),

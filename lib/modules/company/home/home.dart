@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/models/company/company_get_all_users_model.dart';
 import 'package:we_work/modules/company/company_jobs/company_jobs_screen.dart';
 import 'package:we_work/modules/company/filter/filter.dart';
@@ -100,12 +101,12 @@ class _CompanyHomeState extends State<CompanyHome> {
                   : const SizedBox.shrink(),
             ],
           ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: cubit.companyGetAllUsersModel != null
-                  ? Column(
+          body: cubit.companyGetAllUsersModel != null
+              ? SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
@@ -178,11 +179,19 @@ class _CompanyHomeState extends State<CompanyHome> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) =>
                                       buildCompanyHomeCard(
-                                          size: size,
-                                          context: context,
-                                          index: index,
-                                          model:
-                                              cubit.companyGetAllUsersModel!),
+                                        size: size,
+                                        context: context,
+                                        index: index,
+                                        model: cubit.companyGetAllUsersModel!,
+                                        filePath: cubit.companyGetAllUsersModel!
+                                                    .data![index].cvUrl !=
+                                                null
+                                            ? cubit.companyGetAllUsersModel!
+                                                .data![index].cvUrl!
+                                                .split('/')
+                                                .last
+                                            : "null",
+                                      ),
                                   separatorBuilder: (context, index) =>
                                       const SizedBox(
                                         height: 12,
@@ -197,10 +206,19 @@ class _CompanyHomeState extends State<CompanyHome> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) =>
                                 buildCompanyHomeCard(
-                                    size: size,
-                                    context: context,
-                                    index: index,
-                                    model: cubit.companyGetAllUsersModel!),
+                              size: size,
+                              context: context,
+                              index: index,
+                              model: cubit.companyGetAllUsersModel!,
+                              filePath: cubit.companyGetAllUsersModel!
+                                          .data![index].cvUrl !=
+                                      null
+                                  ? cubit.companyGetAllUsersModel!.data![index]
+                                      .cvUrl!
+                                      .split('/')
+                                      .last
+                                  : "null",
+                            ),
                             separatorBuilder: (context, index) =>
                                 const SizedBox(
                               height: 12,
@@ -212,13 +230,13 @@ class _CompanyHomeState extends State<CompanyHome> {
                           height: size.height * 20 / size.height,
                         ),
                       ],
-                    )
-                  : Center(
-                      child: CircularProgressIndicator(
-                      color: myFavColor,
-                    )),
-            ),
-          ),
+                    ),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                  color: myFavColor,
+                )),
         );
       },
     );
@@ -227,6 +245,7 @@ class _CompanyHomeState extends State<CompanyHome> {
   Widget buildCompanyHomeCard({
     required Size size,
     required int index,
+    required String filePath,
     required BuildContext context,
     required CompanyGetAllUsersModel model,
   }) =>
@@ -267,8 +286,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                           CircleAvatar(
                             radius: 25,
                             backgroundColor: myFavColor3,
-                            backgroundImage: NetworkImage(
-                                model.data![index].pictureUrl!),
+                            backgroundImage:
+                                NetworkImage(model.data![index].pictureUrl!),
                           ),
                         if (model.data![index].pictureUrl == null)
                           CircleAvatar(
@@ -282,28 +301,31 @@ class _CompanyHomeState extends State<CompanyHome> {
                         const SizedBox(
                           width: 16,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              model.data![index].displayName ?? "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                    fontSize: 14,
-                                    color: myFavColor7,
-                                  ),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              model.data![index].bio ?? "",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                          ],
+                        SizedBox(
+                          width: 120,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                model.data![index].displayName ?? "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 14,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                model.data![index].bio ?? "",
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -316,14 +338,30 @@ class _CompanyHomeState extends State<CompanyHome> {
                         const SizedBox(
                           width: 8,
                         ),
-                        Text(
-                          "Show CV",
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    fontSize: 14,
-                                    color: myFavColor,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                        GestureDetector(
+                          onTap: () {
+                            final Uri toLaunch = Uri(
+                              scheme: 'http',
+                              host: 'mohamed2132-001-site1.ftempurl.com',
+                              path: "/Documentaion/$filePath",
+                            );
+                            filePath != "null"
+                                ? LayoutCompanyCubit.get(context)
+                                    .launchInBrowser(toLaunch)
+                                : buildErrorToast(
+                                    context: context,
+                                    title: "Oops!",
+                                    description: "No CV found!");
+                          },
+                          child: Text(
+                            "Show CV",
+                            style:
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      fontSize: 14,
+                                      color: myFavColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                          ),
                         )
                       ],
                     ),

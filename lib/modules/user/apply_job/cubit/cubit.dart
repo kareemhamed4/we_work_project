@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/modules/user/apply_job/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
@@ -30,7 +31,7 @@ class UserApplyJobCubit extends Cubit<UserApplyJobStates> {
     }
   }
 
-  void deleteSelectedPdf(){
+  void deleteSelectedPdf() {
     filePath = null;
     fileName = null;
     result = null;
@@ -40,7 +41,7 @@ class UserApplyJobCubit extends Cubit<UserApplyJobStates> {
   Future<void> applyToJob({
     required int jobId,
     required String message,
-}) async {
+  }) async {
     emit(UserApplyJobLoadingState());
     if (filePath!.isEmpty) {
       emit(UserApplyJobErrorState("Please choose PDF file"));
@@ -65,59 +66,43 @@ class UserApplyJobCubit extends Cubit<UserApplyJobStates> {
           emit(UserApplyJobSuccessState(responseData));
         }
       } else {
-        emit(UserApplyJobErrorState("Error while uploading your offer, try again!"));
+        emit(UserApplyJobErrorState(
+            "Error while uploading your offer, try again!"));
       }
     } catch (e) {
-      emit(UserApplyJobErrorState("Error while uploading your offer, try again!"));
+      emit(UserApplyJobErrorState(
+          "Error while uploading your offer, try again!"));
     }
   }
 
-/*  Future userApplyToJobNew({
-    required int jobId,
-    required String message,
-  }) async {
-    if (result != null) {
-      emit(UserApplyJobLoadingState());
-      if (!file!.existsSync()) {
-        emit(UserApplyJobErrorState('File not found'));
-        return;
-      }
-      FormData formData = FormData();
-      formData.files.add(MapEntry(
-        'file',
-        MultipartFile.fromFileSync(file!.path),
-      ));
-
-      DioHelper.postData(
-        url: "$USERAPPLYTOJOB$jobId",
-        baseUrl: BASEURL,
-        token: userToken,
-        data: formData,
-        contentType: "multipart/form-data",
-        query: {
-          "message": message,
-        },
-      ).then((value) {
-        final responseData = value.data.toString();
-        if (responseData == 'you Applyed for this job before') {
-          emit(UserApplyJobErrorState('you Applyed for this job before'));
-        } else {
-          emit(UserApplyJobSuccessState(responseData));
-        }
-      }).catchError((error) {
-        if (error is DioError) {
-          if (error.response?.statusCode == 400) {
-            final responseData = error.response?.data;
-            emit(UserApplyJobErrorState(responseData));
-          } else {
-            print(error.toString());
-            emit(UserApplyJobErrorState(error.toString()));
-          }
-        } else {
-          print(error.toString());
-          emit(UserApplyJobErrorState(error.toString()));
-        }
-      });
+  Future<void> uploadCVOnly() async {
+    await chooseCVFile();
+    if (filePath!.isEmpty) {
+      emit(UserUploadCVErrorState("Please choose PDF file"));
+      return;
     }
-  }*/
+    emit(UserUploadCVLoadingState());
+    try {
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(filePath!),
+      });
+      final response = await DioHelper.postData(
+        url: USERUPLOADCVONLY,
+        baseUrl: BASEURL,
+        data: formData,
+        token: userToken,
+        contentType: 'multipart/form-data; boundary=${formData.boundary}',
+      );
+      if (response.statusCode == 200) {
+        final responseData = response.data.toString();
+        emit(UserUploadCVSuccessState(responseData));
+      } else {
+        final responseData = response.data.toString();
+        emit(UserUploadCVErrorState(responseData));
+      }
+    } catch (e) {
+      emit(UserUploadCVErrorState(
+          "Error while uploading your offer, try again!"));
+    }
+  }
 }

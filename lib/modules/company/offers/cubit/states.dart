@@ -34,12 +34,22 @@ class CompanyDeleteSentOfferErrorState extends CompanyOffersStates {
   CompanyDeleteSentOfferErrorState(this.error);
 }
 
-class CompanyDeleteFreeLanceOfferLoadingState extends CompanyOffersStates {}
-class CompanyDeleteFreeLanceOfferSuccessState extends CompanyOffersStates {
+class CompanyAcceptFreeLanceOfferLoadingState extends CompanyOffersStates {}
+class CompanyAcceptFreeLanceOfferSuccessState extends CompanyOffersStates {
   final String msg;
-  CompanyDeleteFreeLanceOfferSuccessState(this.msg);
+  CompanyAcceptFreeLanceOfferSuccessState(this.msg);
 }
-class CompanyDeleteFreeLanceOfferErrorState extends CompanyOffersStates {
+class CompanyAcceptFreeLanceOfferErrorState extends CompanyOffersStates {
   final String error;
-  CompanyDeleteFreeLanceOfferErrorState(this.error);
+  CompanyAcceptFreeLanceOfferErrorState(this.error);
+}
+
+class CreateMeetingLoadingState extends CompanyOffersStates {}
+class CreateMeetingSuccessState extends CompanyOffersStates {
+  final String meetingUrl;
+  CreateMeetingSuccessState(this.meetingUrl);
+}
+class CreateMeetingErrorState extends CompanyOffersStates {
+  final String error;
+  CreateMeetingErrorState(this.error);
 }
