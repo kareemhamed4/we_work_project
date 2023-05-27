@@ -1,27 +1,32 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/modules/company/add_job/cubit/cubit.dart';
 import 'package:we_work/modules/company/add_job/cubit/states.dart';
+import 'package:we_work/modules/company/company_jobs/company_jobs_screen.dart';
+import 'package:we_work/modules/company/home/cubit/cubit.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
-//ignore: must_be_immutable
-class AddJobScreen extends StatelessWidget {
-  AddJobScreen({super.key});
+class AddJobScreen extends StatefulWidget {
+  const AddJobScreen({super.key});
+
+  @override
+  State<AddJobScreen> createState() => _AddJobScreenState();
+}
+
+class _AddJobScreenState extends State<AddJobScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController positionController = TextEditingController();
-  TextEditingController jobTypeController = TextEditingController();
   TextEditingController requirementsController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController skillsController = TextEditingController();
   TextEditingController salaryController = TextEditingController();
-  TextEditingController workPlaceController = TextEditingController();
-  TextEditingController experienceController = TextEditingController();
-  TextEditingController disabledJobController = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -30,8 +35,10 @@ class AddJobScreen extends StatelessWidget {
     return BlocConsumer<CompanyAddJobCubit,CompanyAddJobStates>(
       listener: (context,state){
         if(state is CompanyAddJobSuccessState){
+          CompanyHomeCubit.get(context).companyGetHerJobs();
           Navigator.pop(context);
           Navigator.pop(context);
+          NavigateTo(context: context, widget: const CompanyJobsScreen());
           LayoutCompanyCubit.get(context).changeToggle();
           buildSuccessToast(
               context: context,
@@ -115,54 +122,6 @@ class AddJobScreen extends StatelessWidget {
                       validate: (value) {
                         if (value!.isEmpty) {
                           return "Please enter job description";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'position',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: positionController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter job position";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Job Type',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: jobTypeController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter job type";
                         }
                         return null;
                       },
@@ -267,30 +226,6 @@ class AddJobScreen extends StatelessWidget {
                       height: size.height * 20 / size.height,
                     ),
                     Text(
-                      'Experience',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: experienceController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter job Experience";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
                       'Salary',
                       style: Theme.of(context)
                           .textTheme
@@ -315,6 +250,93 @@ class AddJobScreen extends StatelessWidget {
                       height: size.height * 20 / size.height,
                     ),
                     Text(
+                      'Position',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: 14),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CupertinoRadioChoice(
+                      selectedColor: myFavColor,
+                      notSelectedColor: myFavColor7,
+                      choices: const {
+                        'All': 'All',
+                        'Senior': 'Senior',
+                        'junior': 'junior',
+                        'manager': 'manager',
+                        'Leader': 'Leader'
+                      },
+                      onChange: (String selectedGender) {
+                        setState(() {
+                          cubit.selectedPosition = selectedGender;
+                        });
+                      },
+                      initialKeyValue: 'All',
+                    ),
+                    SizedBox(
+                      height: size.height * 20 / size.height,
+                    ),
+                    Text(
+                      'Job Type',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: 14),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CupertinoRadioChoice(
+                      selectedColor: myFavColor,
+                      notSelectedColor: myFavColor7,
+                      choices: const {
+                        'All': 'All',
+                        'Full time': 'Full time',
+                        'Part time': 'part time',
+                        'Internship': 'Internship',
+                        'Project based': 'Project based'
+                      },
+                      onChange: (String selectedGender) {
+                        setState(() {
+                          cubit.selectedJobType = selectedGender;
+                        });
+                      },
+                      initialKeyValue: 'All',
+                    ),
+                    SizedBox(
+                      height: size.height * 20 / size.height,
+                    ),
+                    Text(
+                      'Experience',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: 14),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    RadioGroup<String>.builder(
+                      fillColor: myFavColor,
+                      activeColor: myFavColor,
+                      groupValue: cubit.selectedExperience,
+                      onChanged: (value) => setState(
+                            () {
+                          cubit.selectedExperience = value!;
+                        },
+                      ),
+                      items: cubit.experienceList,
+                      itemBuilder: (item) => RadioButtonBuilder(
+                        item,
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 20 / size.height,
+                    ),
+                    Text(
                       'Work place',
                       style: Theme.of(context)
                           .textTheme
@@ -324,16 +346,16 @@ class AddJobScreen extends StatelessWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    myTextFormField(
-                      context: context,
-                      controller: workPlaceController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter job work place";
-                        }
-                        return null;
-                      },
+                    RadioGroup<String>.builder(
+                      fillColor: const Color(0xff649344),
+                      groupValue: cubit.selectedWorkPlace,
+                      onChanged: (value) => setState(() {
+                        cubit.selectedWorkPlace = value!;
+                      }),
+                      items: cubit.workPlaceList,
+                      itemBuilder: (item) => RadioButtonBuilder(
+                        item,
+                      ),
                     ),
                     SizedBox(
                       height: size.height * 20 / size.height,
@@ -348,16 +370,19 @@ class AddJobScreen extends StatelessWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    myTextFormField(
-                      context: context,
-                      controller: disabledJobController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter disabledJob";
-                        }
-                        return null;
-                      },
+                    RadioGroup<String>.builder(
+                      fillColor: myFavColor,
+                      activeColor: myFavColor,
+                      groupValue: cubit.selectedDisabledJobs,
+                      onChanged: (value) => setState(
+                            () {
+                          cubit.selectedDisabledJobs = value!;
+                        },
+                      ),
+                      items: cubit.disabledJobsList,
+                      itemBuilder: (item) => RadioButtonBuilder(
+                        item,
+                      ),
                     ),
                     SizedBox(
                       height: size.height * 20 / size.height,
@@ -371,16 +396,16 @@ class AddJobScreen extends StatelessWidget {
                             cubit.companyAddJob(
                                 title: titleController.text,
                                 description: descriptionController.text,
-                                position: positionController.text,
-                                jobType: jobTypeController.text,
+                                position: cubit.selectedPosition != "All" ? cubit.selectedPosition : "",
+                                jobType: cubit.selectedJobType != "All" ? cubit.selectedJobType : "",
                                 requirement: requirementsController.text,
                                 salary: salaryController.text,
                                 city: cityController.text,
                                 country: countryController.text,
-                                experience: experienceController.text,
+                                experience: cubit.selectedExperience != "All" ? cubit.selectedExperience : "",
                                 skill: skillsController.text,
-                                workPlace: workPlaceController.text,
-                                disabledJob: disabledJobController.text,
+                                workPlace: cubit.selectedWorkPlace != "All" ? cubit.selectedWorkPlace : "",
+                                disabledJob: cubit.selectedDisabledJobs != "none" ? cubit.selectedDisabledJobs : "",
                             );
                           }
                         },

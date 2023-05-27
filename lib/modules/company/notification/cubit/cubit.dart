@@ -98,4 +98,32 @@ class CompanyGetUsersWhoAppliedCubit extends Cubit<CompanyGetUsersWhoAppliedStat
       }
     });
   }
+
+  CompanyGetAllUsersApplied? companyGetUserApplied;
+  Future<void> companyGetUserWhoApplied({
+    required int id,
+  }) async {
+    emit(CompanyGetUserAppliedLoadingState());
+    try {
+      final response = await DioHelper.getData(
+        url: "$COMPANYGETUSERWHOAPPLIED$id",
+        baseUrl: BASEURL,
+        token: companyToken,
+      );
+      companyGetUserApplied = CompanyGetAllUsersApplied.fromJson(response.data);
+      emit(CompanyGetUserAppliedSuccessState(companyGetUserApplied!));
+    } catch (error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final responseData = error.response?.data;
+          final errorMessage = responseData["title"];
+          emit(CompanyGetUserAppliedErrorState(errorMessage));
+        } else {
+          emit(CompanyGetUserAppliedErrorState(error.toString()));
+        }
+      } else {
+        emit(CompanyGetUserAppliedErrorState(error.toString()));
+      }
+    }
+  }
 }

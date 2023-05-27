@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
-import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/user/apply_job/cubit/cubit.dart';
 import 'package:we_work/modules/user/apply_job/cubit/states.dart';
 import 'package:we_work/modules/user/edit_profile/edit_profile_screen.dart';
@@ -537,7 +537,7 @@ class _MyProfileState extends State<MyProfile> {
                             CacheHelper.removeData(key: "userToken");
                             NavigateToReb(
                               context: context,
-                              widget: const ChooseRegister(),
+                              widget: LoginUser(),
                             );
                           },
                           child: Container(

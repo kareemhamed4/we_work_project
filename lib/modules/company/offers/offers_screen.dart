@@ -1,6 +1,8 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:rate/rate.dart';
 import 'package:we_work/models/company/company_get_freelance_offers.dart';
 import 'package:we_work/models/company/company_get_sent_offers_model.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
@@ -29,6 +31,25 @@ class CompanyOffersScreen extends StatelessWidget {
             title: "Oops",
             context: context,
             description: "Applicant Deleted Failed!",
+          );
+        }
+        if (state is CompanyRateUserLoadingState) {
+          showProgressIndicator(context);
+        }
+        if (state is CompanyRateUserSuccessState) {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          buildSuccessToast(
+            title: "Done",
+            context: context,
+            description: state.msg,
+          );
+        }
+        if (state is CompanyRateUserErrorState) {
+          buildSuccessToast(
+            title: "Oops",
+            context: context,
+            description: state.error,
           );
         }
       },
@@ -103,7 +124,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                 size: size,
                                 context: context,
                                 index: index,
-                                model: cubit.companyGetFreelanceOffersModel!),
+                                model: cubit.companyGetFreelanceOffersModel!,
+                                cubit: cubit,
+                                state: state),
                         separatorBuilder: (context, index) => const SizedBox(
                           height: 23,
                         ),
@@ -294,12 +317,19 @@ class CompanyOffersScreen extends StatelessWidget {
     required BuildContext context,
     required int index,
     required List<CompanyGetFreelanceOffersModel> model,
+    required CompanyOffersCubit cubit,
+    required CompanyOffersStates state,
   }) =>
       Slidable(
         startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              NavigateTo(context: context, widget: SendAcceptScreen(userId: model[index].userId!));
+              NavigateTo(
+                  context: context,
+                  widget: SendAcceptScreen(
+                    userId: model[index].userId!,
+                    isFreelance: true,
+                  ));
             }),
             backgroundColor: myFavColor.withOpacity(0.7),
             icon: Icons.check,
@@ -308,10 +338,17 @@ class CompanyOffersScreen extends StatelessWidget {
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              NavigateTo(context: context, widget: SendAcceptScreen(userId: model[index].userId!));
+              buildRatingDialog(
+                  context: context,
+                  size: size,
+                  cubit: cubit,
+                  index: index,
+                  model: model,
+                  state: state);
             }),
-            backgroundColor: myFavColor.withOpacity(0.7),
-            icon: Icons.check,
+            icon: Icons.star_rate_outlined,
+            foregroundColor: const Color(0xFFFFAA01),
+            label: "Rate",
           ),
         ]),
         child: Container(
@@ -549,4 +586,89 @@ class CompanyOffersScreen extends StatelessWidget {
           ),
         ),
       );
+
+  void buildRatingDialog({
+    required BuildContext context,
+    required Size size,
+    required CompanyOffersCubit cubit,
+    required List<CompanyGetFreelanceOffersModel> model,
+    required int index,
+    required CompanyOffersStates state,
+  }) {
+    showDialog<String>(
+      context: context,
+      builder: (dialogContext) => Center(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Container(
+            width: size.width - 60,
+            decoration: BoxDecoration(
+              color: myFavColor5,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: Column(
+                children: [
+                  Text("Choose rate",
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelLarge!
+                          .copyWith(color: myFavColor6, fontSize: 20)),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Rate(
+                    iconSize: 40,
+                    color: const Color(0xFFFFAA01),
+                    allowHalf: true,
+                    allowClear: true,
+                    initialValue: cubit.rate,
+                    readOnly: false,
+                    onChange: (value) {
+                      cubit.rate = value;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  ConditionalBuilder(
+                    condition: state is! CompanyRateUserLoadingState,
+                    builder: (context) => myMaterialButton(
+                      context: context,
+                      onPressed: () {
+                        cubit.companyRateUser(
+                            userId: model[index].userId!, rate: cubit.rate.toInt());
+                      },
+                      labelWidget: Text("Submit",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(color: myFavColor5, fontSize: 20)),
+                    ),
+                    fallback: (context) => myMaterialButton(
+                      context: context,
+                      onPressed: () {
+                        null;
+                      },
+                      labelWidget: const Center(
+                        child: SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

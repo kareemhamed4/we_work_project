@@ -10,6 +10,34 @@ class CompanyAddJobCubit extends Cubit<CompanyAddJobStates> {
 
   static CompanyAddJobCubit get(context) => BlocProvider.of(context);
 
+  String selectedJobType = "All";
+  String selectedPosition = "All";
+
+  String selectedExperience = "All";
+  List<String> experienceList = [
+    "All",
+    "No Experience",
+    "less than year",
+    "1 year",
+    "2-3 year",
+    "more than 10 years"
+  ];
+
+  String selectedWorkPlace = "All";
+  List<String> workPlaceList = [
+    "All",
+    "onSite",
+    "Remotely",
+  ];
+
+  String selectedDisabledJobs = "none";
+  List<String> disabledJobsList = [
+    "none",
+    "Hearing impairment",
+    "Visual impairment",
+    "Physical/mobility impairment",
+    "Speech impairment",
+  ];
   void companyAddJob({
     required String title,
     required String description,
@@ -22,7 +50,7 @@ class CompanyAddJobCubit extends Cubit<CompanyAddJobStates> {
     required String experience,
     required String skill,
     required String workPlace,
-    required String disabledJob,
+    String? disabledJob,
 }) {
     emit(CompanyAddJobLoadingState());
     DioHelper.postData(
@@ -41,7 +69,7 @@ class CompanyAddJobCubit extends Cubit<CompanyAddJobStates> {
         "Experience": experience,
         "Skill": skill,
         "WorkPlace": workPlace,
-        "disabledJob": disabledJob,
+        "disabledJob": disabledJob ?? "",
       }
     ).then((value){
       emit(CompanyAddJobSuccessState(value.data.toString()));

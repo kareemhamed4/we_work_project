@@ -33,3 +33,13 @@ class CompanyDeleteSentAcceptedOfferErrorState extends CompanyGetUsersWhoApplied
   final String error;
   CompanyDeleteSentAcceptedOfferErrorState(this.error);
 }
+
+class CompanyGetUserAppliedLoadingState extends CompanyGetUsersWhoAppliedStates {}
+class CompanyGetUserAppliedSuccessState extends CompanyGetUsersWhoAppliedStates {
+  final CompanyGetAllUsersApplied companyGetAllUsersApplied;
+  CompanyGetUserAppliedSuccessState(this.companyGetAllUsersApplied);
+}
+class CompanyGetUserAppliedErrorState extends CompanyGetUsersWhoAppliedStates {
+  final String error;
+  CompanyGetUserAppliedErrorState(this.error);
+}

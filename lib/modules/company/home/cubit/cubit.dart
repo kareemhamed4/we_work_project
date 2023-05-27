@@ -144,4 +144,35 @@ class CompanyHomeCubit extends Cubit<CompanyHomeStates> {
       }
     }
   }
+
+  CompanyGetAllUsersModel? companyGetSearchedUsersModel;
+  void companyGetSearchedUsers({
+    required String search,
+  }) async {
+    emit(CompanyGetSearchedUsersLoadingState());
+    try {
+      final response = await DioHelper.getData(
+        url: COMPANYGETALLUSERS,
+        baseUrl: BASEURL,
+        token: companyToken,
+        query: {
+          "search": search,
+        },
+      );
+      companyGetSearchedUsersModel = CompanyGetAllUsersModel.fromJson(response.data);
+      emit(CompanyGetSearchedUsersSuccessState(companyGetSearchedUsersModel!));
+    } catch (error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 400) {
+          final responseData = error.response?.data;
+          final errorMessage = responseData["errors"]["Search"][0];
+          emit(CompanyGetSearchedUsersErrorState(errorMessage));
+        } else {
+          emit(CompanyGetSearchedUsersErrorState(error.toString()));
+        }
+      } else {
+        emit(CompanyGetSearchedUsersErrorState(error.toString()));
+      }
+    }
+  }
 }

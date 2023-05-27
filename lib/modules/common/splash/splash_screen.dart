@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/common/onboarding/onboarding-screen.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -23,7 +24,7 @@ class SplashScreen extends StatelessWidget {
           ? isCompany
               ? const LayoutCompanyScreen()
               : const LayoutScreen()
-          : const ChooseRegister(),
+          : LoginUser(),
       splash: Stack(
         alignment: Alignment.bottomCenter,
         children: [

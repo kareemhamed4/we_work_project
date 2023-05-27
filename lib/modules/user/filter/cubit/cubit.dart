@@ -38,6 +38,15 @@ class UserFilterJobsCubit extends Cubit<UserFilterJobsStates> {
     "Alex"
   ];
 
+  String selectedDisabledJobs = "none";
+  List<String> disabledJobsList = [
+    "none",
+    "Hearing impairment",
+    "Visual impairment",
+    "Physical/mobility impairment",
+    "Speech impairment",
+  ];
+
   SfRangeValues valuesOfPrice = const SfRangeValues(0, 30000);
 
   dynamic selectedMinSalary = 0;

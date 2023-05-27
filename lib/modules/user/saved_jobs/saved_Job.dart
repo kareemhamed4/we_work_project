@@ -116,136 +116,127 @@ class SavedJob extends StatelessWidget {
             icon: Icons.delete_outline,
           ),
         ]),
-        child: GestureDetector(
-          onTap: () {
-            NavigateTo(
-                context: context,
-                widget: ApplicateDetailsForGoogle(
-                  userGetAppliedJobsModel: model[index],
-                ));
-          },
-          child: Container(
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                    color: myFavColor6.withAlpha(20),
-                    spreadRadius: 2,
-                    blurRadius: 7,
-                    offset: const Offset(0, 0)),
-              ],
-            ),
-            child: Card(
-              margin: EdgeInsets.zero,
-              elevation: 0,
-              color: myFavColor5,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16),
-                ),
+        child: Container(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                  color: myFavColor6.withAlpha(20),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0)),
+            ],
+          ),
+          child: Card(
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            color: myFavColor5,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(16),
               ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 27),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (model[index].piCtrueUrl != null)
-                          CircleAvatar(
-                            radius: 25,
-                            backgroundColor: myFavColor3,
-                            backgroundImage:
-                                NetworkImage(model[index].piCtrueUrl!),
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 27),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (model[index].piCtrueUrl != null)
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundColor: myFavColor3,
+                          backgroundImage:
+                              NetworkImage(model[index].piCtrueUrl!),
+                        ),
+                      if (model[index].piCtrueUrl == null)
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundColor: myFavColor3,
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            color: myFavColor4,
                           ),
-                        if (model[index].piCtrueUrl == null)
-                          CircleAvatar(
-                            radius: 25,
-                            backgroundColor: myFavColor3,
-                            child: Icon(
-                              Icons.image_not_supported_outlined,
-                              color: myFavColor4,
-                            ),
+                        ),
+                      const SizedBox(
+                        width: 26,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            model[index].name ?? "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
+                                  fontSize: 14,
+                                  color: myFavColor7,
+                                ),
                           ),
-                        const SizedBox(
-                          width: 26,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              model[index].name ?? "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                    fontSize: 14,
-                                    color: myFavColor7,
-                                  ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              model[index].title ?? "",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      model[index].message ?? "",
-                      style: Theme.of(context).textTheme.caption!.copyWith(
-                            fontSize: 16,
-                            color: myFavColor7,
+                          const SizedBox(
+                            height: 8,
                           ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(Icons.calendar_month_outlined),
-                            const SizedBox(
-                              width: 11,
+                          Text(
+                            model[index].title ?? "",
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    model[index].message ?? "",
+                    style: Theme.of(context).textTheme.caption!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor7,
+                        ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_month_outlined),
+                          const SizedBox(
+                            width: 11,
+                          ),
+                          Text(
+                            model[index].dateApplied != null
+                                ? model[index].dateApplied!.substring(0, 10)
+                                : "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
+                                  fontSize: 14,
+                                  color: myFavColor7,
+                                ),
+                          )
+                        ],
+                      ),
+                      Text(
+                        "Job Id:${model[index].jobid ?? ""}",
+                        style: Theme.of(context).textTheme.caption!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor.withOpacity(0.8),
                             ),
-                            Text(
-                              model[index].dateApplied != null
-                                  ? model[index].dateApplied!.substring(0, 10)
-                                  : "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                    fontSize: 14,
-                                    color: myFavColor7,
-                                  ),
-                            )
-                          ],
-                        ),
-                        Text(
-                          "Job Id:${model[index].jobid ?? ""}",
-                          style: Theme.of(context).textTheme.caption!.copyWith(
-                                fontSize: 16,
-                                color: myFavColor.withOpacity(0.8),
-                              ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

@@ -1,8 +1,11 @@
+import 'dart:math';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:we_work/layout_company/cubit/cubit.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
 import 'package:we_work/modules/user/filter/filter.dart';
@@ -12,7 +15,6 @@ import 'package:we_work/modules/user/home/cubit/states.dart';
 import 'package:we_work/modules/user/job_details/job_details.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
-import 'package:we_work/test/cubit/cubit.dart';
 
 //ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -24,6 +26,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
+  var hasSpeech = false;
+  SpeechToText speech = SpeechToText();
+  double level = 0.0;
+  double minSoundLevel = 50000;
+  double maxSoundLevel = -50000;
+  bool logEvents = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,27 +91,22 @@ class _HomeState extends State<Home> {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
-                      child: GestureDetector(
-                        onTap: () {
-                          CVCubit.get(context).chooseCVFile();
-                        },
-                        child: Container(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: myFavColor7,
-                                blurRadius: 2, // adjust the blur radius here
-                              ),
-                            ],
-                          ),
-                          child: Image.asset(
-                            "assets/image/Frame 34.png",
-                          ),
+                      child: Container(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: myFavColor7,
+                              blurRadius: 2, // adjust the blur radius here
+                            ),
+                          ],
+                        ),
+                        child: Image.asset(
+                          "assets/image/Frame 34.png",
                         ),
                       ),
                     )
@@ -116,9 +119,56 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+                  padding: const EdgeInsets.only(right: 16),
                   child: Row(
                     children: [
+                      AvatarGlow(
+                        endRadius: 35,
+                        animate: hasSpeech,
+                        duration: const Duration(milliseconds: 2000),
+                        glowColor: myFavColor8,
+                        repeatPauseDuration: const Duration(milliseconds: 100),
+                        showTwoGlows: true,
+                        child: GestureDetector(
+                          onTapDown: (details) async {
+                            if (!hasSpeech) {
+                              var available = await speech.initialize();
+                              if (available) {
+                                setState(() {
+                                  hasSpeech = true;
+                                  speech.listen(
+                                    onResult: resultListener,
+                                    listenFor: const Duration(seconds: 60),
+                                    pauseFor: const Duration(seconds: 3),
+                                    partialResults: true,
+                                    onSoundLevelChange: soundLevelListener,
+                                    cancelOnError: true,
+                                    listenMode: ListenMode.confirmation,
+                                    localeId: "en_001",
+                                  );
+                                });
+                              }
+                            }
+                          },
+                          onTapUp: (details) async {
+                            setState(() {
+                              hasSpeech = false;
+                            });
+                            await speech.stop();
+                            setState(() {
+                              level = 0;
+                            });
+                          },
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: myFavColor,
+                            child: Icon(
+                              hasSpeech ? Icons.mic : Icons.mic_none,
+                              color: myFavColor5,
+                            ),
+                          ),
+                        ),
+                      ),
                       Expanded(
                         child: myTextFormField(
                           controller: searchController,
@@ -128,6 +178,7 @@ class _HomeState extends State<Home> {
                                 searchController.text = value;
                               }
                             });
+                            cubit.userGetSearchedJobs(search: searchController.text);
                           },
                           context: context,
                           hint: "Search",
@@ -361,7 +412,8 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 if (searchController.text.isNotEmpty)
-                  Padding(
+                  if(cubit.userGetSearchedJobsModel != null)
+                    Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: ListView.separated(
                       shrinkWrap: true,
@@ -370,14 +422,17 @@ class _HomeState extends State<Home> {
                         context: context,
                         size: size,
                         index: index,
-                        model: cubit.userGetAllJobsModel!,
+                        model: cubit.userGetSearchedJobsModel!,
                       ),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 16,
                       ),
-                      itemCount: 3,
+                      itemCount: cubit.userGetSearchedJobsModel!.count!,
                     ),
-                  )
+                  ),
+                if(searchController.text.isNotEmpty)
+                  if(cubit.userGetSearchedJobsModel == null)
+                    Center(child: CircularProgressIndicator(color: myFavColor,)),
               ],
             ),
           ),
@@ -660,4 +715,29 @@ class _HomeState extends State<Home> {
           ),
         ),
       );
+
+  void soundLevelListener(double level) {
+    minSoundLevel = min(minSoundLevel, level);
+    maxSoundLevel = max(maxSoundLevel, level);
+    // _logEvent('sound level $level: $minSoundLevel - $maxSoundLevel ');
+    setState(() {
+      this.level = level;
+    });
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    _logEvent(
+        'Result listener final: ${result.finalResult}, words: ${result.recognizedWords}');
+    setState(() {
+      searchController.text = result.recognizedWords;
+    });
+    UserHomeCubit.get(context).userGetSearchedJobs(search: searchController.text);
+  }
+
+  void _logEvent(String eventDescription) {
+    if (logEvents) {
+      var eventTime = DateTime.now().toIso8601String();
+      debugPrint('$eventTime $eventDescription');
+    }
+  }
 }

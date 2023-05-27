@@ -17,6 +17,7 @@ class CompanyGetAllUsersModel {
 
 class Data {
   String? id;
+  double? averageRate;
   String? bio;
   String? pictureUrl;
   String? cvUrl;
@@ -28,6 +29,7 @@ class Data {
   Data(
       {this.id,
         this.bio,
+        this.averageRate,
         this.pictureUrl,
         this.cvUrl,
         this.displayName,
@@ -38,6 +40,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     bio = json['bio'];
+    averageRate = json['averageRate'];
     pictureUrl = json['pictureUrl'];
     cvUrl = json['cvUrl'];
     displayName = json['displayName'];

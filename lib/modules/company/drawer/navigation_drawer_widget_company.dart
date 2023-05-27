@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/company/profile/cubit/cubit.dart';
 import 'package:we_work/modules/company/profile/cubit/states.dart';
+import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -22,90 +22,95 @@ class _NavigationDrawerWidgetCompanyState
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocConsumer<CompanyProfileCubit,CompanyProfileStates>(
       listener: (context,state){},
       builder: (context,state){
         CompanyProfileCubit cubit = BlocProvider.of(context);
-        return Material(
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 80,),
-              if (cubit.companyProfileModel != null &&
-                  cubit.companyProfileModel!.profilePictureUrl != null)
-                CircleAvatar(
-                  radius: 35,
-                  backgroundImage: NetworkImage(
-                      cubit.companyProfileModel!.profilePictureUrl!),
+        return SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            height: size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 50,),
+                if (cubit.companyProfileModel != null &&
+                    cubit.companyProfileModel!.profilePictureUrl != null)
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundImage: NetworkImage(
+                        cubit.companyProfileModel!.profilePictureUrl!),
+                  ),
+                if (cubit.companyProfileModel != null && cubit.companyProfileModel!.profilePictureUrl == null)
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundColor: myFavColor3,
+                    child: Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          color: myFavColor4,
+                        )),
+                  ),
+                if (cubit.companyProfileModel == null)
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundColor: myFavColor3,
+                    child: Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          color: myFavColor4,
+                        )),
+                  ),
+                const SizedBox(height: 30,),
+                Container(
+                  padding: padding,
+                  child: Column(
+                    children: [
+                      buildMenuItem(
+                        isChecked: true,
+                        text: 'Name',
+                        icon: FontAwesomeIcons.fileSignature,
+                        onClicked: () => selectedItem(context, 0),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'Location',
+                        icon: FontAwesomeIcons.locationDot,
+                        onClicked: () => selectedItem(context, 2),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'Email',
+                        icon: FontAwesomeIcons.envelope,
+                        onClicked: () => selectedItem(context, 5),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'BIO',
+                        icon: FontAwesomeIcons.infoCircle,
+                        onClicked: () => selectedItem(context, 3),
+                      ),
+                      const SizedBox(height: 50),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'Logout',
+                        iconColor: Colors.red,
+                        textColor: Colors.red,
+                        icon: FontAwesomeIcons.powerOff,
+                        onClicked: (){
+                          CacheHelper.removeData(key: "companyToken");
+                          NavigateToReb(
+                            context: context,
+                            widget: LoginUser(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              if (cubit.companyProfileModel != null && cubit.companyProfileModel!.profilePictureUrl == null)
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: myFavColor3,
-                  child: Center(
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        color: myFavColor4,
-                      )),
-                ),
-              if (cubit.companyProfileModel == null)
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: myFavColor3,
-                  child: Center(
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        color: myFavColor4,
-                      )),
-                ),
-              const SizedBox(height: 30,),
-              Container(
-                padding: padding,
-                child: Column(
-                  children: [
-                    buildMenuItem(
-                      isChecked: true,
-                      text: 'Name',
-                      icon: FontAwesomeIcons.fileSignature,
-                      onClicked: () => selectedItem(context, 0),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'Location',
-                      icon: FontAwesomeIcons.locationDot,
-                      onClicked: () => selectedItem(context, 2),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'Email',
-                      icon: FontAwesomeIcons.envelope,
-                      onClicked: () => selectedItem(context, 5),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'BIO',
-                      icon: FontAwesomeIcons.infoCircle,
-                      onClicked: () => selectedItem(context, 3),
-                    ),
-                    const SizedBox(height: 50),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'Logout',
-                      iconColor: Colors.red,
-                      textColor: Colors.red,
-                      icon: FontAwesomeIcons.powerOff,
-                      onClicked: (){
-                        NavigateToReb(
-                          context: context,
-                          widget: const ChooseRegister(),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

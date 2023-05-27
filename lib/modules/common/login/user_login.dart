@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/layout_screen.dart';
+import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/common/forget_password/forget%20password.dart';
 import 'package:we_work/modules/common/login/cubit/cubit.dart';
 import 'package:we_work/modules/common/login/cubit/states.dart';
@@ -175,7 +176,7 @@ class LoginUser extends StatelessWidget {
                           context: context,
                           label: "Sign up",
                           onPressed: () {
-                            Navigator.pop(context);
+                            NavigateTo(context: context, widget: const ChooseRegister());
                           },
                         )
                       ],

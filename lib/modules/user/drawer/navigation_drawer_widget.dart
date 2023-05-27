@@ -1,10 +1,10 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
 import 'package:we_work/modules/user/profile/cubit/states.dart';
+import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -14,102 +14,107 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserProfileCubit,UserProfileStates>(
       listener: (context,state){},
       builder: (context,state){
         UserProfileCubit cubit = BlocProvider.of(context);
-        return Material(
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 30,),
-              if (cubit.userProfileModel != null &&
-                  cubit.userProfileModel!.profilePictureUrl != null)
-                CircleAvatar(
-                  radius: 35,
-                  backgroundImage: NetworkImage(
-                      cubit.userProfileModel!.profilePictureUrl!),
+        return SingleChildScrollView(
+          child: Container(
+            color: myFavColor5,
+            height: size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 50,),
+                if (cubit.userProfileModel != null &&
+                    cubit.userProfileModel!.profilePictureUrl != null)
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundImage: NetworkImage(
+                        cubit.userProfileModel!.profilePictureUrl!),
+                  ),
+                if (cubit.userProfileModel != null && cubit.userProfileModel!.profilePictureUrl == null)
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundColor: myFavColor3,
+                    child: Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          color: myFavColor4,
+                        )),
+                  ),
+                if (cubit.userProfileModel == null)
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundColor: myFavColor3,
+                    child: Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          color: myFavColor4,
+                        )),
+                  ),
+                const SizedBox(height: 30,),
+                Container(
+                  padding: padding,
+                  child: Column(
+                    children: [
+                      buildMenuItem(
+                        isChecked: true,
+                        text: 'Name',
+                        icon: FontAwesomeIcons.fileSignature,
+                        onClicked: () => selectedItem(context, 0),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'CV',
+                        icon: FontAwesomeIcons.filePdf,
+                        onClicked: () => selectedItem(context, 1),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'Location',
+                        icon: FontAwesomeIcons.locationDot,
+                        onClicked: () => selectedItem(context, 2),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'BIO',
+                        icon: FontAwesomeIcons.infoCircle,
+                        onClicked: () => selectedItem(context, 3),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'Education',
+                        icon: FontAwesomeIcons.graduationCap,
+                        onClicked: () => selectedItem(context, 4),
+                      ),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'Email',
+                        icon: FontAwesomeIcons.envelope,
+                        onClicked: () => selectedItem(context, 5),
+                      ),
+                      const SizedBox(height: 30,),
+                      buildMenuItem(
+                        isChecked: false,
+                        text: 'Logout',
+                        iconColor: Colors.red,
+                        textColor: Colors.red,
+                        icon: FontAwesomeIcons.powerOff,
+                        onClicked: (){
+                          CacheHelper.removeData(key: "userToken");
+                          NavigateToReb(
+                            context: context,
+                            widget: LoginUser(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              if (cubit.userProfileModel != null && cubit.userProfileModel!.profilePictureUrl == null)
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: myFavColor3,
-                  child: Center(
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        color: myFavColor4,
-                      )),
-                ),
-              if (cubit.userProfileModel == null)
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: myFavColor3,
-                  child: Center(
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        color: myFavColor4,
-                      )),
-                ),
-              const SizedBox(height: 30,),
-              Container(
-                padding: padding,
-                child: Column(
-                  children: [
-                    buildMenuItem(
-                      isChecked: true,
-                      text: 'Name',
-                      icon: FontAwesomeIcons.fileSignature,
-                      onClicked: () => selectedItem(context, 0),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'CV',
-                      icon: FontAwesomeIcons.filePdf,
-                      onClicked: () => selectedItem(context, 1),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'Location',
-                      icon: FontAwesomeIcons.locationDot,
-                      onClicked: () => selectedItem(context, 2),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'BIO',
-                      icon: FontAwesomeIcons.infoCircle,
-                      onClicked: () => selectedItem(context, 3),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'Education',
-                      icon: FontAwesomeIcons.graduationCap,
-                      onClicked: () => selectedItem(context, 4),
-                    ),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'Email',
-                      icon: FontAwesomeIcons.envelope,
-                      onClicked: () => selectedItem(context, 5),
-                    ),
-                    const SizedBox(height: 30,),
-                    buildMenuItem(
-                      isChecked: false,
-                      text: 'Logout',
-                      iconColor: Colors.red,
-                      textColor: Colors.red,
-                      icon: FontAwesomeIcons.powerOff,
-                      onClicked: (){
-                        NavigateToReb(
-                          context: context,
-                          widget: const ChooseRegister(),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

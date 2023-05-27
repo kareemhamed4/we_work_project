@@ -52,6 +52,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                               horizontal: 16, vertical: 8),
                           child: ListView.separated(
                             shrinkWrap: true,
+                            reverse: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: cubit.companyGetJobsModel!.length,
                             itemBuilder: (context, index) => GestureDetector(

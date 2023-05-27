@@ -26,7 +26,6 @@ Widget myTextFormField({
       keyboardType: type,
       obscureText: isPassword ?? false,
       onTap: onTap,
-
       onChanged: onChange,
       onFieldSubmitted: onSubmit,
       validator: validate,
@@ -47,6 +46,7 @@ Widget myTextFormField({
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
+        icon: icon,
       ),
     );
 

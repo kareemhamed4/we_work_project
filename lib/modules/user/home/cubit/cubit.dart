@@ -17,6 +17,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
 
   UserGetAllJobsModel? userGetAllJobsModel;
   UserGetAllJobsModel? userGetFilterJobsModel;
+
   void userGetAllJob({
     int? salaryMin,
     int? salaryMax,
@@ -25,6 +26,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
     String? experience,
     String? jobType,
     String? city,
+    String? disabled,
   }) async {
     emit(UserGetAllJobsLoadingState());
     try {
@@ -40,6 +42,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           "experince": experience ?? "",
           "jobType": jobType ?? "",
           "city": city ?? "",
+          "disabled": disabled ?? "",
         },
       );
       if (salaryMin != null &&
@@ -48,7 +51,9 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           position != null &&
           experience != null &&
           jobType != null &&
-          city != null) {
+          city != null &&
+          disabled != null
+      ) {
         userGetFilterJobsModel = UserGetAllJobsModel.fromJson(response.data);
       } else {
         userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
@@ -212,6 +217,37 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
         }
       } else {
         emit(GetUserWithIdErrorState(error.toString()));
+      }
+    }
+  }
+
+  UserGetAllJobsModel? userGetSearchedJobsModel;
+  void userGetSearchedJobs({
+    required String search,
+  }) async {
+    emit(UserGetSearchedJobsLoadingState());
+    try {
+      final response = await DioHelper.getData(
+        url: USERGETALLJOBS,
+        baseUrl: BASEURL,
+        token: userToken,
+        query: {
+          "search": search,
+        },
+      );
+      userGetSearchedJobsModel = UserGetAllJobsModel.fromJson(response.data);
+      emit(UserGetSearchedJobsSuccessState(userGetSearchedJobsModel!));
+    } catch (error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 400) {
+          final responseData = error.response?.data;
+          final errorMessage = responseData["errors"]["Search"][0];
+          emit(UserGetSearchedJobsErrorState(errorMessage));
+        } else {
+          emit(UserGetSearchedJobsErrorState(error.toString()));
+        }
+      } else {
+        emit(UserGetSearchedJobsErrorState(error.toString()));
       }
     }
   }

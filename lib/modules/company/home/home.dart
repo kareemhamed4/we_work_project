@@ -1,7 +1,13 @@
+import 'dart:math';
+
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rate/rate.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/models/company/company_get_all_users_model.dart';
 import 'package:we_work/modules/company/company_jobs/company_jobs_screen.dart';
@@ -21,6 +27,12 @@ class CompanyHome extends StatefulWidget {
 
 class _CompanyHomeState extends State<CompanyHome> {
   TextEditingController searchController = TextEditingController();
+  var hasSpeech = false;
+  SpeechToText speech = SpeechToText();
+  double level = 0.0;
+  double minSoundLevel = 50000;
+  double maxSoundLevel = -50000;
+  bool logEvents = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -104,23 +116,75 @@ class _CompanyHomeState extends State<CompanyHome> {
           body: cubit.companyGetAllUsersModel != null
               ? SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: size.height * 12 / size.height,
-                        ),
-                        Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: Row(
                           children: [
+                            AvatarGlow(
+                              endRadius: 35,
+                              animate: hasSpeech,
+                              duration: const Duration(milliseconds: 2000),
+                              glowColor: myFavColor8,
+                              repeatPauseDuration:
+                                  const Duration(milliseconds: 100),
+                              showTwoGlows: true,
+                              child: GestureDetector(
+                                onTapDown: (details) async {
+                                  if (!hasSpeech) {
+                                    var available = await speech.initialize();
+                                    if (available) {
+                                      setState(() {
+                                        hasSpeech = true;
+                                        speech.listen(
+                                          onResult: resultListener,
+                                          listenFor:
+                                              const Duration(seconds: 60),
+                                          pauseFor:
+                                              const Duration(seconds: 3),
+                                          partialResults: true,
+                                          onSoundLevelChange:
+                                              soundLevelListener,
+                                          cancelOnError: true,
+                                          listenMode: ListenMode.confirmation,
+                                          localeId: "en_001",
+                                        );
+                                      });
+                                    }
+                                  }
+                                },
+                                onTapUp: (details) async {
+                                  setState(() {
+                                    hasSpeech = false;
+                                  });
+                                  await speech.stop();
+                                  setState(() {
+                                    level = 0;
+                                  });
+                                },
+                                child: CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: myFavColor,
+                                  child: Icon(
+                                    hasSpeech ? Icons.mic : Icons.mic_none,
+                                    color: myFavColor5,
+                                  ),
+                                ),
+                              ),
+                            ),
                             Expanded(
                               child: myTextFormField(
                                 controller: searchController,
                                 onChange: (value) {
                                   setState(() {
-                                    searchController.text = value;
+                                    if (searchController.text != value) {
+                                      searchController.text = value;
+                                    }
                                   });
+                                  cubit.companyGetSearchedUsers(
+                                      search: searchController.text);
                                 },
                                 context: context,
                                 hint: "Search",
@@ -154,11 +218,14 @@ class _CompanyHomeState extends State<CompanyHome> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: size.height * 20 / size.height,
-                        ),
-                        if (searchController.text.isEmpty)
-                          Column(
+                      ),
+                      SizedBox(
+                        height: size.height * 20 / size.height,
+                      ),
+                      if (searchController.text.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -176,15 +243,18 @@ class _CompanyHomeState extends State<CompanyHome> {
                               ),
                               ListView.separated(
                                   shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
+                                  physics:
+                                      const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) =>
                                       buildCompanyHomeCard(
                                         size: size,
                                         context: context,
                                         index: index,
                                         model: cubit.companyGetAllUsersModel!,
-                                        filePath: cubit.companyGetAllUsersModel!
-                                                    .data![index].cvUrl !=
+                                        filePath: cubit
+                                                    .companyGetAllUsersModel!
+                                                    .data![index]
+                                                    .cvUrl !=
                                                 null
                                             ? cubit.companyGetAllUsersModel!
                                                 .data![index].cvUrl!
@@ -200,37 +270,47 @@ class _CompanyHomeState extends State<CompanyHome> {
                                       .companyGetAllUsersModel!.data!.length),
                             ],
                           ),
-                        if (searchController.text.isNotEmpty)
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) =>
-                                buildCompanyHomeCard(
-                              size: size,
-                              context: context,
-                              index: index,
-                              model: cubit.companyGetAllUsersModel!,
-                              filePath: cubit.companyGetAllUsersModel!
-                                          .data![index].cvUrl !=
-                                      null
-                                  ? cubit.companyGetAllUsersModel!.data![index]
-                                      .cvUrl!
-                                      .split('/')
-                                      .last
-                                  : "null",
-                            ),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 12,
-                            ),
-                            itemCount:
-                                cubit.companyGetAllUsersModel!.data!.length,
-                          ),
-                        SizedBox(
-                          height: size.height * 20 / size.height,
                         ),
-                      ],
-                    ),
+                      if (searchController.text.isNotEmpty)
+                        if (cubit.companyGetSearchedUsersModel != null)
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) =>
+                                  buildCompanyHomeCard(
+                                size: size,
+                                context: context,
+                                index: index,
+                                model: cubit.companyGetSearchedUsersModel!,
+                                filePath: cubit.companyGetSearchedUsersModel!
+                                            .data![index].cvUrl !=
+                                        null
+                                    ? cubit.companyGetSearchedUsersModel!
+                                        .data![index].cvUrl!
+                                        .split('/')
+                                        .last
+                                    : "null",
+                              ),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 12,
+                              ),
+                              itemCount:
+                                  cubit.companyGetSearchedUsersModel!.data!.length,
+                            ),
+                          ),
+                      if (searchController.text.isNotEmpty)
+                        if (cubit.companyGetSearchedUsersModel == null)
+                          Center(
+                              child: CircularProgressIndicator(
+                                  color: myFavColor)),
+                      SizedBox(
+                        height: size.height * 20 / size.height,
+                      ),
+                    ],
                   ),
                 )
               : Center(
@@ -323,6 +403,21 @@ class _CompanyHomeState extends State<CompanyHome> {
                               Text(
                                 model.data![index].bio ?? "",
                                 style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Rate(
+                                iconSize: 10,
+                                color: const Color(0xFFFFAA01),
+                                allowHalf: true,
+                                allowClear: true,
+                                initialValue: roundToNearestHalf(
+                                    model.data![index].averageRate!),
+                                readOnly: false,
+                                onChange: (value) {
+                                  //cubit.rate = value;
+                                },
                               ),
                             ],
                           ),
@@ -421,4 +516,34 @@ class _CompanyHomeState extends State<CompanyHome> {
           ),
         ),
       );
+
+  double roundToNearestHalf(double number) {
+    return (number * 2).round() / 2;
+  }
+
+  void soundLevelListener(double level) {
+    minSoundLevel = min(minSoundLevel, level);
+    maxSoundLevel = max(maxSoundLevel, level);
+    // _logEvent('sound level $level: $minSoundLevel - $maxSoundLevel ');
+    setState(() {
+      this.level = level;
+    });
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    _logEvent(
+        'Result listener final: ${result.finalResult}, words: ${result.recognizedWords}');
+    setState(() {
+      searchController.text = result.recognizedWords;
+    });
+    CompanyHomeCubit.get(context)
+        .companyGetSearchedUsers(search: searchController.text);
+  }
+
+  void _logEvent(String eventDescription) {
+    if (logEvents) {
+      var eventTime = DateTime.now().toIso8601String();
+      debugPrint('$eventTime $eventDescription');
+    }
+  }
 }

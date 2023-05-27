@@ -12,7 +12,8 @@ import 'package:we_work/shared/styles/colors.dart';
 
 class SendAcceptScreen extends StatelessWidget {
   final String userId;
-  SendAcceptScreen({Key? key, required this.userId}) : super(key: key);
+  final bool isFreelance;
+  SendAcceptScreen({Key? key, required this.userId,required this.isFreelance}) : super(key: key);
   final TextEditingController messageController = TextEditingController();
   final TextEditingController meetingTopicController = TextEditingController();
   final TextEditingController meetingAgendaController = TextEditingController();
@@ -37,7 +38,7 @@ class SendAcceptScreen extends StatelessWidget {
             CompanyGetUsersWhoAppliedCubit.get(context).changeTabBarIndex(1);
             buildSuccessToast(
               context: context,
-              title: "Accepted!",
+              title: isFreelance ? "Accepted!" : "Created!",
               description: state.msg,
             );
           });
@@ -63,7 +64,7 @@ class SendAcceptScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              'Send Accept',
+              isFreelance ? 'Send Accept' : "Create Meeting",
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -318,7 +319,7 @@ class SendAcceptScreen extends StatelessWidget {
                         );
                       },
                       labelWidget: Text(
-                        'Send Accept',
+                        isFreelance ? 'Send Accept' : "Create Meeting",
                         style: Theme.of(context).textTheme.button,
                       ),
                     ),

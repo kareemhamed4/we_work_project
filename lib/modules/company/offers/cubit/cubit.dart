@@ -178,4 +178,34 @@ class CompanyOffersCubit extends Cubit<CompanyOffersStates> {
       }
     });
   }
+
+  double rate = 3.5;
+  Future<void> companyRateUser({
+    required String userId,
+    required int rate,
+  }) async{
+    emit(CompanyRateUserLoadingState());
+    await DioHelper.postData(
+      url: "$COMPANYRATEUSER$userId/ratings",
+      token: companyToken,
+      baseUrl: BASEURL,
+      data: {
+        "Value": rate,
+      },
+    ).then((value) {
+      emit(CompanyRateUserSuccessState("Rated Successfully!"));
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 400) {
+          emit(CompanyRateUserErrorState('An error occurred. Please try again.'));
+        } else {
+          print(error.toString());
+          emit(CompanyRateUserErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        print(error.toString());
+        emit(CompanyRateUserErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
 }

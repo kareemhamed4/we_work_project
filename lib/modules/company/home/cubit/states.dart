@@ -44,3 +44,13 @@ class CompanyGetHerJobsErrorState extends CompanyHomeStates {
   final String error;
   CompanyGetHerJobsErrorState(this.error);
 }
+
+class CompanyGetSearchedUsersLoadingState extends CompanyHomeStates {}
+class CompanyGetSearchedUsersSuccessState extends CompanyHomeStates {
+  final CompanyGetAllUsersModel companyGetSearchedUsersModel;
+  CompanyGetSearchedUsersSuccessState(this.companyGetSearchedUsersModel);
+}
+class CompanyGetSearchedUsersErrorState extends CompanyHomeStates {
+  final String error;
+  CompanyGetSearchedUsersErrorState(this.error);
+}

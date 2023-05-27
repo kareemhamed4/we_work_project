@@ -53,3 +53,13 @@ class CreateMeetingErrorState extends CompanyOffersStates {
   final String error;
   CreateMeetingErrorState(this.error);
 }
+
+class CompanyRateUserLoadingState extends CompanyOffersStates {}
+class CompanyRateUserSuccessState extends CompanyOffersStates {
+  final String msg;
+  CompanyRateUserSuccessState(this.msg);
+}
+class CompanyRateUserErrorState extends CompanyOffersStates {
+  final String error;
+  CompanyRateUserErrorState(this.error);
+}

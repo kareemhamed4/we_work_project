@@ -22,7 +22,7 @@ class AppliedJobScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              'Applied jobs',
+              'Applied job',
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -39,7 +39,7 @@ class AppliedJobScreen extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  if (cubit.companyGetAllUsersApplied != null)
+                  if (cubit.companyGetUserApplied != null)
                     ListView.separated(
                       reverse: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -48,13 +48,13 @@ class AppliedJobScreen extends StatelessWidget {
                         size: size,
                         context: context,
                         index: index,
-                        model: cubit.companyGetAllUsersApplied!,
-                        filePath: cubit.companyGetAllUsersApplied![index].cvUrl!.split('/').last,
+                        model: cubit.companyGetUserApplied!,
+                        filePath: cubit.companyGetUserApplied!.cvUrl!.split('/').last,
                       ),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 23,
                       ),
-                      itemCount: cubit.companyGetAllUsersApplied!.length,
+                      itemCount: 1,
                     ),
                   if (cubit.companyGetAllUsersApplied == null)
                     Center(
@@ -73,7 +73,7 @@ class AppliedJobScreen extends StatelessWidget {
   Widget buildAppliedJobCard({
     required Size size,
     required BuildContext context,
-    required List<CompanyGetAllUsersApplied> model,
+    required CompanyGetAllUsersApplied model,
     required int index,
     required String filePath,
   }) =>
@@ -108,14 +108,14 @@ class AppliedJobScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (model[index].pictureUrl != null)
+                    if (model.pictureUrl != null)
                       CircleAvatar(
                         radius: 25,
                         backgroundColor: myFavColor3,
                         backgroundImage: NetworkImage(
-                            model[index].pictureUrl!),
+                            model.pictureUrl!),
                       ),
-                    if (model[index].pictureUrl == null)
+                    if (model.pictureUrl == null)
                       CircleAvatar(
                         radius: 25,
                         backgroundColor: myFavColor3,
@@ -135,7 +135,7 @@ class AppliedJobScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                model[index].displayName ?? "",
+                                model.displayName ?? "",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
@@ -151,8 +151,8 @@ class AppliedJobScreen extends StatelessWidget {
                                     width: 11,
                                   ),
                                   Text(
-                                    model[index].dateApplied != null
-                                        ? model[index]
+                                    model.dateApplied != null
+                                        ? model
                                             .dateApplied!
                                             .substring(0, 10)
                                         : "",
@@ -172,14 +172,14 @@ class AppliedJobScreen extends StatelessWidget {
                             height: 8,
                           ),
                           Text(
-                            model[index].titleOfJob ?? "",
+                            model.titleOfJob ?? "",
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                           const SizedBox(
                             height: 8,
                           ),
                           Text(
-                            "manar applied for a job as \"${model[index].titleOfJob ?? ""}\"",
+                            "${model.displayName ?? ""} applied for a job as \"${model.titleOfJob ?? ""}\"",
                             style:
                                 Theme.of(context).textTheme.caption!.copyWith(
                                       fontSize: 16,
@@ -194,7 +194,7 @@ class AppliedJobScreen extends StatelessWidget {
                               Expanded(
                                 flex: 5,
                                 child: Text(
-                                  model[index].email!,
+                                  model.email!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .caption!
@@ -207,7 +207,7 @@ class AppliedJobScreen extends StatelessWidget {
                               Expanded(
                                 flex: 1,
                                 child: Text(
-                                  "Job Id:${model[index].jobid ?? ""}",
+                                  "Job Id:${model.jobid ?? ""}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .caption!

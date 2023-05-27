@@ -67,3 +67,13 @@ class GetUserWithIdErrorState extends UserHomeStates {
   final String error;
   GetUserWithIdErrorState(this.error);
 }
+
+class UserGetSearchedJobsLoadingState extends UserHomeStates {}
+class UserGetSearchedJobsSuccessState extends UserHomeStates {
+  final UserGetAllJobsModel userGetSearchedJobsModel;
+  UserGetSearchedJobsSuccessState(this.userGetSearchedJobsModel);
+}
+class UserGetSearchedJobsErrorState extends UserHomeStates {
+  final String error;
+  UserGetSearchedJobsErrorState(this.error);
+}

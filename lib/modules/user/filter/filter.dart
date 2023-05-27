@@ -370,6 +370,34 @@ class _FilterState extends State<Filter> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Text(
+                        "DisabledJob",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .copyWith(color: myFavColor),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RadioGroup<String>.builder(
+                        fillColor: myFavColor,
+                        activeColor: myFavColor,
+                        groupValue: cubit.selectedDisabledJobs,
+                        onChanged: (value) => setState(
+                              () {
+                            cubit.selectedDisabledJobs = value!;
+                          },
+                        ),
+                        items: cubit.disabledJobsList,
+                        itemBuilder: (item) => RadioButtonBuilder(
+                          item,
+                        ),
+                      ),
+                      myDivider(),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       /*Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -424,6 +452,7 @@ class _FilterState extends State<Filter> {
                                   cubit.selectedMinSalary = 0;
                                   cubit.selectedPosition = "All";
                                   cubit.selectedWorkPlace = "All";
+                                  cubit.selectedDisabledJobs = "none";
                                 });
                               },
                             ),
@@ -444,6 +473,7 @@ class _FilterState extends State<Filter> {
                                   jobType: cubit.selectedJobType != "All" ? cubit.selectedJobType :"",
                                   salaryMin: cubit.selectedMinSalary!.toInt(),
                                   salaryMax: cubit.selectedMaxSalary!.toInt(),
+                                  disabled: cubit.selectedDisabledJobs != "none" ? cubit.selectedDisabledJobs :"",
                                 );
                               },
                               labelWidget: Text(

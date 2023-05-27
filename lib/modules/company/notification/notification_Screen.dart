@@ -6,6 +6,7 @@ import 'package:we_work/modules/company/applied_job/applied_job_screen.dart';
 import 'package:we_work/modules/company/notification/cubit/cubit.dart';
 import 'package:we_work/modules/company/notification/cubit/states.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
+import 'package:we_work/modules/company/send_accept/send_accept_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -37,6 +38,13 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
               title: "Deleted",
               description: "Meeting Canceled Successfully!",
           );
+        }
+        if (state is CompanyGetUserAppliedLoadingState) {
+          showProgressIndicator(context);
+        }
+        if (state is CompanyGetUserAppliedSuccessState) {
+          Navigator.pop(context);
+          NavigateTo(context: context, widget: const AppliedJobScreen());
         }
       },
       builder: (context, state) {
@@ -158,55 +166,77 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: cubit.companyGetAllUsersApplied!.length,
-            itemBuilder: (context, index) => GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                NavigateTo(context: context, widget: const AppliedJobScreen());
-              },
-              child: Row(
-                children: [
-                  if (cubit.companyGetAllUsersApplied![index].pictureUrl !=
-                      null)
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: myFavColor3,
-                      backgroundImage: NetworkImage(
-                          cubit.companyGetAllUsersApplied![index].pictureUrl!),
-                    ),
-                  if (cubit.companyGetAllUsersApplied![index].pictureUrl ==
-                      null)
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: myFavColor3,
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        color: myFavColor4,
+            itemBuilder: (context, index) => Slidable(
+              startActionPane: ActionPane(motion: const StretchMotion(), children: [
+                SlidableAction(
+                  onPressed: ((context) {
+                    NavigateTo(context: context, widget: SendAcceptScreen(userId: cubit.companyGetAllUsersApplied![index].userId!,isFreelance: false,));
+                  }),
+                  backgroundColor: Colors.transparent,
+                  icon: Icons.video_call_outlined,
+                  foregroundColor: Colors.red,
+                ),
+              ]),
+              endActionPane: ActionPane(motion: const StretchMotion(), children: [
+                SlidableAction(
+                  onPressed: ((context) {
+                    NavigateTo(context: context, widget: SendAcceptScreen(userId: cubit.companyGetAllUsersApplied![index].userId!,isFreelance: false,));
+                  }),
+                  backgroundColor: Colors.transparent,
+                  icon: Icons.video_call_outlined,
+                  foregroundColor: Colors.red,
+                ),
+              ]),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  cubit.companyGetUserWhoApplied(id: cubit.companyGetAllUsersApplied![index].id!);
+                },
+                child: Row(
+                  children: [
+                    if (cubit.companyGetAllUsersApplied![index].pictureUrl !=
+                        null)
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundColor: myFavColor3,
+                        backgroundImage: NetworkImage(
+                            cubit.companyGetAllUsersApplied![index].pictureUrl!),
+                      ),
+                    if (cubit.companyGetAllUsersApplied![index].pictureUrl ==
+                        null)
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundColor: myFavColor3,
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          color: myFavColor4,
+                        ),
+                      ),
+                    const SizedBox(width: 20),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            cubit.companyGetAllUsersApplied![index].displayName ??
+                                "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: myFavColor),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "applied for a your job as \"${cubit.companyGetAllUsersApplied![index].titleOfJob}\"",
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                        ],
                       ),
                     ),
-                  const SizedBox(width: 20),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          cubit.companyGetAllUsersApplied![index].displayName ??
-                              "",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(color: myFavColor),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "applied for a your job as \"${cubit.companyGetAllUsersApplied![index].titleOfJob}\"",
-                          style: Theme.of(context).textTheme.bodyText2,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             separatorBuilder: (context, index) => myDivider(height: 20),

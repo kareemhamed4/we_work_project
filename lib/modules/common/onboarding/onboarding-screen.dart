@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
+import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -47,8 +47,8 @@ class Onboarding extends StatelessWidget {
                   onPressed: () {
                     CacheHelper.saveData(key: "onBoarding", value: true)
                         .then((value) {
-                      NavigateTo(
-                          context: context, widget: const ChooseRegister());
+                      NavigateToReb(
+                          context: context, widget: LoginUser());
                     });
                   },
                   labelWidget: Text(
@@ -65,8 +65,8 @@ class Onboarding extends StatelessWidget {
                       onPressed: () {
                         CacheHelper.saveData(key: "onBoarding", value: true)
                             .then((value) {
-                          NavigateTo(
-                              context: context, widget: const ChooseRegister());
+                          NavigateToReb(
+                              context: context, widget: LoginUser());
                         });
                       }),
                 ),
