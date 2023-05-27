@@ -2,13 +2,13 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/models/user/user_get_freelance_details_model.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/home/cubit/states.dart';
-import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -61,8 +61,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
               'Project Details',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -78,8 +78,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
                       "Project Statue",
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 16),
+                          .bodyMedium!
+                          .copyWith(fontSize: 16.sp),
                     ),
                     leading: Image.asset("assets/icons/status.png"),
                     trailing: const Text("Opened"),
@@ -89,8 +89,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
                       "public time",
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 16),
+                          .bodyMedium!
+                          .copyWith(fontSize: 16.sp),
                     ),
                     leading: Image.asset("assets/icons/time.png"),
                     trailing:
@@ -101,8 +101,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
                       "time to complete",
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 16),
+                          .bodyMedium!
+                          .copyWith(fontSize: 16.sp),
                     ),
                     leading: Image.asset("assets/icons/time.png"),
                     trailing: const Text("One day"),
@@ -112,8 +112,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
                       "Budget",
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 16),
+                          .bodyMedium!
+                          .copyWith(fontSize: 16.sp),
                     ),
                     leading: Image.asset("assets/icons/money.png"),
                     trailing: const Text("200\$-100\$"),
@@ -129,7 +129,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                     "Offers Level",
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyMedium!
                         .copyWith(color: myFavColor),
                   ),
                   const SizedBox(
@@ -156,7 +156,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                     "Project Owner",
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyMedium!
                         .copyWith(color: myFavColor),
                   ),
                   const SizedBox(
@@ -184,7 +184,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                       ),
                       Text(
                         userGetFreelanceDetailsModel.projectOwner ?? "",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontSize: 14,
                               color: myFavColor7,
                             ),
@@ -202,7 +202,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                     "Project Details",
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyMedium!
                         .copyWith(color: myFavColor),
                   ),
                   const SizedBox(
@@ -215,8 +215,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
                         userGetFreelanceDetailsModel.projectDetails ?? "",
                         style: Theme.of(context)
                             .textTheme
-                            .caption!
-                            .copyWith(fontSize: 16),
+                            .bodySmall!
+                            .copyWith(fontSize: 16.sp),
                       ),
                       const SizedBox(
                         height: 6,
@@ -225,8 +225,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
                         "learn more",
                         style: Theme.of(context)
                             .textTheme
-                            .caption!
-                            .copyWith(fontSize: 14, color: myFavColor),
+                            .bodySmall!
+                            .copyWith(fontSize: 14.sp, color: myFavColor),
                       ),
                       const SizedBox(
                         height: 20,
@@ -239,7 +239,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                         "Required Skills",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
+                            .bodyMedium!
                             .copyWith(color: myFavColor),
                       ),
                       const SizedBox(
@@ -249,8 +249,8 @@ class FreelanceDetailsScreen extends StatelessWidget {
                         userGetFreelanceDetailsModel.requiredSkills ?? "",
                         style: Theme.of(context)
                             .textTheme
-                            .caption!
-                            .copyWith(fontSize: 16),
+                            .bodySmall!
+                            .copyWith(fontSize: 16.sp),
                       ),
                       const SizedBox(
                         height: 20,
@@ -268,7 +268,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                               "Add Your offer",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(color: myFavColor),
                             ),
                             const SizedBox(
@@ -285,7 +285,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                                         'Time to received',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText2!
+                                            .bodyMedium!
                                             .copyWith(fontSize: 14),
                                       ),
                                       const SizedBox(
@@ -317,7 +317,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                                         'Offer value',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText2!
+                                            .bodyMedium!
                                             .copyWith(fontSize: 14),
                                       ),
                                       const SizedBox(
@@ -350,7 +350,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                               "Offer Details",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(color: myFavColor7),
                             ),
                             const SizedBox(
@@ -384,7 +384,7 @@ class FreelanceDetailsScreen extends StatelessWidget {
                                 },
                                 labelWidget: Text(
                                   'Send Offer',
-                                  style: Theme.of(context).textTheme.button,
+                                  style: Theme.of(context).textTheme.labelLarge,
                                 ),
                               ),
                               fallback: (context) => myMaterialButton(

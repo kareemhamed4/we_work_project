@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:we_work/models/company/company_get_all_meetings_model.dart';
 import 'package:we_work/modules/company/applied_job/applied_job_screen.dart';
@@ -146,13 +147,13 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
           children: [
             Text(
               "You have ",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             Text(
               "${cubit.companyGetAllUsersApplied!.length} Notification",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2!
+                  .bodyMedium!
                   .copyWith(color: myFavColor),
             ),
           ],
@@ -222,7 +223,7 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
                                 "",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: myFavColor),
                           ),
                           const SizedBox(
@@ -230,7 +231,7 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
                           ),
                           Text(
                             "applied for a your job as \"${cubit.companyGetAllUsersApplied![index].titleOfJob}\"",
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),
@@ -245,7 +246,7 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
           Center(
             child: Text(
               "You Don't have any applied jobs until now",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
       ],
@@ -338,9 +339,9 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
                                   model[index].user ?? "",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: myFavColor7,
                                       ),
                                 ),
@@ -349,7 +350,7 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
                                 ),
                                 Text(
                                   model[index].message ?? "",
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
                                 ),
                               ],
                             ),
@@ -377,8 +378,8 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
                                   ? model[index].meedtingDate!.substring(0, 10)
                                   : "",
                               style:
-                                  Theme.of(context).textTheme.bodyText1!.copyWith(
-                                        fontSize: 14,
+                                  Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                        fontSize: 14.sp,
                                         color: myFavColor7,
                                       ),
                             )
@@ -395,7 +396,7 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
                           },
                           labelWidget: Text(
                             'Start Meeting',
-                            style: Theme.of(context).textTheme.button,
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ),
                       ),

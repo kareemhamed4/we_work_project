@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/modules/company/register/sign%20up%20company.dart';
 import 'package:we_work/modules/user/register/sign%20up%20user.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -20,7 +21,7 @@ class ChooseRegister extends StatelessWidget {
               Image.asset(
                 'assets/image/undraw_Community_re_cyrm 1.png',
               ),
-              mySizedBox(size: size,myHeight: 57),
+              SizedBox(height: 57.h),
               myMaterialButton(
                 context: context,
                 onPressed: () {
@@ -28,17 +29,18 @@ class ChooseRegister extends StatelessWidget {
                 },
                 labelWidget: Text(
                   'Sign up As a Company',
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
-              mySizedBox(size: size,myHeight: 24),              myMaterialButton(
+              SizedBox(height: 24.h),
+              myMaterialButton(
                 context: context,
                 onPressed: () {
                   NavigateTo(context: context, widget: SignUpUser());
                 },
                 labelWidget: Text(
                   'Sign up As a User',
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
             ],

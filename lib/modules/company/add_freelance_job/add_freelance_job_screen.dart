@@ -50,8 +50,8 @@ class AddFreelanceJobScreen extends StatelessWidget {
               'Freelance job',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -71,8 +71,7 @@ class AddFreelanceJobScreen extends StatelessWidget {
                       'Project statue',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -95,8 +94,7 @@ class AddFreelanceJobScreen extends StatelessWidget {
                       'Budget',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -119,8 +117,7 @@ class AddFreelanceJobScreen extends StatelessWidget {
                       'Time to complete',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -143,8 +140,7 @@ class AddFreelanceJobScreen extends StatelessWidget {
                       'project details',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -167,8 +163,7 @@ class AddFreelanceJobScreen extends StatelessWidget {
                       'requires skills',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -204,7 +199,7 @@ class AddFreelanceJobScreen extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Confirm',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(

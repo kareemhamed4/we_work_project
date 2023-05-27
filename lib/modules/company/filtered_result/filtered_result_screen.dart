@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/models/company/company_get_all_users_model.dart';
@@ -50,9 +50,8 @@ class CompanyFilteredResultScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               'Filteration Result',
-              style: Theme.of(context).textTheme.headline5!.copyWith(
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: myFavColor,
-                    fontSize: 20,
                   ),
             ),
             centerTitle: true,
@@ -99,9 +98,9 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                                       filterChoice,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6!
+                                          .titleLarge!
                                           .copyWith(
-                                              fontSize: 14, color: myFavColor5),
+                                              fontSize: 14.sp, color: myFavColor5),
                                     ),
                                   ),
                                 ),
@@ -229,9 +228,9 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                                 model.data![index].displayName ?? "",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       color: myFavColor7,
                                     ),
                               ),
@@ -240,7 +239,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                               ),
                               Text(
                                 model.data![index].bio ?? "",
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                             ],
                           ),
@@ -274,8 +273,8 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                           child: Text(
                             "Show CV",
                             style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 14,
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 14.sp,
                                       color: myFavColor,
                                       decoration: TextDecoration.underline,
                                     ),
@@ -308,8 +307,8 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                           Text(
                             "${model.data![index].city ?? ""}, ${model.data![index].country ?? ""}",
                             style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 14,
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 14.sp,
                                       color: myFavColor7,
                                     ),
                           ),
@@ -328,7 +327,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Create Offer',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                     ),

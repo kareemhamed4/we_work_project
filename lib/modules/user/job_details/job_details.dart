@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/models/user/user_get_job_details_model.dart';
 import 'package:we_work/modules/user/apply_job/apply_job_screen.dart';
 import 'package:we_work/modules/user/company_details/google_company.dart';
@@ -17,8 +18,8 @@ class JobDetailsScreen extends StatelessWidget {
           'Job Details',
           style: Theme.of(context)
               .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
+              .headlineSmall!
+              .copyWith(color: myFavColor),
         ),
         centerTitle: true,
       ),
@@ -49,7 +50,7 @@ class JobDetailsScreen extends StatelessWidget {
               ),
               Text(
                 userGetJobDetailsModel.title!,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 32,
@@ -70,7 +71,7 @@ class JobDetailsScreen extends StatelessWidget {
                         ),
                         Text(
                           "${userGetJobDetailsModel.city} , ${userGetJobDetailsModel.country}",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -88,7 +89,7 @@ class JobDetailsScreen extends StatelessWidget {
                         ),
                         Text(
                           userGetJobDetailsModel.jobType ?? "",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -106,7 +107,7 @@ class JobDetailsScreen extends StatelessWidget {
                         ),
                         Text(
                           userGetJobDetailsModel.workPlace ?? "",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -140,8 +141,8 @@ class JobDetailsScreen extends StatelessWidget {
                               userGetJobDetailsModel.position!,
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 14),
+                                  .bodySmall!
+                                  .copyWith(fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -158,8 +159,8 @@ class JobDetailsScreen extends StatelessWidget {
                               userGetJobDetailsModel.experience!,
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 14),
+                                  .bodySmall!
+                                  .copyWith(fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -176,8 +177,8 @@ class JobDetailsScreen extends StatelessWidget {
                               userGetJobDetailsModel.salary.toString(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 14),
+                                  .bodySmall!
+                                  .copyWith(fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -208,7 +209,7 @@ class JobDetailsScreen extends StatelessWidget {
                               onPressed: () {},
                               labelWidget: Text(
                                 "Description",
-                                style: Theme.of(context).textTheme.button,
+                                style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
                           ),
@@ -223,7 +224,7 @@ class JobDetailsScreen extends StatelessWidget {
                                 "Company",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .button!
+                                    .labelLarge!
                                     .copyWith(color: myFavColor7),
                               ),
                               onPressed: () {
@@ -241,16 +242,16 @@ class JobDetailsScreen extends StatelessWidget {
                           "Job Description",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
-                              .copyWith(color: myFavColor, fontSize: 16),
+                              .bodyLarge!
+                              .copyWith(color: myFavColor),
                         ),
                       ),
                       Text(
                         userGetJobDetailsModel.description!,
                         style: Theme.of(context)
                             .textTheme
-                            .caption!
-                            .copyWith(fontSize: 14, height: 1.5),
+                            .bodySmall!
+                            .copyWith(fontSize: 14.sp, height: 1.5),
                       ),
                       const SizedBox(
                         height: 21,
@@ -259,8 +260,8 @@ class JobDetailsScreen extends StatelessWidget {
                         "Job Requirement",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText1!
-                            .copyWith(color: myFavColor, fontSize: 16),
+                            .bodyLarge!
+                            .copyWith(color: myFavColor),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
@@ -302,7 +303,7 @@ class JobDetailsScreen extends StatelessWidget {
                 },
                 labelWidget: Text(
                   'Apply Job',
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
             ],

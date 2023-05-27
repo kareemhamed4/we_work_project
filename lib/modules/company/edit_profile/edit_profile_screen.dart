@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
-import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/modules/company/profile/cubit/cubit.dart';
 import 'package:we_work/modules/company/profile/cubit/states.dart';
@@ -18,14 +18,10 @@ class CompanyEditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController bioController = TextEditingController();
     TextEditingController nameController = TextEditingController();
-    TextEditingController educationController = TextEditingController();
-    TextEditingController positionController = TextEditingController();
-    TextEditingController jobTypeController = TextEditingController();
     var model = CompanyProfileCubit.get(context).companyProfileModel;
     bioController.text = model != null ? model.bio ?? bioController.text : " ";
     nameController.text =
         model != null ? model.displayName ?? nameController.text : " ";
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<CompanyProfileCubit, CompanyProfileStates>(
       listener: (context, state) {
         if (state is CompanyUpdateProfileSuccessState) {
@@ -53,8 +49,8 @@ class CompanyEditProfileScreen extends StatelessWidget {
               'Update Profile Info',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -69,15 +65,14 @@ class CompanyEditProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Name',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: nameController,
@@ -89,15 +84,14 @@ class CompanyEditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Bio',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: bioController,
@@ -109,8 +103,8 @@ class CompanyEditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
-                    mySizedBox(size: size, myHeight: 80),
+                    SizedBox(height: 20.h),
+                    SizedBox(height: 80.h),
                     ConditionalBuilder(
                       condition: state is! CompanyUpdateProfileLoadingState,
                       builder: (context) => myMaterialButton(
@@ -128,7 +122,7 @@ class CompanyEditProfileScreen extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Update',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -148,7 +142,7 @@ class CompanyEditProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size, myHeight: 40),
+                    SizedBox(height: 40.h),
                   ],
                 ),
               ),

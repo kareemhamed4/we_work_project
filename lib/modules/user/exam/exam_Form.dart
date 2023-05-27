@@ -27,8 +27,8 @@ class _ExamFormState extends State<ExamForm> {
           'Exam Form',
           style: Theme.of(context)
               .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
+              .headlineSmall!
+              .copyWith(color: myFavColor),
         ),
         centerTitle: true,
       ),
@@ -40,7 +40,7 @@ class _ExamFormState extends State<ExamForm> {
             children: [
               Text(
                 'Email',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -60,7 +60,7 @@ class _ExamFormState extends State<ExamForm> {
               ),
               Text(
                 'Full_Name',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -80,7 +80,7 @@ class _ExamFormState extends State<ExamForm> {
               ),
               Text(
                 'Experience in flutter',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -100,7 +100,7 @@ class _ExamFormState extends State<ExamForm> {
               ),
               Text(
                 'Experience in programming',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -120,7 +120,7 @@ class _ExamFormState extends State<ExamForm> {
               ),
               Text(
                 'Number of projects in google play',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -140,7 +140,7 @@ class _ExamFormState extends State<ExamForm> {
               ),
               Text(
                 'Do You Work With restful app?',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -162,7 +162,7 @@ class _ExamFormState extends State<ExamForm> {
               ),
               Text(
                 'What is the State management deal with this?',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -218,7 +218,7 @@ class _ExamFormState extends State<ExamForm> {
               ),
               Text(
                 'Do you work on google map?',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 8,
@@ -242,7 +242,7 @@ class _ExamFormState extends State<ExamForm> {
                 },
                 labelWidget: Text(
                   'Next',
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
             ],

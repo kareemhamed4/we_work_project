@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/modules/common/login/user_login.dart';
@@ -80,7 +81,6 @@ class _MyProfileState extends State<MyProfile> {
   ];
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserApplyJobCubit, UserApplyJobStates>(
       listener: (context, state) {
         if (state is UserUploadCVSuccessState) {
@@ -131,8 +131,8 @@ class _MyProfileState extends State<MyProfile> {
                   'My Profile',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5!
-                      .copyWith(color: myFavColor, fontSize: 20),
+                      .headlineSmall!
+                      .copyWith(color: myFavColor),
                 ),
                 centerTitle: true,
                 actions: [
@@ -397,21 +397,21 @@ class _MyProfileState extends State<MyProfile> {
                             ],
                           ),
                         ),
-                      mySizedBox(size: size, myHeight: 15),
+                      SizedBox(height: 15.h),
                       Text(
                         cubit.userProfileModel != null
                             ? cubit.userProfileModel!.displayName ?? ""
                             : "",
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      mySizedBox(size: size, myHeight: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         cubit.userProfileModel != null
                             ? cubit.userProfileModel!.bio ?? ""
                             : "",
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      mySizedBox(size: size, myHeight: 19),
+                      SizedBox(height: 19.h),
                       Column(
                         children: [
                           Row(
@@ -421,26 +421,26 @@ class _MyProfileState extends State<MyProfile> {
                                 "Complete your profile",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5!
-                                    .copyWith(fontSize: 16),
+                                    .headlineSmall!
+                                    .copyWith(fontSize: 16.sp),
                               ),
                               Text(
                                 "(3/7)",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText2!
+                                    .bodyMedium!
                                     .copyWith(color: myFavColor),
                               ),
                             ],
                           ),
-                          mySizedBox(size: size, myHeight: 15),
+                          SizedBox(height: 10.h),
                           const AnimatedLinearProgressIndicator(
                             percentage: 0.42,
                             label: "Profile",
                           ),
                         ],
                       ),
-                      mySizedBox(size: size, myHeight: 10),
+                      SizedBox(height: 10.h),
                       if (cubit.userProfileModel != null)
                         ListView.builder(
                           key: UniqueKey(),
@@ -476,8 +476,8 @@ class _MyProfileState extends State<MyProfile> {
                                             data[index].headerText,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText2!
-                                                .copyWith(fontSize: 16),
+                                                .bodyMedium!
+                                                .copyWith(fontSize: 16.sp),
                                           ),
                                           leading: FaIcon(
                                             data[index].icon,
@@ -497,8 +497,8 @@ class _MyProfileState extends State<MyProfile> {
                                             data[index].expandedText,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText2!
-                                                .copyWith(fontSize: 16,color: index == 1 ? Colors.blueAccent: myFavColor4,decoration: index == 1 ? TextDecoration.underline : TextDecoration.none),
+                                                .bodyMedium!
+                                                .copyWith(fontSize: 16.sp,color: index == 1 ? Colors.blueAccent: myFavColor4,decoration: index == 1 ? TextDecoration.underline : TextDecoration.none),
                                           ),
                                         ),
                                         trailing: index == 1

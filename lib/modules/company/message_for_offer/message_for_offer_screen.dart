@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/modules/company/home/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/states.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
@@ -19,7 +18,6 @@ class MessageOfferScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<CompanyHomeCubit, CompanyHomeStates>(
       listener: (context, state) {
         if (state is CompanySendOfferToUserSuccessState) {
@@ -45,8 +43,8 @@ class MessageOfferScreen extends StatelessWidget {
               'Offer',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -62,10 +60,10 @@ class MessageOfferScreen extends StatelessWidget {
                       'Company offer',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
+                          .bodyMedium!
                           .copyWith(color: myFavColor),
                     ),
-                    mySizedBox(size: size, myHeight: 18),
+                    SizedBox(height: 18.h),
                     buildFeedbackBox(
                       context: context,
                       minLines: 20,
@@ -78,7 +76,7 @@ class MessageOfferScreen extends StatelessWidget {
                       hint: "Type your offer here...",
                       messageController: messageController,
                     ),
-                    mySizedBox(size: size, myHeight: 120),
+                    SizedBox(height: 120.h),
                     ConditionalBuilder(
                       condition: state is! CompanySendOfferToUserLoadingState,
                       builder: (context) => myMaterialButton(
@@ -93,7 +91,7 @@ class MessageOfferScreen extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Send Offer',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -113,7 +111,7 @@ class MessageOfferScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size, myHeight: 18),
+                    SizedBox(height: 18.h),
                   ],
                 ),
               ),

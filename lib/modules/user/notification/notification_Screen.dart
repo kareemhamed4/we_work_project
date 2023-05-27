@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/models/user/user_get_notification_model.dart';
 import 'package:we_work/modules/user/notification/cubit/cubit.dart';
@@ -23,8 +24,8 @@ class NotificationScreen extends StatelessWidget {
               'Notification',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -40,24 +41,24 @@ class NotificationScreen extends StatelessWidget {
                           children: [
                             Text(
                               "You have",
-                              style: Theme.of(context).textTheme.bodyText2,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             Text(
                               " ${cubit.userNotificationModel!.length} Notification",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(color: myFavColor),
                             ),
                           ],
                         ),
-                        mySizedBox(size: size, myHeight: 23),
+                        SizedBox(height: 23.h),
                         ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: cubit.userNotificationModel!.length,
                             separatorBuilder: (context, index) =>
-                                mySizedBox(size: size, myHeight: 23),
+                                SizedBox(height: 23.h),
                             itemBuilder: (context, index) =>
                                 buildNotificationItem(
                                   context: context,
@@ -81,8 +82,8 @@ class NotificationScreen extends StatelessWidget {
                             'No Notification available right now',
                             style: Theme.of(context)
                                 .textTheme
-                                .headline5!
-                                .copyWith(fontSize: 16),
+                                .headlineSmall!
+                                .copyWith(fontSize: 18.sp),
                           ),
                         ],
                       ),
@@ -113,7 +114,7 @@ class NotificationScreen extends StatelessWidget {
             Flexible(
               child: Text(
                 model[index].message!,
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
             const SizedBox(width: 8),
@@ -129,7 +130,7 @@ class NotificationScreen extends StatelessWidget {
                   context: context,
                   labelWidget: Text(
                     "Show Details",
-                    style: Theme.of(context).textTheme.button,
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                   onPressed: () {
                     buildAcceptedDialog(
@@ -179,7 +180,7 @@ class NotificationScreen extends StatelessWidget {
                         .titleLarge!
                         .copyWith(color: myFavColor6, fontSize: 18),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   GestureDetector(
                     onTap: () {
                       LayoutCubit.get(context).launchZoomMeeting(
@@ -193,7 +194,7 @@ class NotificationScreen extends StatelessWidget {
                           decoration: TextDecoration.underline),
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "Meeting Date: ",
                     style: Theme.of(context)
@@ -201,7 +202,7 @@ class NotificationScreen extends StatelessWidget {
                         .titleLarge!
                         .copyWith(color: myFavColor6, fontSize: 18),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   Text(
                     model[index].meedtingDate!.substring(0, 10),
                     style: Theme.of(context)
@@ -209,7 +210,7 @@ class NotificationScreen extends StatelessWidget {
                         .titleLarge!
                         .copyWith(color: myFavColor4, fontSize: 12),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "Meeting Time: ",
                     style: Theme.of(context)
@@ -217,7 +218,7 @@ class NotificationScreen extends StatelessWidget {
                         .titleLarge!
                         .copyWith(color: myFavColor6, fontSize: 18),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   Text(
                     model[index].meedtingDate!.substring(12, 16),
                     style: Theme.of(context)

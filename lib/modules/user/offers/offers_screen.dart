@@ -1,10 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/models/user/user_get_offers_model.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/states.dart';
-import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class OffersScreen extends StatelessWidget {
@@ -23,8 +23,8 @@ class OffersScreen extends StatelessWidget {
               'Offers',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -49,7 +49,7 @@ class OffersScreen extends StatelessWidget {
                             index: index,
                             model: cubit.userGetOffersModel!),
                         separatorBuilder: (context, index) =>
-                            mySizedBox(size: size, myHeight: 16),
+                            SizedBox(height: 16.h),
                         itemCount: cubit.userGetOffersModel!.length,
                       ),
                     ),
@@ -129,9 +129,9 @@ class OffersScreen extends StatelessWidget {
                           model[index].userName ?? "",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .copyWith(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             color: myFavColor7,
                           ),
                         ),
@@ -151,9 +151,9 @@ class OffersScreen extends StatelessWidget {
                               : "",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .copyWith(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             color: myFavColor7,
                           ),
                         )
@@ -171,8 +171,8 @@ class OffersScreen extends StatelessWidget {
                         Text(
                           model[index].message ?? "",
                           style:
-                          Theme.of(context).textTheme.caption!.copyWith(
-                            fontSize: 16,
+                          Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: 16.sp,
                             color: myFavColor7,
                           ),
                         ),
@@ -182,8 +182,8 @@ class OffersScreen extends StatelessWidget {
                         Text(
                           model[index].email ?? "",
                           style:
-                          Theme.of(context).textTheme.caption!.copyWith(
-                            fontSize: 16,
+                          Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: 16.sp,
                             color: myFavColor.withOpacity(0.8),
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
@@ -27,7 +28,6 @@ class EditProfileScreen extends StatelessWidget {
     educationController.text = model != null ? model.education ?? educationController.text : " ";
     positionController.text = model != null ? model.position ?? positionController.text : " ";
     jobTypeController.text = model != null ? model.jobType ?? jobTypeController.text : " ";
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {
         if (state is UserUpdateProfileSuccessState) {
@@ -55,8 +55,8 @@ class EditProfileScreen extends StatelessWidget {
               'Update Profile Info',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -71,15 +71,14 @@ class EditProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Name',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: nameController,
@@ -91,15 +90,14 @@ class EditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Education',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: educationController,
@@ -111,15 +109,14 @@ class EditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Bio',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: bioController,
@@ -131,15 +128,14 @@ class EditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Position',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: positionController,
@@ -151,15 +147,14 @@ class EditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'JobType',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: jobTypeController,
@@ -171,7 +166,7 @@ class EditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 80),
+                    SizedBox(height: 80.h),
                     ConditionalBuilder(
                       condition: state is! UserUpdateProfileLoadingState,
                       builder: (context) => myMaterialButton(
@@ -189,7 +184,7 @@ class EditProfileScreen extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Update',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -209,7 +204,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size, myHeight: 40),
+                    SizedBox(height: 40.h),
                   ],
                 ),
               ),

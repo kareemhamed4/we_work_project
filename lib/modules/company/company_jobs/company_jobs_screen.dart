@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/company/company_get_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
@@ -36,8 +37,8 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
               'Company Jobs',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -157,9 +158,9 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                                   model[index].user ?? "",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: myFavColor7,
                                       ),
                                 ),
@@ -168,7 +169,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                                 ),
                                 Text(
                                   model[index].title ?? "",
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                             ),
@@ -186,8 +187,8 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                     model[index].description ?? "",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
-                        .copyWith(fontSize: 14),
+                        .bodySmall!
+                        .copyWith(fontSize: 14.sp),
                   ),
                   const SizedBox(
                     height: 8,
@@ -198,8 +199,8 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                       "learn more",
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 14, color: myFavColor),
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp, color: myFavColor),
                     ),
                   ),
                   const SizedBox(
@@ -219,7 +220,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                           ),
                           Text(
                             "${model[index].city} , ${model[index].country}",
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),
@@ -284,9 +285,9 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                                   model[index].projectOwner ?? "",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: myFavColor7,
                                       ),
                                 ),
@@ -295,7 +296,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                                 ),
                                 Text(
                                   model[index].title ?? "",
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                             ),
@@ -314,8 +315,8 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                     model[index].projectDetails ?? "",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
-                        .copyWith(fontSize: 14),
+                        .bodySmall!
+                        .copyWith(fontSize: 14.sp),
                   ),
                   const SizedBox(
                     height: 8,
@@ -326,8 +327,8 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                       "learn more",
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 14, color: myFavColor),
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp, color: myFavColor),
                     ),
                   ),
                   const SizedBox(

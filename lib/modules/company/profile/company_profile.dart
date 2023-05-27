@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/company/edit_profile/edit_profile_screen.dart';
@@ -335,8 +336,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
                         : "",
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1!
-                        .copyWith(fontSize: 20),
+                        .bodyLarge!
+                        .copyWith(fontSize: 20.sp),
                   ),
                   const SizedBox(height: 34),
                   ListView.builder(
@@ -367,12 +368,12 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               ExpansionPanel(
                                 headerBuilder: (BuildContext context, bool isExpanded) {
                                   return ListTile(
-                                    title: Text(data[index].headerText,style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 16),),
+                                    title: Text(data[index].headerText,style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16.sp),),
                                     leading: FaIcon(data[index].icon,color: myFavColor.withOpacity(0.6),),
                                   );
                                 },
                                 body: ListTile(
-                                  title: Text(data[index].expandedText,style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 16),),
+                                  title: Text(data[index].expandedText,style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16.sp),),
                                 ),
                                 isExpanded: data[index].isExpanded,
                               ),

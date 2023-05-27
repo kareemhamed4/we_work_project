@@ -14,8 +14,8 @@ class CompanyDetails extends StatelessWidget {
           'Company Details',
           style: Theme.of(context)
               .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
+              .headlineSmall!
+              .copyWith(color: myFavColor),
         ),
         centerTitle: true,
       ),
@@ -53,7 +53,7 @@ class CompanyDetails extends StatelessWidget {
               ),
               Text(
                 UserHomeCubit.get(context).userProfileModel!.displayName?? "",
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 16,
@@ -98,7 +98,7 @@ class CompanyDetails extends StatelessWidget {
                                 "Description",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .button!
+                                    .labelLarge!
                                     .copyWith(color: myFavColor7),
                               ),
                             ),
@@ -112,7 +112,7 @@ class CompanyDetails extends StatelessWidget {
                               onPressed: () {},
                               labelWidget: Text(
                                 "Company",
-                                style: Theme.of(context).textTheme.button,
+                                style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
                           ),

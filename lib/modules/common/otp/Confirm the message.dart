@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:we_work/modules/common/new_password/Change%20the%20password.dart';
 import 'package:we_work/modules/common/otp/cubit/cubit.dart';
@@ -40,8 +41,8 @@ class ConfirmMessage extends StatelessWidget {
               "Verify your email",
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -55,21 +56,21 @@ class ConfirmMessage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    mySizedBox(size: size,myHeight: 10),
+                    SizedBox(height: 10.h),
                     Image.asset(
                       'assets/image/Rectangle 3 (1).png',
                       fit: BoxFit.cover,
                     ),
-                    mySizedBox(size: size,myHeight: 62),
+                    SizedBox(height: 62.h),
                     Text(
                       'Please enter 4 digit which send to your email',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 16, height: 1.5),
+                          .bodySmall!
+                          .copyWith(fontSize: 16.sp, height: 1.5),
                     ),
-                    mySizedBox(size: size,myHeight: 58),
+                    SizedBox(height: 58.h),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: PinCodeTextField(
@@ -118,7 +119,7 @@ class ConfirmMessage extends StatelessWidget {
                         },
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 130),
+                    SizedBox(height: 130.h),
                     ConditionalBuilder(
                       condition: state is! UserVerifyOTPLoadingState,
                       builder: (context) => myMaterialButton(
@@ -133,7 +134,7 @@ class ConfirmMessage extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Verify',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -153,7 +154,7 @@ class ConfirmMessage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 40),
+                    SizedBox(height: 40.h),
                   ],
                 ),
               ),

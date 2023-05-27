@@ -1,6 +1,7 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:we_work/modules/user/filter/cubit/cubit.dart';
@@ -46,8 +47,8 @@ class _FilterState extends State<Filter> {
                   'Filter',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5!
-                      .copyWith(color: myFavColor, fontSize: 20),
+                      .headlineSmall!
+                      .copyWith(color: myFavColor),
                 ),
                 centerTitle: true,
               ),
@@ -64,7 +65,7 @@ class _FilterState extends State<Filter> {
                             "Location",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: myFavColor),
                           ),
                           Icon(
@@ -89,9 +90,9 @@ class _FilterState extends State<Filter> {
                                     "Country",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .copyWith(
-                                            color: myFavColor, fontSize: 16),
+                                            color: myFavColor, fontSize: 16.sp),
                                   ),
                                   RadioGroup<String>.builder(
                                     fillColor: myFavColor,
@@ -99,8 +100,7 @@ class _FilterState extends State<Filter> {
                                     groupValue: cubit.selectedCountry,
                                     textStyle: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
-                                        .copyWith(fontSize: 14),
+                                        .bodyMedium,
                                     onChanged: (value) => setState(() {
                                       cubit.selectedCountry = value!;
                                     }),
@@ -122,9 +122,9 @@ class _FilterState extends State<Filter> {
                                     "City",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .copyWith(
-                                            color: myFavColor, fontSize: 16),
+                                            color: myFavColor, fontSize: 16.sp),
                                   ),
                                   RadioGroup<String>.builder(
                                     fillColor: myFavColor,
@@ -132,8 +132,7 @@ class _FilterState extends State<Filter> {
                                     groupValue: cubit.selectedCity,
                                     textStyle: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
-                                        .copyWith(fontSize: 14),
+                                        .bodyMedium,
                                     onChanged: (value) => setState(() {
                                       cubit.selectedCity = value!;
                                     }),
@@ -162,7 +161,7 @@ class _FilterState extends State<Filter> {
                             "Type of workplace",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: myFavColor),
                           ),
                           Icon(
@@ -196,7 +195,7 @@ class _FilterState extends State<Filter> {
                             "Job type",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: myFavColor),
                           ),
                           Icon(
@@ -239,7 +238,7 @@ class _FilterState extends State<Filter> {
                             "Position level",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: myFavColor),
                           ),
                           Icon(
@@ -282,7 +281,7 @@ class _FilterState extends State<Filter> {
                             "Salary",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: myFavColor),
                           ),
                           Icon(
@@ -337,7 +336,7 @@ class _FilterState extends State<Filter> {
                             "Experience",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: myFavColor),
                           ),
                           Icon(
@@ -374,7 +373,7 @@ class _FilterState extends State<Filter> {
                         "DisabledJob",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
+                            .bodyMedium!
                             .copyWith(color: myFavColor),
                       ),
                       const SizedBox(
@@ -405,7 +404,7 @@ class _FilterState extends State<Filter> {
                         "Interested",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
+                            .bodyMedium!
                             .copyWith(color: myFavColor),
                       ),
                       Icon(
@@ -439,7 +438,7 @@ class _FilterState extends State<Filter> {
                                 "Reset",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .button!
+                                    .labelLarge!
                                     .copyWith(color: myFavColor),
                               ),
                               onPressed: () {
@@ -478,7 +477,7 @@ class _FilterState extends State<Filter> {
                               },
                               labelWidget: Text(
                                 "Apply",
-                                style: Theme.of(context).textTheme.button,
+                                style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
                           ),

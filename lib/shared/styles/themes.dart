@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 ThemeData lightTheme = ThemeData(
@@ -38,14 +39,12 @@ ThemeData lightTheme = ThemeData(
   ),
   unselectedWidgetColor: myFavColor7,
   textTheme: TextTheme(
-    bodyText1: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor6),
-    bodyText2: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor7,fontSize: 16),
-    subtitle1: TextStyle(fontFamily: "Roboto-Light", color: myFavColor6),
-    subtitle2: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor6),
-    headline5: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor6),
-    headline6: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor6),
-    caption: TextStyle(fontFamily: "OpenSans", color: myFavColor4),
-    button: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor5),
+    bodyLarge: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor6,fontSize: 18.sp),
+    bodyMedium: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor7,fontSize: 16.sp),
+    headlineSmall: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor6,fontSize: 24.sp),
+    titleLarge: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor6,fontSize: 22.sp),
+    bodySmall: TextStyle(fontFamily: "OpenSans", color: myFavColor4,fontSize: 14.sp),
+    labelLarge: TextStyle(fontFamily: "Roboto-Medium", color: myFavColor5,fontSize: 16.sp),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: myFavColor,

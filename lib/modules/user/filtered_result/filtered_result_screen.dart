@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/modules/user/filter/cubit/cubit.dart';
@@ -68,9 +69,9 @@ class FilteredResultScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               'Filteration Result',
-              style: Theme.of(context).textTheme.headline5!.copyWith(
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: myFavColor,
-                    fontSize: 20,
+
                   ),
             ),
             centerTitle: true,
@@ -133,9 +134,9 @@ class FilteredResultScreen extends StatelessWidget {
                                       filterChoice,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6!
+                                          .titleLarge!
                                           .copyWith(
-                                              fontSize: 14, color: myFavColor5),
+                                              fontSize: 14.sp, color: myFavColor5),
                                     ),
                                   ),
                                 ),
@@ -260,9 +261,9 @@ class FilteredResultScreen extends StatelessWidget {
                                   model.data![index].user ?? "",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: myFavColor7,
                                       ),
                                 ),
@@ -271,7 +272,7 @@ class FilteredResultScreen extends StatelessWidget {
                                 ),
                                 Text(
                                   model.data![index].title!,
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                             ),
@@ -292,8 +293,8 @@ class FilteredResultScreen extends StatelessWidget {
                     model.data![index].description ?? "",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
-                        .copyWith(fontSize: 14),
+                        .bodySmall!
+                        .copyWith(fontSize: 14.sp),
                   ),
                   const SizedBox(
                     height: 8,
@@ -304,8 +305,8 @@ class FilteredResultScreen extends StatelessWidget {
                       "learn more",
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 14, color: myFavColor),
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp, color: myFavColor),
                     ),
                   ),
                   const SizedBox(
@@ -325,7 +326,7 @@ class FilteredResultScreen extends StatelessWidget {
                           ),
                           Text(
                             "${model.data![index].city} , ${model.data![index].country}",
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),

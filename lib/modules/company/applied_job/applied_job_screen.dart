@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/models/company/company_get_user_applied_model.dart';
@@ -25,8 +26,8 @@ class AppliedJobScreen extends StatelessWidget {
               'Applied job',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -138,9 +139,9 @@ class AppliedJobScreen extends StatelessWidget {
                                 model.displayName ?? "",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       color: myFavColor7,
                                     ),
                               ),
@@ -158,9 +159,9 @@ class AppliedJobScreen extends StatelessWidget {
                                         : "",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
-                                          fontSize: 14,
+                                          fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
                                   )
@@ -173,7 +174,7 @@ class AppliedJobScreen extends StatelessWidget {
                           ),
                           Text(
                             model.titleOfJob ?? "",
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const SizedBox(
                             height: 8,
@@ -181,8 +182,8 @@ class AppliedJobScreen extends StatelessWidget {
                           Text(
                             "${model.displayName ?? ""} applied for a job as \"${model.titleOfJob ?? ""}\"",
                             style:
-                                Theme.of(context).textTheme.caption!.copyWith(
-                                      fontSize: 16,
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontSize: 16.sp,
                                       color: myFavColor7,
                                     ),
                           ),
@@ -197,9 +198,9 @@ class AppliedJobScreen extends StatelessWidget {
                                   model.email!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .caption!
+                                      .bodySmall!
                                       .copyWith(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: myFavColor.withOpacity(0.8),
                                       ),
                                 ),
@@ -210,9 +211,8 @@ class AppliedJobScreen extends StatelessWidget {
                                   "Job Id:${model.jobid ?? ""}",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .caption!
+                                      .bodySmall!
                                       .copyWith(
-                                        fontSize: 12,
                                         color: myFavColor.withOpacity(0.8),
                                       ),
                                 ),
@@ -254,7 +254,7 @@ class AppliedJobScreen extends StatelessWidget {
                         ),
                         Text(
                           "Show CV",
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ],
                     ),

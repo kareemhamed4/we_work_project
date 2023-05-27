@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/layout_company/layout_screen.dart';
@@ -24,7 +25,6 @@ class SendAcceptScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     DateTime dateTime = DateTime.now();
     return BlocConsumer<CompanyOffersCubit, CompanyOffersStates>(
       listener: (context, state) {
@@ -67,8 +67,8 @@ class SendAcceptScreen extends StatelessWidget {
               isFreelance ? 'Send Accept' : "Create Meeting",
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -86,7 +86,7 @@ class SendAcceptScreen extends StatelessWidget {
                           color: myFavColor,
                         ),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   myTextFormField(
                     context: context,
                     controller: meetingTopicController,
@@ -111,7 +111,7 @@ class SendAcceptScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "Meeting Agenda",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -119,7 +119,7 @@ class SendAcceptScreen extends StatelessWidget {
                           color: myFavColor,
                         ),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   myTextFormField(
                     context: context,
                     controller: meetingAgendaController,
@@ -144,7 +144,7 @@ class SendAcceptScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "Meeting Date",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -152,7 +152,7 @@ class SendAcceptScreen extends StatelessWidget {
                           color: myFavColor,
                         ),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   myTextFormField(
                     context: context,
                     controller: meetingDateController,
@@ -195,7 +195,7 @@ class SendAcceptScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "Meeting Time",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -203,7 +203,7 @@ class SendAcceptScreen extends StatelessWidget {
                           color: myFavColor,
                         ),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   myTextFormField(
                     context: context,
                     controller: meetingTimeController,
@@ -240,7 +240,7 @@ class SendAcceptScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "Meeting Duration",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -248,7 +248,7 @@ class SendAcceptScreen extends StatelessWidget {
                           color: myFavColor,
                         ),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   myTextFormField(
                     context: context,
                     controller: meetingDurationController,
@@ -273,7 +273,7 @@ class SendAcceptScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   Text(
                     "Message",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -281,7 +281,7 @@ class SendAcceptScreen extends StatelessWidget {
                           color: myFavColor,
                         ),
                   ),
-                  mySizedBox(size: size, myHeight: 12),
+                  SizedBox(height: 12.h),
                   myTextFormField(
                     context: context,
                     controller: messageController,
@@ -300,7 +300,7 @@ class SendAcceptScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 30),
+                  SizedBox(height: 30.h),
                   ConditionalBuilder(
                     condition:
                         state is! CompanyAcceptFreeLanceOfferLoadingState,
@@ -320,7 +320,7 @@ class SendAcceptScreen extends StatelessWidget {
                       },
                       labelWidget: Text(
                         isFreelance ? 'Send Accept' : "Create Meeting",
-                        style: Theme.of(context).textTheme.button,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
                     fallback: (context) => myMaterialButton(
@@ -340,7 +340,7 @@ class SendAcceptScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 30),
+                  SizedBox(height: 30.h),
                 ],
               ),
             ),

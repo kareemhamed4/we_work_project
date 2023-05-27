@@ -32,8 +32,8 @@ class _NextExamFormState extends State<NextExamForm> {
           'Exam Form',
           style: Theme.of(context)
               .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
+              .headlineSmall!
+              .copyWith(color: myFavColor),
         ),
         centerTitle: true,
       ),
@@ -44,7 +44,7 @@ class _NextExamFormState extends State<NextExamForm> {
           children: [
             Text(
               'Do You Work on socket io?',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             RadioGroup<String>.builder(
               fillColor: myFavColor,
@@ -63,7 +63,7 @@ class _NextExamFormState extends State<NextExamForm> {
             ),
             Text(
               'Do You Work on ML Model?',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             RadioGroup<String>.builder(
               fillColor: myFavColor,
@@ -82,7 +82,7 @@ class _NextExamFormState extends State<NextExamForm> {
             ),
             Text(
               'Do You have experience in animation?',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             RadioGroup<String>.builder(
               fillColor: myFavColor,
@@ -101,7 +101,7 @@ class _NextExamFormState extends State<NextExamForm> {
             ),
             Text(
               'Do you known responsive ui?',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             RadioGroup<String>.builder(
               fillColor: myFavColor,
@@ -125,7 +125,7 @@ class _NextExamFormState extends State<NextExamForm> {
               },
               labelWidget: Text(
                 'Send',
-                style: Theme.of(context).textTheme.button,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
             ),
           ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:we_work/models/user/user_get_applied_jobs_model.dart';
-import 'package:we_work/modules/user/applicate_details/applicate_google_details.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/saved_jobs/cubit/cubit.dart';
 import 'package:we_work/modules/user/saved_jobs/cubit/states.dart';
@@ -41,8 +41,8 @@ class SavedJob extends StatelessWidget {
               'Applied Job',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -67,7 +67,7 @@ class SavedJob extends StatelessWidget {
                             size: size,
                             model: cubit.getAppliedJobsModel!),
                         separatorBuilder: (context, index) =>
-                            mySizedBox(size: size, myHeight: 20),
+                            SizedBox(height: 20.h),
                         itemCount: cubit.getAppliedJobsModel!.length,
                       ),
                     ),
@@ -172,9 +172,9 @@ class SavedJob extends StatelessWidget {
                             model[index].name ?? "",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyLarge!
                                 .copyWith(
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   color: myFavColor7,
                                 ),
                           ),
@@ -183,7 +183,7 @@ class SavedJob extends StatelessWidget {
                           ),
                           Text(
                             model[index].title ?? "",
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ],
                       ),
@@ -194,8 +194,8 @@ class SavedJob extends StatelessWidget {
                   ),
                   Text(
                     model[index].message ?? "",
-                    style: Theme.of(context).textTheme.caption!.copyWith(
-                          fontSize: 16,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontSize: 16.sp,
                           color: myFavColor7,
                         ),
                     maxLines: 2,
@@ -219,9 +219,9 @@ class SavedJob extends StatelessWidget {
                                 : "",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyLarge!
                                 .copyWith(
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   color: myFavColor7,
                                 ),
                           )
@@ -229,8 +229,8 @@ class SavedJob extends StatelessWidget {
                       ),
                       Text(
                         "Job Id:${model[index].jobid ?? ""}",
-                        style: Theme.of(context).textTheme.caption!.copyWith(
-                              fontSize: 16,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              fontSize: 16.sp,
                               color: myFavColor.withOpacity(0.8),
                             ),
                       ),

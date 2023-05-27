@@ -177,7 +177,7 @@ class LayoutCompanyScreen extends StatelessWidget {
                                     "N.J.",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .headlineSmall!
                                         .copyWith(
                                             color: myFavColor.withOpacity(0.8)),
                                   ),
@@ -204,7 +204,7 @@ class LayoutCompanyScreen extends StatelessWidget {
                                     "F.J.",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .headlineSmall!
                                         .copyWith(
                                             color: myFavColor.withOpacity(0.8)),
                                   ),

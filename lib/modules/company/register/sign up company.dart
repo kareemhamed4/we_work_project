@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/modules/company/register/cubit/cubit.dart';
 import 'package:we_work/modules/company/register/cubit/states.dart';
@@ -26,7 +27,6 @@ class SignUpCompany extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<CompanyRegisterCubit, CompanyRegisterStates>(
       listener: (context, state) {
         if (state is CompanyRegisterSuccessState) {
@@ -57,8 +57,8 @@ class SignUpCompany extends StatelessWidget {
               'Sign up',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -72,15 +72,14 @@ class SignUpCompany extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Company Name',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: nameController,
@@ -92,15 +91,14 @@ class SignUpCompany extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Company Email',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: emailController,
@@ -112,15 +110,14 @@ class SignUpCompany extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Company Password',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: passwordController,
@@ -140,15 +137,14 @@ class SignUpCompany extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Confirm Password',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: confirmPasswordController,
@@ -168,15 +164,14 @@ class SignUpCompany extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Phone Number',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: phoneController,
@@ -188,15 +183,14 @@ class SignUpCompany extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'BIO',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: bioController,
@@ -208,7 +202,7 @@ class SignUpCompany extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 20),
+                    SizedBox(height: 20.h),
                     Row(
                       children: [
                         Expanded(
@@ -219,10 +213,9 @@ class SignUpCompany extends StatelessWidget {
                                 'Country',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText2!
-                                    .copyWith(fontSize: 14),
+                                    .bodyMedium,
                               ),
-                              mySizedBox(size: size, myHeight: 13),
+                              SizedBox(height: 13.h),
                               myTextFormField(
                                 context: context,
                                 controller: countryController,
@@ -237,7 +230,7 @@ class SignUpCompany extends StatelessWidget {
                             ],
                           ),
                         ),
-                        mySizedBox(size: size, myWidth: 17),
+                        SizedBox(height: 17.h),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,10 +239,9 @@ class SignUpCompany extends StatelessWidget {
                                 'City',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText2!
-                                    .copyWith(fontSize: 14),
+                                    .bodyMedium,
                               ),
-                              mySizedBox(size: size, myHeight: 13),
+                              SizedBox(height: 13.h),
                               myTextFormField(
                                 context: context,
                                 controller: cityController,
@@ -266,7 +258,7 @@ class SignUpCompany extends StatelessWidget {
                         ),
                       ],
                     ),
-                    mySizedBox(size: size, myHeight: 40),
+                    SizedBox(height: 40.h),
                     ConditionalBuilder(
                       condition: state is! CompanyRegisterLoadingState,
                       builder: (context) => myMaterialButton(
@@ -287,7 +279,7 @@ class SignUpCompany extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Sign Up',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -307,7 +299,7 @@ class SignUpCompany extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size, myHeight: 11),
+                    SizedBox(height: 11.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -315,8 +307,7 @@ class SignUpCompany extends StatelessWidget {
                           "Already have an account?",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText2!
-                              .copyWith(fontSize: 14),
+                              .bodyMedium,
                         ),
                         myTextButton(
                           context: context,
@@ -327,7 +318,7 @@ class SignUpCompany extends StatelessWidget {
                         )
                       ],
                     ),
-                    mySizedBox(size: size, myHeight: 30),
+                    SizedBox(height: 30.h),
                   ],
                 ),
               ),

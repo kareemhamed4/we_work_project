@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/bloc_observer.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
-import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
-import 'package:we_work/layout_company/layout_screen.dart';
-import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
 import 'package:we_work/modules/common/forget_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/login/cubit/cubit.dart';
 import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
@@ -105,11 +103,18 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => CompanyFilterUsersCubit()),
           BlocProvider(create: (BuildContext context) => CVCubit()),
         ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: lightTheme,
-          themeMode: ThemeMode.light,
-          home: startWidget,
+        child: ScreenUtilInit(
+          designSize: const Size(360, 780),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context,child){
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: lightTheme,
+              themeMode: ThemeMode.light,
+              home: startWidget,
+            );
+          }
         ),
       ),
     );

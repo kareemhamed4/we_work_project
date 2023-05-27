@@ -2,6 +2,7 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 Widget myTextFormField({
@@ -35,14 +36,14 @@ Widget myTextFormField({
       ],
       style: Theme.of(context)
           .textTheme
-          .bodyText2!
-          .copyWith(fontSize: 16, color: myFavColor6),
+          .bodyMedium!
+          .copyWith(fontSize: 16.sp, color: myFavColor6),
       decoration: InputDecoration(
         hintText: hint ?? '',
         hintStyle: Theme.of(context)
             .textTheme
-            .bodyText2!
-            .copyWith(fontSize: 16, color: myFavColor4),
+            .bodyMedium!
+            .copyWith(fontSize: 16.sp, color: myFavColor4),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
@@ -118,8 +119,8 @@ Widget myTextButton({
         label,
         style: Theme.of(context)
             .textTheme
-            .headline6!
-            .copyWith(fontSize: 16)
+            .titleLarge!
+            .copyWith(fontSize: 16.sp)
             .copyWith(color: myFavColor),
       ),
     );
@@ -153,7 +154,7 @@ Widget buildFeedbackBox({
         hintMaxLines: 1,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-        hintStyle: Theme.of(context).textTheme.caption,
+        hintStyle: Theme.of(context).textTheme.bodySmall,
         fillColor: Colors.white,
         filled: false,
         enabledBorder: OutlineInputBorder(
@@ -174,16 +175,6 @@ Widget buildFeedbackBox({
     ),
   );
 }
-
-Widget mySizedBox({
-  required Size size,
-  double? myHeight,
-  double? myWidth,
-}) =>
-    SizedBox(
-      height: myHeight != null ? size.height * myHeight / 780 : 0,
-      width: myWidth != null ? size.width * myWidth / 360 : 0,
-    );
 
 void buildSuccessToast({
   required BuildContext context,

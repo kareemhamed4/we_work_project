@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/network/local/cache_helper.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -29,19 +30,19 @@ class Onboarding extends StatelessWidget {
                   'Our App',
                   style: Theme.of(context)
                       .textTheme
-                      .headline6!
+                      .titleLarge!
                       .copyWith(color: myFavColor),
                 ),
-                mySizedBox(size: size, myHeight: 39),
+                SizedBox(height: 39.h),
                 Text(
                   'helps you in your online job search to find Jobs in Egypt and Middle East. Choose the right job using our online recruitment services',
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .caption!
-                      .copyWith(fontSize: 16, height: 1.5),
+                      .bodySmall!
+                      .copyWith(fontSize: 16.sp, height: 1.5),
                 ),
-                mySizedBox(size: size, myHeight: 77),
+                SizedBox(height: 77.h),
                 myMaterialButton(
                   context: context,
                   onPressed: () {
@@ -53,10 +54,10 @@ class Onboarding extends StatelessWidget {
                   },
                   labelWidget: Text(
                     'Continue',
-                    style: Theme.of(context).textTheme.button,
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ),
-                mySizedBox(size: size, myHeight: 88),
+                SizedBox(height: 88.h),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: myTextButton(

@@ -1,8 +1,8 @@
 import 'dart:math';
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate/rate.dart';
@@ -75,8 +75,9 @@ class _CompanyHomeState extends State<CompanyHome> {
                     'Search result',
                     style: Theme.of(context)
                         .textTheme
-                        .headline5!
-                        .copyWith(color: myFavColor, fontSize: 20),
+                        .headlineSmall!
+                        .copyWith(color: myFavColor
+                    ),
                   ),
             centerTitle: true,
             actions: [
@@ -232,9 +233,9 @@ class _CompanyHomeState extends State<CompanyHome> {
                                 "Most Popular",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5!
+                                    .headlineSmall!
                                     .copyWith(
-                                      fontSize: 20,
+                                      fontSize: 20.sp,
                                       color: myFavColor,
                                     ),
                               ),
@@ -391,7 +392,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                                 model.data![index].displayName ?? "",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
                                       fontSize: 14,
                                       color: myFavColor7,
@@ -402,7 +403,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                               ),
                               Text(
                                 model.data![index].bio ?? "",
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
                               ),
                               const SizedBox(
                                 height: 6,
@@ -451,8 +452,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                           child: Text(
                             "Show CV",
                             style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 14,
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 14.sp,
                                       color: myFavColor,
                                       decoration: TextDecoration.underline,
                                     ),
@@ -485,8 +486,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                           Text(
                             "${model.data![index].city ?? ""}, ${model.data![index].country ?? ""}",
                             style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 14,
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 14.sp,
                                       color: myFavColor7,
                                     ),
                           ),
@@ -505,7 +506,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                         },
                         labelWidget: Text(
                           'Create Offer',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                     ),

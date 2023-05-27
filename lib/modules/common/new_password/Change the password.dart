@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/common/new_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/new_password/cubit/states.dart';
@@ -17,7 +18,6 @@ class ChangePassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserNewPasswordCubit,UserNewPasswordStates>(
       listener: (context,state){
         if (state is UserNewPasswordSuccessState) {
@@ -44,8 +44,8 @@ class ChangePassword extends StatelessWidget {
               "Create new password",
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -59,32 +59,31 @@ class ChangePassword extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    mySizedBox(size: size,myHeight: 10),
+                    SizedBox(height: 10.h),
                     Image.asset(
                       'assets/image/Rectangle 3 (2).png',
                       fit: BoxFit.cover,
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Please enter anew password must be different from previously password',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 16, height: 1.5),
+                          .bodySmall!
+                          .copyWith(fontSize: 16.sp, height: 1.5),
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         'Enter your email',
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
-                            .copyWith(fontSize: 14),
+                            .bodyMedium,
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: emailController,
@@ -96,18 +95,17 @@ class ChangePassword extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         'Enter your new password',
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
-                            .copyWith(fontSize: 14),
+                            .bodyMedium,
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: passwordController,
@@ -127,18 +125,17 @@ class ChangePassword extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         'Confirm your new password',
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
-                            .copyWith(fontSize: 14),
+                            .bodyMedium,
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: confirmPasswordController,
@@ -158,7 +155,7 @@ class ChangePassword extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                     ConditionalBuilder(
                       condition: state is! UserNewPasswordLoadingState,
                       builder: (context) => myMaterialButton(
@@ -174,7 +171,7 @@ class ChangePassword extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Verify',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -194,7 +191,7 @@ class ChangePassword extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),

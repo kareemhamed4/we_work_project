@@ -2,7 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/modules/user/apply_job/cubit/cubit.dart';
@@ -26,7 +26,6 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
   String? messageEnter;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserApplyJobCubit, UserApplyJobStates>(
       listener: (context, state) {
         if (state is UserApplyJobSuccessState) {
@@ -57,8 +56,8 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
               'Upload CV',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -71,17 +70,12 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: (){
-                        print(cubit.filePath);
-                      },
-                      child: Text(
-                        "Add a certification to apply to a job",
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
+                    Text(
+                      "Add a certification to apply to a job",
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: 20.h,
                     ),
                     DottedBorder(
                       borderType: BorderType.RRect,
@@ -97,13 +91,13 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                                 const BorderRadius.all(Radius.circular(12)),
                             child: Container(
                               width: double.infinity,
-                              height: size.height * 178 / size.height,
+                              height: 178.h,
                               color: myFavColor5,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    width: 125,
+                                    width: 125.w,
                                     child: myMaterialButton(
                                       context: context,
                                       labelWidget: Text(
@@ -121,7 +115,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                                       },
                                     ),
                                   ),
-                                  mySizedBox(size: size, myHeight: 6),
+                                  SizedBox(height: 6.h,),
                                   Text(
                                     cubit.result != null
                                         ? cubit.fileName!
@@ -129,7 +123,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
-                                        .copyWith(fontSize: 16, color: myFavColor4),
+                                        .copyWith(fontSize: 16.sp, color: myFavColor4),
                                   ),
                                 ],
                               ),
@@ -149,24 +143,18 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 36,
-                    ),
+                    SizedBox(height: 36.h,),
                     Text(
                       "Information",
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15.h,),
                     buildFeedbackBox(
                       context: context,
                       hint: "Why you see this job Suitable for you?",
                       messageController: textMessageController,
                     ),
-                    const SizedBox(
-                      height: 41,
-                    ),
+                    SizedBox(height: 41.h,),
                     ConditionalBuilder(
                       condition: state is! UserApplyJobLoadingState,
                       builder: (context) => myMaterialButton(
@@ -183,7 +171,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                         },
                         labelWidget: Text(
                           'Send',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -191,11 +179,11 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                         onPressed: (){
                           null;
                         }, // Disable the button when loading
-                        labelWidget: const Center(
+                        labelWidget: Center(
                           child: SizedBox(
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
+                            width: 22.w,
+                            height: 22.h,
+                            child: const CircularProgressIndicator(
                               color: Colors.white,
                               strokeWidth: 3,
                             ),

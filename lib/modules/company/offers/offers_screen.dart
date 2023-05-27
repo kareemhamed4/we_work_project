@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:rate/rate.dart';
 import 'package:we_work/models/company/company_get_freelance_offers.dart';
@@ -61,8 +62,8 @@ class CompanyOffersScreen extends StatelessWidget {
               'Offers',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -108,7 +109,7 @@ class CompanyOffersScreen extends StatelessWidget {
                     'Freelancing offer',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyMedium!
                         .copyWith(color: myFavColor),
                   ),
                   const SizedBox(
@@ -246,9 +247,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                     model[index].reciver ?? "",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
-                                          fontSize: 14,
+                                          fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
                                   ),
@@ -258,7 +259,7 @@ class CompanyOffersScreen extends StatelessWidget {
                                   Text(model[index].bio ?? "",
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText1),
+                                          .bodyMedium!.copyWith(color: myFavColor6)),
                                 ],
                               ),
                             ),
@@ -276,9 +277,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                   : "",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText1!
+                                  .bodyLarge!
                                   .copyWith(
-                                    fontSize: 14,
+                                    fontSize: 14.sp,
                                     color: myFavColor7,
                                   ),
                             )
@@ -297,8 +298,8 @@ class CompanyOffersScreen extends StatelessWidget {
                           Text(
                             model[index].message ?? "",
                             style:
-                                Theme.of(context).textTheme.caption!.copyWith(
-                                      fontSize: 16,
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontSize: 16.sp,
                                     ),
                           ),
                         ],
@@ -414,9 +415,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                     model[index].displayName ?? "",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
-                                          fontSize: 14,
+                                          fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
                                   ),
@@ -426,7 +427,7 @@ class CompanyOffersScreen extends StatelessWidget {
                                   Text(
                                     model[index].offerDetails ?? "",
                                     style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                        Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
                                   ),
                                 ],
                               ),
@@ -447,9 +448,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                         : "",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
-                                          fontSize: 14,
+                                          fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
                                   )
@@ -479,9 +480,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                 "Offer Value",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 12,
+                                      fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
                               ),
@@ -494,9 +495,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                     : "",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 10,
+                                      fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
                               ),
@@ -516,9 +517,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                 "Time to complete",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 12,
+                                      fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
                               ),
@@ -529,9 +530,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                 model[index].timeToComplete ?? "",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 10,
+                                      fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
                               ),
@@ -555,9 +556,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                 "About job",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 12,
+                                      fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
                               ),
@@ -568,9 +569,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                 model[index].title ?? "",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                      fontSize: 10,
+                                      fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
                               ),

@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
@@ -21,7 +22,6 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserHomeCubit, UserHomeStates>(
       listener: (context, state) {
         if (state is UserSendOfferToFreelanceJobSuccessState) {
@@ -48,8 +48,8 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
               'Offer',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -65,10 +65,10 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
                       'Your offer Details',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
+                          .bodyMedium!
                           .copyWith(color: myFavColor),
                     ),
-                    mySizedBox(size: size, myHeight: 10),
+                    SizedBox(height: 10.h),
                     buildFeedbackBox(
                       context: context,
                       minLines: 10,
@@ -81,15 +81,15 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
                       hint: "Type your offer details here...",
                       messageController: offerDetailsController,
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Your offer Value',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
+                          .bodyMedium!
                           .copyWith(color: myFavColor),
                     ),
-                    mySizedBox(size: size, myHeight: 10),
+                    SizedBox(height: 10.h),
                     myTextFormField(
                       context: context,
                       controller: offerValueController,
@@ -101,15 +101,15 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 20),
+                    SizedBox(height: 20.h),
                     Text(
                       'Your offer Value',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
+                          .bodyMedium!
                           .copyWith(color: myFavColor),
                     ),
-                    mySizedBox(size: size, myHeight: 10),
+                    SizedBox(height: 10.h),
                     myTextFormField(
                       context: context,
                       controller: timeToReceiveController,
@@ -121,7 +121,7 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 80),
+                    SizedBox(height: 80.h),
                     ConditionalBuilder(
                       condition: state is! UserSendOfferToFreelanceJobLoadingState,
                       builder: (context) => myMaterialButton(
@@ -138,7 +138,7 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Send Offer',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -158,7 +158,7 @@ class UserSendOfferToFreelanceJobScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size, myHeight: 18),
+                    SizedBox(height: 18.h),
                   ],
                 ),
               ),

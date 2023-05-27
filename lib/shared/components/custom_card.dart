@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -72,9 +73,9 @@ class CustomCard extends StatelessWidget {
                                     pageTitle,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
-                                          fontSize: 14,
+                                          fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
                                   ),
@@ -84,7 +85,7 @@ class CustomCard extends StatelessWidget {
                                   Text(
                                     jobTitle,
                                     style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ],
                               ),
@@ -105,8 +106,8 @@ class CustomCard extends StatelessWidget {
                       jobDescription ?? "",
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 14),
+                          .bodySmall!
+                          .copyWith(fontSize: 14.sp),
                     ),
                     SizedBox(
                       height: 8,
@@ -117,8 +118,8 @@ class CustomCard extends StatelessWidget {
                         "learn more",
                         style: Theme.of(context)
                             .textTheme
-                            .caption!
-                            .copyWith(fontSize: 14, color: myFavColor),
+                            .bodySmall!
+                            .copyWith(fontSize: 14.sp, color: myFavColor),
                       ),
                     ),
                     SizedBox(
@@ -138,7 +139,7 @@ class CustomCard extends StatelessWidget {
                             ),
                             Text(
                               location,
-                              style: Theme.of(context).textTheme.bodyText2,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
                         ),

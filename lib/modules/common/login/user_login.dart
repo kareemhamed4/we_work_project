@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/layout_company/layout_screen.dart';
 import 'package:we_work/modules/common/choose_signup/selection_sign_up.dart';
@@ -21,7 +22,6 @@ class LoginUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserLoginCubit,UserLoginStates>(
       listener: (context,state){
         if(state is UserLoginSuccessState){
@@ -53,8 +53,8 @@ class LoginUser extends StatelessWidget {
               'Welcome Back',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -68,15 +68,14 @@ class LoginUser extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Email',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: emailController,
@@ -88,15 +87,14 @@ class LoginUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 24),
+                    SizedBox(height: 24.h),
                     Text(
                       'Password',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: passwordController,
@@ -116,7 +114,7 @@ class LoginUser extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     Align(
                       alignment: AlignmentDirectional.centerEnd,
                       child: myTextButton(
@@ -126,7 +124,7 @@ class LoginUser extends StatelessWidget {
                             NavigateTo(context: context, widget: ForgetPassword());
                           }),
                     ),
-                    mySizedBox(size: size,myHeight: 200),
+                    SizedBox(height: 200.h),
                     ConditionalBuilder(
                       condition: state is! UserLoginLoadingState,
                       builder: (context) => myMaterialButton(
@@ -141,7 +139,7 @@ class LoginUser extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Log in',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -161,7 +159,7 @@ class LoginUser extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size,myHeight: 8),
+                    SizedBox(height: 8.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -169,8 +167,7 @@ class LoginUser extends StatelessWidget {
                           "Don't have an account?",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText2!
-                              .copyWith(fontSize: 14),
+                              .bodyMedium,
                         ),
                         myTextButton(
                           context: context,
@@ -181,7 +178,7 @@ class LoginUser extends StatelessWidget {
                         )
                       ],
                     ),
-                    mySizedBox(size: size,myHeight: 205),
+                    SizedBox(height: 200.h),
                   ],
                 ),
               ),

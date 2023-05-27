@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/models/company/company_get_jobs_model.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
@@ -15,8 +16,8 @@ class CompanyJobDetails extends StatelessWidget {
           'Job Details',
           style: Theme.of(context)
               .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
+              .headlineSmall!
+              .copyWith(color: myFavColor),
         ),
         centerTitle: true,
       ),
@@ -47,7 +48,7 @@ class CompanyJobDetails extends StatelessWidget {
               ),
               Text(
                 companyGetJobsModel.title!,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 32,
@@ -68,7 +69,7 @@ class CompanyJobDetails extends StatelessWidget {
                         ),
                         Text(
                           "${companyGetJobsModel.city} , ${companyGetJobsModel.country}",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -86,7 +87,7 @@ class CompanyJobDetails extends StatelessWidget {
                         ),
                         Text(
                           companyGetJobsModel.jobType ?? "",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -104,7 +105,7 @@ class CompanyJobDetails extends StatelessWidget {
                         ),
                         Text(
                           companyGetJobsModel.workPlace ?? "",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -138,8 +139,8 @@ class CompanyJobDetails extends StatelessWidget {
                               companyGetJobsModel.position!,
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 14),
+                                  .bodySmall!
+                                  .copyWith(fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -156,8 +157,8 @@ class CompanyJobDetails extends StatelessWidget {
                               companyGetJobsModel.experience!,
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 14),
+                                  .bodySmall!
+                                  .copyWith(fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -174,8 +175,8 @@ class CompanyJobDetails extends StatelessWidget {
                               companyGetJobsModel.salary.toString(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 14),
+                                  .bodySmall!
+                                  .copyWith(fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -204,16 +205,16 @@ class CompanyJobDetails extends StatelessWidget {
                           "Job Description",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
-                              .copyWith(color: myFavColor, fontSize: 16),
+                              .bodyLarge!
+                              .copyWith(color: myFavColor),
                         ),
                       ),
                       Text(
                         companyGetJobsModel.description!,
                         style: Theme.of(context)
                             .textTheme
-                            .caption!
-                            .copyWith(fontSize: 14, height: 1.5),
+                            .bodySmall!
+                            .copyWith(fontSize: 14.sp, height: 1.5),
                       ),
                       const SizedBox(
                         height: 21,
@@ -222,8 +223,8 @@ class CompanyJobDetails extends StatelessWidget {
                         "Job Requirement",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText1!
-                            .copyWith(color: myFavColor, fontSize: 16),
+                            .bodyLarge!
+                            .copyWith(color: myFavColor),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
@@ -265,7 +266,7 @@ class CompanyJobDetails extends StatelessWidget {
                 },
                 labelWidget: Text(
                   'Delete Job',
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
             ],

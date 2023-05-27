@@ -17,8 +17,8 @@ class ApplicateDetailsForGoogle extends StatelessWidget {
           'Applicate Details',
           style: Theme.of(context)
               .textTheme
-              .headline5!
-              .copyWith(color: myFavColor, fontSize: 20),
+              .headlineSmall!
+              .copyWith(color: myFavColor),
         ),
         centerTitle: true,
       ),
@@ -59,21 +59,21 @@ class ApplicateDetailsForGoogle extends StatelessWidget {
                             children: [
                               Text(
                                 "Google",
-                                style: Theme.of(context).textTheme.bodyText2,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
                               Text(
                                 "UI,Ux Designer",
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               const SizedBox(
                                 height: 8,
                               ),
                               Text(
                                 "This job posted in 10 dec 2022",
-                                style: Theme.of(context).textTheme.bodyText2,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
@@ -90,7 +90,7 @@ class ApplicateDetailsForGoogle extends StatelessWidget {
                       ),
                       Text(
                         "Job Details",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor),
                       ),
                       const SizedBox(
                         height: 15,
@@ -154,7 +154,7 @@ class ApplicateDetailsForGoogle extends StatelessWidget {
                       ),
                       Text(
                         "CV Resume",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor),
                       ),
                       const SizedBox(
                         height: 20,
@@ -186,7 +186,7 @@ class ApplicateDetailsForGoogle extends StatelessWidget {
                       ),
                       Text(
                         "Interview Details",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor),
                       ),
                       const SizedBox(
                         height: 20,
@@ -243,7 +243,7 @@ class ApplicateDetailsForGoogle extends StatelessWidget {
                 },
                 labelWidget: Text(
                   'Online Meeting',
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
             ),

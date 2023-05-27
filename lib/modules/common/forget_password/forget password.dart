@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/modules/common/forget_password/cubit/cubit.dart';
 import 'package:we_work/modules/common/forget_password/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -15,7 +16,6 @@ class ForgetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserForgetPasswordCubit, UserForgetPasswordStates>(
       listener: (context, state) {
         if (state is UserForgetPasswordSuccessState) {
@@ -37,8 +37,8 @@ class ForgetPassword extends StatelessWidget {
               'Forget Password',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -52,28 +52,27 @@ class ForgetPassword extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    mySizedBox(size: size, myHeight: 40),
+                    SizedBox(height: 40.h),
                     Image.asset(
                       'assets/image/Rectangle 3.png',
                     ),
-                    mySizedBox(size: size, myHeight: 40),
+                    SizedBox(height: 40.h),
                     Text(
                       'Please enter your email address to receive verification code',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 16, height: 1.5),
+                          .bodySmall!
+                          .copyWith(fontSize: 16.sp, height: 1.5),
                     ),
-                    mySizedBox(size: size, myHeight: 45),
+                    SizedBox(height: 45.h),
                     Text(
                       'Enter your email',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium,
                     ),
-                    mySizedBox(size: size, myHeight: 8),
+                    SizedBox(height: 8.h),
                     myTextFormField(
                       context: context,
                       controller: emailController,
@@ -85,7 +84,7 @@ class ForgetPassword extends StatelessWidget {
                         return null;
                       },
                     ),
-                    mySizedBox(size: size, myHeight: 120),
+                    SizedBox(height: 120.h),
                     ConditionalBuilder(
                       condition: state is! UserForgetPasswordLoadingState,
                       builder: (context) => myMaterialButton(
@@ -99,7 +98,7 @@ class ForgetPassword extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Send',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
@@ -119,7 +118,7 @@ class ForgetPassword extends StatelessWidget {
                         ),
                       ),
                     ),
-                    mySizedBox(size: size, myHeight: 40),
+                    SizedBox(height: 40.h),
                   ],
                 ),
               ),

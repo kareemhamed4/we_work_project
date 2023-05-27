@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -82,8 +83,8 @@ class _HomeState extends State<Home> {
                     'Search result',
                     style: Theme.of(context)
                         .textTheme
-                        .headline5!
-                        .copyWith(color: myFavColor, fontSize: 20),
+                        .headlineSmall!
+                        .copyWith(color: myFavColor),
                   ),
             centerTitle: true,
             actions: [
@@ -178,7 +179,8 @@ class _HomeState extends State<Home> {
                                 searchController.text = value;
                               }
                             });
-                            cubit.userGetSearchedJobs(search: searchController.text);
+                            cubit.userGetSearchedJobs(
+                                search: searchController.text);
                           },
                           context: context,
                           hint: "Search",
@@ -223,20 +225,20 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 16),
                         child: Text(
                           "Available Jobs",
-                          style:
-                              Theme.of(context).textTheme.headline5!.copyWith(
-                                    fontSize: 20,
-                                    color: myFavColor,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                color: myFavColor,
+                                fontSize: 20.sp,
+                              ),
                         ),
                       ),
-                      SizedBox(
-                        height: size.height * 20 / size.height,
-                      ),
+                      SizedBox(height: 20.h),
                       if (cubit.userGetAllJobsModel != null)
                         if (cubit.userGetAllJobsModel!.count! > 0)
                           SizedBox(
-                            height: size.height * 192 / 780,
+                            height: 195.h,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: ListView.separated(
@@ -316,11 +318,13 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 16),
                         child: Text(
                           "Freelancing Jobs",
-                          style:
-                              Theme.of(context).textTheme.headline5!.copyWith(
-                                    fontSize: 20,
-                                    color: myFavColor,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                fontSize: 20.sp,
+                                color: myFavColor,
+                              ),
                         ),
                       ),
                       SizedBox(
@@ -412,27 +416,30 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 if (searchController.text.isNotEmpty)
-                  if(cubit.userGetSearchedJobsModel != null)
+                  if (cubit.userGetSearchedJobsModel != null)
                     Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => buildHomeJobCard(
-                        context: context,
-                        size: size,
-                        index: index,
-                        model: cubit.userGetSearchedJobsModel!,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => buildHomeJobCard(
+                          context: context,
+                          size: size,
+                          index: index,
+                          model: cubit.userGetSearchedJobsModel!,
+                        ),
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 16,
+                        ),
+                        itemCount: cubit.userGetSearchedJobsModel!.count!,
                       ),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 16,
-                      ),
-                      itemCount: cubit.userGetSearchedJobsModel!.count!,
                     ),
-                  ),
-                if(searchController.text.isNotEmpty)
-                  if(cubit.userGetSearchedJobsModel == null)
-                    Center(child: CircularProgressIndicator(color: myFavColor,)),
+                if (searchController.text.isNotEmpty)
+                  if (cubit.userGetSearchedJobsModel == null)
+                    Center(
+                        child: CircularProgressIndicator(
+                      color: myFavColor,
+                    )),
               ],
             ),
           ),
@@ -506,9 +513,9 @@ class _HomeState extends State<Home> {
                                   model.data![index].user ?? "",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: myFavColor7,
                                       ),
                                 ),
@@ -517,7 +524,7 @@ class _HomeState extends State<Home> {
                                 ),
                                 Text(
                                   model.data![index].title!,
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                             ),
@@ -538,8 +545,8 @@ class _HomeState extends State<Home> {
                     model.data![index].description ?? "",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
-                        .copyWith(fontSize: 14),
+                        .bodySmall!
+                        .copyWith(fontSize: 16.sp),
                   ),
                   const SizedBox(
                     height: 8,
@@ -550,8 +557,8 @@ class _HomeState extends State<Home> {
                       "learn more",
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 14, color: myFavColor),
+                          .bodySmall!
+                          .copyWith(fontSize: 16.sp, color: myFavColor),
                     ),
                   ),
                   const SizedBox(
@@ -571,14 +578,14 @@ class _HomeState extends State<Home> {
                           ),
                           Text(
                             "${model.data![index].city} , ${model.data![index].country}",
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),
                       Text(
                         "${model.data![index].salary} EG",
-                        style: const TextStyle(
-                            fontSize: 18, color: Color(0xff649344)),
+                        style: TextStyle(
+                            fontSize: 20.sp, color: const Color(0xff649344)),
                       ),
                     ],
                   )
@@ -652,7 +659,7 @@ class _HomeState extends State<Home> {
                                   model[index].projectOwner ?? "",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(
                                         fontSize: 14,
                                         color: myFavColor7,
@@ -663,7 +670,7 @@ class _HomeState extends State<Home> {
                                 ),
                                 Text(
                                   model[index].title ?? "",
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                             ),
@@ -682,8 +689,8 @@ class _HomeState extends State<Home> {
                     model[index].projectDetails ?? "",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
-                        .copyWith(fontSize: 14),
+                        .bodySmall!
+                        .copyWith(fontSize: 16.sp),
                   ),
                   const SizedBox(
                     height: 8,
@@ -694,8 +701,8 @@ class _HomeState extends State<Home> {
                       "learn more",
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
-                          .copyWith(fontSize: 14, color: myFavColor),
+                          .bodySmall!
+                          .copyWith(fontSize: 16.sp, color: myFavColor),
                     ),
                   ),
                   const SizedBox(
@@ -706,8 +713,8 @@ class _HomeState extends State<Home> {
                     children: [
                       Text(
                         "${model[index].budget ?? ""} EG",
-                        style: const TextStyle(
-                            fontSize: 18, color: Color(0xff649344)),
+                        style: TextStyle(
+                            fontSize: 20.sp, color: const Color(0xff649344)),
                       ),
                     ],
                   )
@@ -731,7 +738,8 @@ class _HomeState extends State<Home> {
     setState(() {
       searchController.text = result.recognizedWords;
     });
-    UserHomeCubit.get(context).userGetSearchedJobs(search: searchController.text);
+    UserHomeCubit.get(context)
+        .userGetSearchedJobs(search: searchController.text);
   }
 
   void _logEvent(String eventDescription) {

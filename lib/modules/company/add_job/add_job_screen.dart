@@ -64,8 +64,8 @@ class _AddJobScreenState extends State<AddJobScreen> {
               'Add Job',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
-                  .copyWith(color: myFavColor, fontSize: 20),
+                  .headlineSmall!
+                  .copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
@@ -85,8 +85,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Title',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -109,8 +108,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Description',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -133,8 +131,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Requirement',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -157,8 +154,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'City',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -181,8 +177,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Country',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -205,8 +200,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Skills',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -229,8 +223,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Salary',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -253,8 +246,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Position',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -283,8 +275,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Job Type',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -313,8 +304,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Experience',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -340,8 +330,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'Work place',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -364,8 +353,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       'DisabledJob',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14),
+                          .bodyMedium
                     ),
                     const SizedBox(
                       height: 8,
@@ -411,7 +399,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                         },
                         labelWidget: Text(
                           'Confirm',
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
