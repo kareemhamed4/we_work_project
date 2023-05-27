@@ -238,7 +238,7 @@ class _HomeState extends State<Home> {
                       if (cubit.userGetAllJobsModel != null)
                         if (cubit.userGetAllJobsModel!.count! > 0)
                           SizedBox(
-                            height: 195.h,
+                            height: 208.h,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: ListView.separated(
@@ -333,7 +333,7 @@ class _HomeState extends State<Home> {
                       if (cubit.userGetFreelanceJobsModel != null)
                         if (cubit.userGetFreelanceJobsModel!.isNotEmpty)
                           SizedBox(
-                            height: size.height * 192 / 780,
+                            height: 206.h,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: ListView.separated(
