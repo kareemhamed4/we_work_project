@@ -138,7 +138,7 @@ class _MyProfileState extends State<MyProfile> {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      NavigateTo(context: context, widget: EditProfileScreen());
+                      NavigateTo(context: context, widget: const EditProfileScreen());
                     },
                     icon: Icon(
                       Icons.edit_outlined,
@@ -535,6 +535,7 @@ class _MyProfileState extends State<MyProfile> {
                         child: GestureDetector(
                           onTap: () {
                             CacheHelper.removeData(key: "userToken");
+                            LayoutCubit.get(context).changeIndex(0);
                             NavigateToReb(
                               context: context,
                               widget: LoginUser(),

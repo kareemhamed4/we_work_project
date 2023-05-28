@@ -98,6 +98,34 @@ class CompanyOffersCubit extends Cubit<CompanyOffersStates> {
     });
   }
 
+  Future<void> companyDeclineFreelanceOffer({
+    required int offerId,
+  }) async{
+    emit(CompanyDeclineFreelanceOfferLoadingState());
+    await DioHelper.deleteData(
+      url: "$COMPANYDECLINEFREELANCEOFFER$offerId",
+      token: companyToken,
+      baseUrl: BASEURL,
+    ).then((value) {
+      emit(CompanyDeclineFreelanceOfferSuccessState("Freelance offer Declined Successfully!"));
+      companyGetAllFreelanceOffers();
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final errorResponse = error.response?.data;
+          final errorMessage = errorResponse["title"];
+          emit(CompanyDeclineFreelanceOfferErrorState(errorMessage));
+        } else {
+          // Handle other DioError cases
+          emit(CompanyDeclineFreelanceOfferErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        // Handle non-DioError cases
+        emit(CompanyDeclineFreelanceOfferErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
+
   String? meetingUrl;
   Future<void> createZoomMeeting({
     required String topic,

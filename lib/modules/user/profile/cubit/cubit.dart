@@ -13,6 +13,15 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
 
   static UserProfileCubit get(context) => BlocProvider.of(context);
 
+  String? selectedExperience;
+  List<String> experienceList = [
+    "No Experience",
+    "less than year",
+    "1 year",
+    "2-3 year",
+    "more than 10 years"
+  ];
+
   UserProfileModel? userProfileModel;
   void getUserInfo() {
     emit(UserGetProfileLoadingState());
@@ -44,6 +53,7 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
     required String education,
     required String position,
     required String jobType,
+    required String experience,
   }) {
     emit(UserUpdateProfileLoadingState());
     DioHelper.postData(
@@ -56,6 +66,7 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
         "Education": education,
         "Position": position,
         "JobType": jobType,
+        "Experine": experience,
       },
     ).then((value) {
       if (value.statusCode == 200) {

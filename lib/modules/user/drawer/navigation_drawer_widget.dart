@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
 import 'package:we_work/modules/user/profile/cubit/states.dart';
@@ -80,7 +81,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                       buildMenuItem(
                         isChecked: false,
                         text: 'BIO',
-                        icon: FontAwesomeIcons.infoCircle,
+                        icon: FontAwesomeIcons.circleInfo,
                         onClicked: () => selectedItem(context, 3),
                       ),
                       buildMenuItem(
@@ -104,6 +105,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                         icon: FontAwesomeIcons.powerOff,
                         onClicked: (){
                           CacheHelper.removeData(key: "userToken");
+                          LayoutCubit.get(context).changeIndex(0);
                           NavigateToReb(
                             context: context,
                             widget: LoginUser(),

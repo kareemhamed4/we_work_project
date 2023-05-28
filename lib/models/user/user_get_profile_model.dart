@@ -9,6 +9,8 @@ class UserProfileModel {
   String? education;
   String? position;
   String? jobType;
+  String? experince;
+  String? dateOfCreation;
 
   UserProfileModel(
       {this.displayName,
@@ -20,7 +22,10 @@ class UserProfileModel {
         this.country,
         this.position,
         this.jobType,
-        this.education});
+        this.education,
+        this.dateOfCreation,
+        this.experince,
+      });
 
   UserProfileModel.fromJson(Map<String, dynamic> json) {
     displayName = json['displayName'];
@@ -33,5 +38,7 @@ class UserProfileModel {
     position = json['position'];
     jobType = json['jobType'];
     education = json['education'];
+    dateOfCreation = json['dateOfCreation'];
+    experince = json['experince'];
   }
 }

@@ -126,4 +126,32 @@ class CompanyGetUsersWhoAppliedCubit extends Cubit<CompanyGetUsersWhoAppliedStat
       }
     }
   }
+
+  Future<void> companyDeclineUserApplied({
+    required int applicantId,
+  }) async{
+    emit(CompanyDeclineUserAppliedLoadingState());
+    await DioHelper.deleteData(
+      url: "$COMPANYDECLINEUSERAPPLIED$applicantId",
+      token: companyToken,
+      baseUrl: BASEURL,
+    ).then((value) {
+      emit(CompanyDeclineUserAppliedSuccessState("Applicant Declined Successfully!"));
+      companyGetAllUsersWhoApplied();
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final errorResponse = error.response?.data;
+          final errorMessage = errorResponse["title"];
+          emit(CompanyDeclineUserAppliedErrorState(errorMessage));
+        } else {
+          // Handle other DioError cases
+          emit(CompanyDeclineUserAppliedErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        // Handle non-DioError cases
+        emit(CompanyDeclineUserAppliedErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
 }

@@ -22,7 +22,8 @@ class CompanyDetails extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
+          child: UserHomeCubit.get(context)
+              .userProfileModel != null ? Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (UserHomeCubit.get(context)
@@ -145,40 +146,9 @@ class CompanyDetails extends StatelessWidget {
                       const SizedBox(
                         height: 6,
                       ),
-                      const Text(
-                        "15-6-1999",
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "Industry",
-                        style:
-                            TextStyle(fontSize: 14, color: Color(0xff649344)),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
                       Text(
-                        UserHomeCubit.get(context).userProfileModel!.education ?? "",
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "Number of Employee",
-                        style:
-                            TextStyle(fontSize: 14, color: Color(0xff649344)),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      const Text(
-                        "120 employer",
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                        UserHomeCubit.get(context).userProfileModel!.dateOfCreation?? "",
+                        style: const TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       const SizedBox(
                         height: 20,
@@ -204,7 +174,7 @@ class CompanyDetails extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ) : const Center(child: CircularProgressIndicator()),
         ),
       ),
     );

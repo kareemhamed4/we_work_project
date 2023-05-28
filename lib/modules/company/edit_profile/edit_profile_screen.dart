@@ -18,8 +18,10 @@ class CompanyEditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController bioController = TextEditingController();
     TextEditingController nameController = TextEditingController();
+    TextEditingController sinceController = TextEditingController();
     var model = CompanyProfileCubit.get(context).companyProfileModel;
     bioController.text = model != null ? model.bio ?? bioController.text : " ";
+    sinceController.text = model != null ? model.dateOfCreation ?? sinceController.text : " ";
     nameController.text =
         model != null ? model.displayName ?? nameController.text : " ";
     return BlocConsumer<CompanyProfileCubit, CompanyProfileStates>(
@@ -103,7 +105,6 @@ class CompanyEditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    SizedBox(height: 20.h),
                     SizedBox(height: 80.h),
                     ConditionalBuilder(
                       condition: state is! CompanyUpdateProfileLoadingState,
@@ -114,6 +115,7 @@ class CompanyEditProfileScreen extends StatelessWidget {
                             cubit.updateCompanyInfo(
                                 name: nameController.text,
                                 bio: bioController.text,
+                                experience: "null",
                                 education: "null",
                                 position: "null",
                                 jobType: "null",

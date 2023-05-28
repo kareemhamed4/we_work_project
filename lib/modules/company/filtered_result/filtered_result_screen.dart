@@ -239,7 +239,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                               ),
                               Text(
                                 model.data![index].bio ?? "",
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
                               ),
                             ],
                           ),

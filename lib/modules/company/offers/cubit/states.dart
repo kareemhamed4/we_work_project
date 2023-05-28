@@ -34,6 +34,16 @@ class CompanyDeleteSentOfferErrorState extends CompanyOffersStates {
   CompanyDeleteSentOfferErrorState(this.error);
 }
 
+class CompanyDeclineFreelanceOfferLoadingState extends CompanyOffersStates {}
+class CompanyDeclineFreelanceOfferSuccessState extends CompanyOffersStates {
+  final String msg;
+  CompanyDeclineFreelanceOfferSuccessState(this.msg);
+}
+class CompanyDeclineFreelanceOfferErrorState extends CompanyOffersStates {
+  final String error;
+  CompanyDeclineFreelanceOfferErrorState(this.error);
+}
+
 class CompanyAcceptFreeLanceOfferLoadingState extends CompanyOffersStates {}
 class CompanyAcceptFreeLanceOfferSuccessState extends CompanyOffersStates {
   final String msg;

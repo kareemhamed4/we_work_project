@@ -36,4 +36,32 @@ class UserOffersCubit extends Cubit<UserOffersStates> {
       }
     });
   }
+
+  Future<void> userDeclineOffer({
+    required int offerId,
+  }) async{
+    emit(UserDeclineOfferLoadingState());
+    await DioHelper.deleteData(
+      url: "$USERDECLINEOFFER$offerId",
+      token: userToken,
+      baseUrl: BASEURL,
+    ).then((value) {
+      emit(UserDeclineOfferSuccessState("Offer Declined Successfully!"));
+      userGetOffers();
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final errorResponse = error.response?.data;
+          final errorMessage = errorResponse["title"];
+          emit(UserDeclineOfferErrorState(errorMessage));
+        } else {
+          // Handle other DioError cases
+          emit(UserDeclineOfferErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        // Handle non-DioError cases
+        emit(UserDeclineOfferErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
 }

@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-const BASEURL = "http://mohamed2132-001-site1.ftempurl.com/api/";
+const BASEURL = "http://mohamed2132-001-site1.ftempurl.com/Api/";
 
 //user endPoints
 const USERLOGIN = "Account/login";
@@ -20,6 +20,7 @@ const USERGETPROFILE = "User/profile/User";
 const USERUPDATEPROFILE = "Account/UpateBio";
 const USERUPLOADIMAGE = "Account/uploadimage";
 const USERGETALLOFFERS = "Offer/GetReceivedOffers";
+const USERDECLINEOFFER = "Offer/DeleteOfferforUser/";
 const USERSENDOFFERTOFREELANCEJOB = "Frelancer/SendOfferFreelance/";
 const GETUSERWITHID = "User/UserById/";
 const GETUSERNOTIFICATION = "Meeting/GetToUser";
@@ -37,6 +38,8 @@ const COMPANYGETSENTOFFERS = "offer/GetSentOffers";
 const COMPANYGETFREELANCEOFFERS = "Frelancer/GetOffersForCompany";
 const COMPANYGETALLHERJOBS = "Job/GetCompanyJob";
 const COMPANYDELETESENDOFFER = "offer/DeleteOffer/";
+const COMPANYDECLINEFREELANCEOFFER = "Frelancer/offersForCompan/";
+const COMPANYDECLINEUSERAPPLIED = "ApplyJob/DeleteApplicantforcompan/";
 const COMPANYDELETEACCEPTEDOFFER = "Meeting/DeleteOffer/";
 const COMPANYACCEPTFREELANCEOFFER = "Meeting/SendAccepted/";
 const COMPANYGETALLMEETINGS = "Meeting/GetToCompany";

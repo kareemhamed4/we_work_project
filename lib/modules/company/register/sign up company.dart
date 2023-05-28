@@ -23,6 +23,7 @@ class SignUpCompany extends StatelessWidget {
   TextEditingController countryController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController bioController = TextEditingController();
+  TextEditingController sinceController = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -33,6 +34,7 @@ class SignUpCompany extends StatelessWidget {
           CacheHelper.saveData(
                   key: "companyToken", value: state.userRegisterModel.token!)
               .then((value) {
+            CacheHelper.getData(key: "companyToken");
             companyToken = state.userRegisterModel.token!;
             NavigateToReb(
                 context: context, widget: const LayoutCompanyScreen());
@@ -75,9 +77,7 @@ class SignUpCompany extends StatelessWidget {
                     SizedBox(height: 8.h),
                     Text(
                       'Company Name',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -94,9 +94,7 @@ class SignUpCompany extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'Company Email',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -111,11 +109,24 @@ class SignUpCompany extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 20.h),
+                    Text('Since',
+                        style: Theme.of(context).textTheme.bodyMedium),
+                    SizedBox(height: 8.h),
+                    myTextFormField(
+                      context: context,
+                      controller: sinceController,
+                      type: TextInputType.phone,
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your since date";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20.h),
                     Text(
                       'Company Password',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -140,9 +151,7 @@ class SignUpCompany extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'Confirm Password',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -167,9 +176,7 @@ class SignUpCompany extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'Phone Number',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -186,9 +193,7 @@ class SignUpCompany extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'BIO',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -196,7 +201,7 @@ class SignUpCompany extends StatelessWidget {
                       controller: bioController,
                       type: TextInputType.text,
                       validate: (value) {
-                        if (value!.length < 11) {
+                        if (value!.isEmpty) {
                           return "Please enter your BIO";
                         }
                         return null;
@@ -211,9 +216,7 @@ class SignUpCompany extends StatelessWidget {
                             children: [
                               Text(
                                 'Country',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               SizedBox(height: 13.h),
                               myTextFormField(
@@ -230,16 +233,14 @@ class SignUpCompany extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 17.h),
+                        SizedBox(width: 17.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'City',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               SizedBox(height: 13.h),
                               myTextFormField(
@@ -274,6 +275,7 @@ class SignUpCompany extends StatelessWidget {
                               confirmPassword: confirmPasswordController.text,
                               phoneNumber: phoneController.text,
                               bio: bioController.text,
+                              since: sinceController.text,
                             );
                           }
                         },
@@ -305,9 +307,7 @@ class SignUpCompany extends StatelessWidget {
                       children: [
                         Text(
                           "Already have an account?",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         myTextButton(
                           context: context,

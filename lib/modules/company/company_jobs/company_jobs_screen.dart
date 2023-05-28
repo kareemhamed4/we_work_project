@@ -169,7 +169,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                                 ),
                                 Text(
                                   model[index].title ?? "",
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
                                 ),
                               ],
                             ),

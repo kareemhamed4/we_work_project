@@ -11,3 +11,13 @@ class UserGetOffersErrorState extends UserOffersStates {
   final String error;
   UserGetOffersErrorState(this.error);
 }
+
+class UserDeclineOfferLoadingState extends UserOffersStates {}
+class UserDeclineOfferSuccessState extends UserOffersStates {
+  final String msg;
+  UserDeclineOfferSuccessState(this.msg);
+}
+class UserDeclineOfferErrorState extends UserOffersStates {
+  final String error;
+  UserDeclineOfferErrorState(this.error);
+}

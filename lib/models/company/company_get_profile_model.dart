@@ -5,6 +5,8 @@ class CompanyProfileModel {
   String? city;
   String? bio;
   String? country;
+  String? experience;
+  String? dateOfCreation;
 
   CompanyProfileModel(
       {this.displayName,
@@ -12,6 +14,8 @@ class CompanyProfileModel {
         this.profilePictureUrl,
         this.city,
         this.bio,
+        this.experience,
+        this.dateOfCreation,
         this.country});
 
   CompanyProfileModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +24,8 @@ class CompanyProfileModel {
     profilePictureUrl = json['profilePictureUrl'];
     city = json['city'];
     bio = json['bio'];
+    experience = json['experince'];
+    dateOfCreation = json['dateOfCreation'];
     country = json['country'];
   }
 }

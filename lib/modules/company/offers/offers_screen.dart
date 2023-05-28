@@ -53,6 +53,13 @@ class CompanyOffersScreen extends StatelessWidget {
             description: state.error,
           );
         }
+        if(state is CompanyDeclineFreelanceOfferSuccessState){
+          buildSuccessToast(
+            context: context,
+            title: "Declined!",
+            description: state.msg,
+          );
+        }
       },
       builder: (context, state) {
         CompanyOffersCubit cubit = BlocProvider.of(context);
@@ -350,6 +357,14 @@ class CompanyOffersScreen extends StatelessWidget {
             icon: Icons.star_rate_outlined,
             foregroundColor: const Color(0xFFFFAA01),
             label: "Rate",
+          ),
+          SlidableAction(
+            onPressed: ((context) {
+              cubit.companyDeclineFreelanceOffer(offerId: model[index].offerId!);
+            }),
+            icon: Icons.close,
+            foregroundColor: myFavColor8,
+            label: "Decline",
           ),
         ]),
         child: Container(

@@ -44,6 +44,7 @@ class CompanyProfileCubit extends Cubit<CompanyProfileStates> {
     required String education,
     required String position,
     required String jobType,
+    required String experience,
   }) {
     emit(CompanyUpdateProfileLoadingState());
     DioHelper.postData(
@@ -51,11 +52,12 @@ class CompanyProfileCubit extends Cubit<CompanyProfileStates> {
       baseUrl: BASEURL,
       token: companyToken,
       query: {
-        "Bio": name,
-        "Name": bio,
+        "Bio": bio,
+        "Name": name,
         "Education": education,
         "Position": position,
         "JobType": jobType,
+        "Experine": experience,
       },
     ).then((value) {
       if (value.statusCode == 200) {

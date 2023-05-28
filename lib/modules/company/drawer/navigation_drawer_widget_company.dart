@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/modules/common/login/user_login.dart';
 import 'package:we_work/modules/company/profile/cubit/cubit.dart';
 import 'package:we_work/modules/company/profile/cubit/states.dart';
@@ -88,7 +89,7 @@ class _NavigationDrawerWidgetCompanyState
                       buildMenuItem(
                         isChecked: false,
                         text: 'BIO',
-                        icon: FontAwesomeIcons.infoCircle,
+                        icon: FontAwesomeIcons.circleInfo,
                         onClicked: () => selectedItem(context, 3),
                       ),
                       const SizedBox(height: 50),
@@ -100,6 +101,7 @@ class _NavigationDrawerWidgetCompanyState
                         icon: FontAwesomeIcons.powerOff,
                         onClicked: (){
                           CacheHelper.removeData(key: "companyToken");
+                          LayoutCompanyCubit.get(context).changeIndex(0, context);
                           NavigateToReb(
                             context: context,
                             widget: LoginUser(),

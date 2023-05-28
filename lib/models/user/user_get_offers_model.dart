@@ -1,4 +1,5 @@
 class UserGetOffersModel {
+  int? id;
   String? message;
   String? offerdDate;
   String? userName;
@@ -8,7 +9,9 @@ class UserGetOffersModel {
   String? pictureUrl;
 
   UserGetOffersModel(
-      {this.message,
+      {
+        this.id,
+        this.message,
         this.offerdDate,
         this.userName,
         this.email,
@@ -17,6 +20,7 @@ class UserGetOffersModel {
         this.pictureUrl});
 
   UserGetOffersModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     message = json['message'];
     offerdDate = json['offerdDate'];
     userName = json['userName'];

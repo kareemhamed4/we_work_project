@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout/layout_screen.dart';
 import 'package:we_work/modules/user/profile/cubit/cubit.dart';
@@ -10,10 +11,21 @@ import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
-class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
+
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
   var formKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    context.read<UserProfileCubit>().selectedExperience = context.read<UserProfileCubit>().userProfileModel != null ? context.read<UserProfileCubit>().userProfileModel!.experince ?? "No Experience" : "No Experience";
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     TextEditingController bioController = TextEditingController();
@@ -25,9 +37,12 @@ class EditProfileScreen extends StatelessWidget {
     bioController.text = model != null ? model.bio ?? bioController.text : " ";
     nameController.text =
         model != null ? model.displayName ?? nameController.text : " ";
-    educationController.text = model != null ? model.education ?? educationController.text : " ";
-    positionController.text = model != null ? model.position ?? positionController.text : " ";
-    jobTypeController.text = model != null ? model.jobType ?? jobTypeController.text : " ";
+    educationController.text =
+        model != null ? model.education ?? educationController.text : " ";
+    positionController.text =
+        model != null ? model.position ?? positionController.text : " ";
+    jobTypeController.text =
+        model != null ? model.jobType ?? jobTypeController.text : " ";
     return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {
         if (state is UserUpdateProfileSuccessState) {
@@ -74,9 +89,7 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(height: 8.h),
                     Text(
                       'Name',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -93,9 +106,7 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'Education',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -112,9 +123,7 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'Bio',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -131,9 +140,7 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'Position',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -150,9 +157,7 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Text(
                       'JobType',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 8.h),
                     myTextFormField(
@@ -166,6 +171,26 @@ class EditProfileScreen extends StatelessWidget {
                         return null;
                       },
                     ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      'Experience',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    SizedBox(height: 8.h),
+                    RadioGroup<String>.builder(
+                      fillColor: myFavColor,
+                      activeColor: myFavColor,
+                      groupValue: cubit.selectedExperience!,
+                      onChanged: (value) => setState(
+                        () {
+                          cubit.selectedExperience = value!;
+                        },
+                      ),
+                      items: cubit.experienceList,
+                      itemBuilder: (item) => RadioButtonBuilder(
+                        item,
+                      ),
+                    ),
                     SizedBox(height: 80.h),
                     ConditionalBuilder(
                       condition: state is! UserUpdateProfileLoadingState,
@@ -174,11 +199,12 @@ class EditProfileScreen extends StatelessWidget {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             cubit.updateUserInfo(
-                                name: nameController.text,
-                                bio: bioController.text,
-                                education: educationController.text,
-                                position: positionController.text,
-                                jobType: jobTypeController.text,
+                              name: nameController.text,
+                              bio: bioController.text,
+                              education: educationController.text,
+                              position: positionController.text,
+                              jobType: jobTypeController.text,
+                              experience: cubit.selectedExperience!,
                             );
                           }
                         },

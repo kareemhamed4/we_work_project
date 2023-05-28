@@ -47,6 +47,13 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
           Navigator.pop(context);
           NavigateTo(context: context, widget: const AppliedJobScreen());
         }
+        if(state is CompanyDeclineUserAppliedSuccessState){
+          buildSuccessToast(
+            context: context,
+            title: "Declined!",
+            description: state.msg,
+          );
+        }
       },
       builder: (context, state) {
         CompanyGetUsersWhoAppliedCubit cubit = BlocProvider.of(context);
@@ -181,11 +188,11 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
               endActionPane: ActionPane(motion: const StretchMotion(), children: [
                 SlidableAction(
                   onPressed: ((context) {
-                    NavigateTo(context: context, widget: SendAcceptScreen(userId: cubit.companyGetAllUsersApplied![index].userId!,isFreelance: false,));
+                    cubit.companyDeclineUserApplied(applicantId: cubit.companyGetAllUsersApplied![index].id!);
                   }),
-                  backgroundColor: Colors.transparent,
-                  icon: Icons.video_call_outlined,
-                  foregroundColor: Colors.red,
+                  icon: Icons.close,
+                  foregroundColor: myFavColor8,
+                  label: "Decline",
                 ),
               ]),
               child: GestureDetector(
@@ -350,7 +357,7 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
                                 ),
                                 Text(
                                   model[index].message ?? "",
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6,fontSize: 14.sp),
                                 ),
                               ],
                             ),

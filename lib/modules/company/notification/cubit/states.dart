@@ -43,3 +43,13 @@ class CompanyGetUserAppliedErrorState extends CompanyGetUsersWhoAppliedStates {
   final String error;
   CompanyGetUserAppliedErrorState(this.error);
 }
+
+class CompanyDeclineUserAppliedLoadingState extends CompanyGetUsersWhoAppliedStates {}
+class CompanyDeclineUserAppliedSuccessState extends CompanyGetUsersWhoAppliedStates {
+  final String msg;
+  CompanyDeclineUserAppliedSuccessState(this.msg);
+}
+class CompanyDeclineUserAppliedErrorState extends CompanyGetUsersWhoAppliedStates {
+  final String error;
+  CompanyDeclineUserAppliedErrorState(this.error);
+}

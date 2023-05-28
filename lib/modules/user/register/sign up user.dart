@@ -269,7 +269,7 @@ class SignUpUser extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 23.h),
+                        SizedBox(width: 23.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

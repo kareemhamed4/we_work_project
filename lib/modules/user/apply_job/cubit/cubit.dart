@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:we_work/modules/user/apply_job/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
@@ -57,6 +56,9 @@ class UserApplyJobCubit extends Cubit<UserApplyJobStates> {
         data: formData,
         token: userToken,
         contentType: 'multipart/form-data; boundary=${formData.boundary}',
+        query: {
+          "message": message,
+        },
       );
       if (response.statusCode == 200) {
         final responseData = response.data.toString();

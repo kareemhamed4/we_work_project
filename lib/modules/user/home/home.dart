@@ -255,38 +255,12 @@ class _HomeState extends State<Home> {
                                         const SizedBox(
                                           width: 8,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            cubit
-                                                .userGetJobDetails(
-                                                    id: cubit
-                                                        .userGetAllJobsModel!
-                                                        .data![index]
-                                                        .id!)
-                                                .then((value) {
-                                              cubit
-                                                  .getUserWithId(
-                                                      userId: cubit
-                                                          .userGetAllJobsModel!
-                                                          .data![index]
-                                                          .appUserId!)
-                                                  .then((value) {
-                                                Navigator.pop(context);
-                                                NavigateTo(
-                                                    context: context,
-                                                    widget: JobDetailsScreen(
-                                                      userGetJobDetailsModel: cubit
-                                                          .userGetJobDetailsModel!,
-                                                    ));
-                                              });
-                                            });
-                                          },
-                                          child: buildHomeJobCard(
-                                            context: context,
-                                            size: size,
-                                            index: index,
-                                            model: cubit.userGetAllJobsModel!,
-                                          ),
+                                        buildHomeJobCard(
+                                          context: context,
+                                          size: size,
+                                          index: index,
+                                          cubit: cubit,
+                                          model: cubit.userGetAllJobsModel!,
                                         ),
                                       ],
                                     ),
@@ -426,6 +400,7 @@ class _HomeState extends State<Home> {
                           context: context,
                           size: size,
                           index: index,
+                          cubit: cubit,
                           model: cubit.userGetSearchedJobsModel!,
                         ),
                         separatorBuilder: (context, index) => const SizedBox(
@@ -453,143 +428,171 @@ class _HomeState extends State<Home> {
     required BuildContext context,
     required UserGetAllJobsModel model,
     required int index,
+    required UserHomeCubit cubit,
   }) =>
-      Container(
-        width: size.width - 40,
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-                color: myFavColor6.withAlpha(20),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: const Offset(0, 0)),
-          ],
-        ),
-        child: Card(
-          margin: EdgeInsets.zero,
-          elevation: 0,
-          color: myFavColor5,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(16),
-            ),
+      GestureDetector(
+        onTap: () {
+          cubit
+              .userGetJobDetails(
+              id: cubit
+                  .userGetAllJobsModel!
+                  .data![index]
+                  .id!)
+              .then((value) {
+            cubit
+                .getUserWithId(
+                userId: cubit
+                    .userGetAllJobsModel!
+                    .data![index]
+                    .appUserId!)
+                .then((value) {
+              Navigator.pop(context);
+              NavigateTo(
+                  context: context,
+                  widget: JobDetailsScreen(
+                    userGetJobDetailsModel: cubit
+                        .userGetJobDetailsModel!,
+                  ));
+            });
+          });
+        },
+        child: Container(
+          width: size.width - 40,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                  color: myFavColor6.withAlpha(20),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0)),
+            ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+          child: Card(
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            color: myFavColor5,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(16),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              if (model.data![index].pictureUrl != null)
+                                CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: myFavColor3,
+                                  backgroundImage: NetworkImage(
+                                      model.data![index].pictureUrl!),
+                                ),
+                              if (model.data![index].pictureUrl == null)
+                                CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: myFavColor3,
+                                  child: Icon(
+                                    Icons.image_not_supported_outlined,
+                                    color: myFavColor4,
+                                  ),
+                                ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    model.data![index].user ?? "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: 14.sp,
+                                          color: myFavColor7,
+                                        ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    model.data![index].title!,
+                                    style: Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          FaIcon(
+                            model.data![index].hasApplied!
+                                ? FontAwesomeIcons.solidBookmark
+                                : FontAwesomeIcons.bookmark,
+                            color: myFavColor.withOpacity(0.5),
+                            size: 20,
+                          ),
+                        ]),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      model.data![index].description ?? "",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 16.sp),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        "learn more",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontSize: 16.sp, color: myFavColor),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 13,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            if (model.data![index].pictureUrl != null)
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: myFavColor3,
-                                backgroundImage: NetworkImage(
-                                    model.data![index].pictureUrl!),
-                              ),
-                            if (model.data![index].pictureUrl == null)
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: myFavColor3,
-                                child: Icon(
-                                  Icons.image_not_supported_outlined,
-                                  color: myFavColor4,
-                                ),
-                              ),
+                            const Icon(
+                              Icons.location_pin,
+                              color: Color(0xff649344),
+                            ),
                             const SizedBox(
                               width: 10,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  model.data![index].user ?? "",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: 14.sp,
-                                        color: myFavColor7,
-                                      ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  model.data![index].title!,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
+                            Text(
+                              "${model.data![index].city} , ${model.data![index].country}",
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
                         ),
-                        FaIcon(
-                          model.data![index].hasApplied!
-                              ? FontAwesomeIcons.solidBookmark
-                              : FontAwesomeIcons.bookmark,
-                          color: myFavColor.withOpacity(0.5),
-                          size: 20,
+                        Text(
+                          "${model.data![index].salary} EG",
+                          style: TextStyle(
+                              fontSize: 20.sp, color: const Color(0xff649344)),
                         ),
-                      ]),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    model.data![index].description ?? "",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(fontSize: 16.sp),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      "learn more",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(fontSize: 16.sp, color: myFavColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 13,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_pin,
-                            color: Color(0xff649344),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "${model.data![index].city} , ${model.data![index].country}",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        "${model.data![index].salary} EG",
-                        style: TextStyle(
-                            fontSize: 20.sp, color: const Color(0xff649344)),
-                      ),
-                    ],
-                  )
-                ]),
+                      ],
+                    )
+                  ]),
+            ),
           ),
         ),
       );
