@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:we_work/models/user/user_get_offers_model.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/states.dart';
@@ -10,8 +13,10 @@ import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class OffersScreen extends StatelessWidget {
-  const OffersScreen({super.key});
-
+  OffersScreen({super.key});
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+  GlobalKey<LiquidPullToRefreshState>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,7 +32,30 @@ class OffersScreen extends StatelessWidget {
       },
       builder: (context, state) {
         UserOffersCubit cubit = BlocProvider.of(context);
+        Future<void> handleRefresh() {
+          final Completer<void> completer = Completer<void>();
+          Timer(const Duration(seconds: 2), () {
+            completer.complete();
+          });
+          cubit.userGetOffers();
+          return completer.future.then<void>((_) {
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                .showSnackBar(
+              SnackBar(
+                content: const Text('Refresh complete'),
+                action: SnackBarAction(
+                  label: 'RETRY',
+                  textColor: myFavColor5,
+                  onPressed: () {
+                    _refreshIndicatorKey.currentState!.show();
+                  },
+                ),
+              ),
+            );
+          });
+        }
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
               'Offers',
@@ -38,41 +66,46 @@ class OffersScreen extends StatelessWidget {
             ),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                if (cubit.userGetOffersModel != null)
-                  ConditionalBuilder(
-                    condition: cubit.userGetOffersModel!.isNotEmpty,
-                    builder: (context) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => buildOffersCard(
-                            size: size,
-                            context: context,
-                            index: index,
-                            cubit: cubit,
-                            model: cubit.userGetOffersModel!,
-                        ),
-                        separatorBuilder: (context, index) =>
-                            SizedBox(height: 16.h),
-                        itemCount: cubit.userGetOffersModel!.length,
-                      ),
-                    ),
-                    fallback: (context) => const Center(child: Text("No Offers Found")),
+          body: LiquidPullToRefresh(
+            key: _refreshIndicatorKey,
+            onRefresh: handleRefresh,
+            color: myFavColor,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 8,
                   ),
-                if (cubit.userGetOffersModel == null)
-                  Center(
-                      child: CircularProgressIndicator(
-                    color: myFavColor,
-                  )),
-              ],
+                  if (cubit.userGetOffersModel != null)
+                    ConditionalBuilder(
+                      condition: cubit.userGetOffersModel!.isNotEmpty,
+                      builder: (context) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => buildOffersCard(
+                              size: size,
+                              context: context,
+                              index: index,
+                              cubit: cubit,
+                              model: cubit.userGetOffersModel!,
+                          ),
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 16.h),
+                          itemCount: cubit.userGetOffersModel!.length,
+                        ),
+                      ),
+                      fallback: (context) => const Center(child: Text("No Offers Found")),
+                    ),
+                  if (cubit.userGetOffersModel == null)
+                    Center(
+                        child: CircularProgressIndicator(
+                      color: myFavColor,
+                    )),
+                ],
+              ),
             ),
           ),
         );

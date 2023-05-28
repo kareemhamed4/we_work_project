@@ -6,8 +6,10 @@ import 'package:we_work/shared/styles/colors.dart';
 ThemeData lightTheme = ThemeData(
   cardColor: myFavColor5,
   primaryColor: myFavColor,
+  colorScheme: ColorScheme.fromSwatch(
+    accentColor: myFavColor.withOpacity(0.4),
+  ),
   scaffoldBackgroundColor: Colors.white,
-  colorScheme: ColorScheme.fromSwatch().copyWith(primary: myFavColor),
   inputDecorationTheme: InputDecorationTheme(
     enabledBorder:
         OutlineInputBorder(borderSide: BorderSide(color: myFavColor7)),

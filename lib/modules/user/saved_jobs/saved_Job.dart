@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:we_work/models/user/user_get_applied_jobs_model.dart';
 import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/modules/user/saved_jobs/cubit/cubit.dart';
@@ -10,7 +13,10 @@ import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class SavedJob extends StatelessWidget {
-  const SavedJob({super.key});
+   SavedJob({super.key});
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+  GlobalKey<LiquidPullToRefreshState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,29 @@ class SavedJob extends StatelessWidget {
       },
       builder: (context, state) {
         UserGetAppliedJobsCubit cubit = BlocProvider.of(context);
+        Future<void> handleRefresh() {
+          final Completer<void> completer = Completer<void>();
+          Timer(const Duration(seconds: 2), () {
+            completer.complete();
+          });
+          cubit.userGetAppliedJobs();
+          return completer.future.then<void>((_) {
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
+              SnackBar(
+                content: const Text('Refresh complete'),
+                action: SnackBarAction(
+                  label: 'RETRY',
+                  textColor: myFavColor5,
+                  onPressed: () {
+                    _refreshIndicatorKey.currentState!.show();
+                  },
+                ),
+              ),
+            );
+          });
+        }
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
               'Applied Job',
@@ -46,40 +74,45 @@ class SavedJob extends StatelessWidget {
             ),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                if (cubit.getAppliedJobsModel != null)
-                  if (cubit.getAppliedJobsModel!.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        reverse: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => buildSavedJobs(
-                            context: context,
-                            index: index,
-                            size: size,
-                            model: cubit.getAppliedJobsModel!),
-                        separatorBuilder: (context, index) =>
-                            SizedBox(height: 20.h),
-                        itemCount: cubit.getAppliedJobsModel!.length,
+          body: LiquidPullToRefresh(
+            key: _refreshIndicatorKey,
+            onRefresh: handleRefresh,
+            color: myFavColor,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  if (cubit.getAppliedJobsModel != null)
+                    if (cubit.getAppliedJobsModel!.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          reverse: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => buildSavedJobs(
+                              context: context,
+                              index: index,
+                              size: size,
+                              model: cubit.getAppliedJobsModel!),
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 20.h),
+                          itemCount: cubit.getAppliedJobsModel!.length,
+                        ),
                       ),
-                    ),
-                if (cubit.getAppliedJobsModel != null)
-                  if (cubit.getAppliedJobsModel!.isEmpty)
-                    const Center(child: Text("No Applicant Found!")),
-                if (cubit.getAppliedJobsModel == null)
-                  Center(
-                      child: CircularProgressIndicator(
-                    color: myFavColor,
-                  )),
-              ],
+                  if (cubit.getAppliedJobsModel != null)
+                    if (cubit.getAppliedJobsModel!.isEmpty)
+                      const Center(child: Text("No Applicant Found!")),
+                  if (cubit.getAppliedJobsModel == null)
+                    Center(
+                        child: CircularProgressIndicator(
+                      color: myFavColor,
+                    )),
+                ],
+              ),
             ),
           ),
         );

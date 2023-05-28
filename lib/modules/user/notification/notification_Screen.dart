@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/models/user/user_get_notification_model.dart';
 import 'package:we_work/modules/user/notification/cubit/cubit.dart';
@@ -9,7 +11,10 @@ import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+  NotificationScreen({super.key});
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+      GlobalKey<LiquidPullToRefreshState>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,30 @@ class NotificationScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         UserNotificationCubit cubit = BlocProvider.of(context);
+        Future<void> handleRefresh() {
+          final Completer<void> completer = Completer<void>();
+          Timer(const Duration(seconds: 2), () {
+            completer.complete();
+          });
+          cubit.userGetNotification();
+          return completer.future.then<void>((_) {
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                .showSnackBar(
+              SnackBar(
+                content: const Text('Refresh complete'),
+                action: SnackBarAction(
+                  label: 'RETRY',
+                  textColor: myFavColor5,
+                  onPressed: () {
+                    _refreshIndicatorKey.currentState!.show();
+                  },
+                ),
+              ),
+            );
+          });
+        }
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
               'Notification',
@@ -31,42 +59,47 @@ class NotificationScreen extends StatelessWidget {
           ),
           body: (cubit.userNotificationModel != null &&
                   cubit.userNotificationModel!.isNotEmpty)
-              ? SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "You have",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            Text(
-                              " ${cubit.userNotificationModel!.length} Notification",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: myFavColor),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 23.h),
-                        ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: cubit.userNotificationModel!.length,
-                            separatorBuilder: (context, index) =>
-                                SizedBox(height: 23.h),
-                            itemBuilder: (context, index) =>
-                                buildNotificationItem(
-                                  context: context,
-                                  size: size,
-                                  index: index,
-                                  model: cubit.userNotificationModel!,
-                                )),
-                      ],
+              ? LiquidPullToRefresh(
+                  key: _refreshIndicatorKey,
+                  onRefresh: handleRefresh,
+                  color: myFavColor,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "You have",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              Text(
+                                " ${cubit.userNotificationModel!.length} Notification",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: myFavColor),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 23.h),
+                          ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: cubit.userNotificationModel!.length,
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(height: 23.h),
+                              itemBuilder: (context, index) =>
+                                  buildNotificationItem(
+                                    context: context,
+                                    size: size,
+                                    index: index,
+                                    model: cubit.userNotificationModel!,
+                                  )),
+                        ],
+                      ),
                     ),
                   ),
                 )
@@ -97,7 +130,7 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
-  Column buildNotificationItem({
+  Widget buildNotificationItem({
     required BuildContext context,
     required Size size,
     required int index,

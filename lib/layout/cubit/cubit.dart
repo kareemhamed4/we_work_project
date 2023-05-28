@@ -15,9 +15,9 @@ class LayoutCubit extends Cubit<LayoutStates> {
 
   List<Widget> screens = [
     DrawerMyUser(),
-    const NotificationScreen(),
-    const SavedJob(),
-    const OffersScreen(),
+    NotificationScreen(),
+    SavedJob(),
+    OffersScreen(),
     const MyProfile(),
   ];
 

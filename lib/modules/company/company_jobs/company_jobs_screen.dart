@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:we_work/models/company/company_get_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
 import 'package:we_work/modules/company/company_job_details/company_job_details.dart';
@@ -20,6 +23,9 @@ class CompanyJobsScreen extends StatefulWidget {
 }
 
 class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+  GlobalKey<LiquidPullToRefreshState>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,7 +37,30 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
       },
       builder: (context, state) {
         CompanyHomeCubit cubit = BlocProvider.of(context);
+        Future<void> handleRefresh() {
+          final Completer<void> completer = Completer<void>();
+          Timer(const Duration(seconds: 2), () {
+            completer.complete();
+          });
+          cubit.companyGetHerJobs();
+          return completer.future.then<void>((_) {
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                .showSnackBar(
+              SnackBar(
+                content: const Text('Refresh complete'),
+                action: SnackBarAction(
+                  label: 'RETRY',
+                  textColor: myFavColor5,
+                  onPressed: () {
+                    _refreshIndicatorKey.currentState!.show();
+                  },
+                ),
+              ),
+            );
+          });
+        }
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
               'Company Jobs',
@@ -43,46 +72,51 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
             centerTitle: true,
           ),
           body: cubit.companyGetJobsModel != null
-              ? SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      if (cubit.companyGetJobsModel!.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            reverse: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: cubit.companyGetJobsModel!.length,
-                            itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                NavigateTo(
-                                    context: context,
-                                    widget: CompanyJobDetails(
-                                      companyGetJobsModel:
-                                          cubit.companyGetJobsModel![index],
-                                    ));
-                              },
-                              child: buildCompanyJobCard(
-                                context: context,
-                                size: size,
-                                index: index,
-                                model: cubit.companyGetJobsModel!,
+              ? LiquidPullToRefresh(
+                  key: _refreshIndicatorKey,
+                  onRefresh: handleRefresh,
+                  color: myFavColor,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        if (cubit.companyGetJobsModel!.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              reverse: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: cubit.companyGetJobsModel!.length,
+                              itemBuilder: (context, index) => GestureDetector(
+                                onTap: () {
+                                  NavigateTo(
+                                      context: context,
+                                      widget: CompanyJobDetails(
+                                        companyGetJobsModel:
+                                            cubit.companyGetJobsModel![index],
+                                      ));
+                                },
+                                child: buildCompanyJobCard(
+                                  context: context,
+                                  size: size,
+                                  index: index,
+                                  model: cubit.companyGetJobsModel!,
+                                ),
+                              ),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 16,
                               ),
                             ),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 16,
-                            ),
                           ),
-                        ),
-                      if (cubit.companyGetJobsModel!.isEmpty)
-                        const Center(
-                            child: Text(
-                                "You don't have any active jobs now, create now!")),
-                    ],
+                        if (cubit.companyGetJobsModel!.isEmpty)
+                          const Center(
+                              child: Text(
+                                  "You don't have any active jobs now, create now!")),
+                      ],
+                    ),
                   ),
                 )
               : Center(
@@ -169,7 +203,10 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                                 ),
                                 Text(
                                   model[index].title ?? "",
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: myFavColor6),
                                 ),
                               ],
                             ),

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:rate/rate.dart';
 import 'package:we_work/models/company/company_get_freelance_offers.dart';
 import 'package:we_work/models/company/company_get_sent_offers_model.dart';
@@ -13,7 +16,10 @@ import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 class CompanyOffersScreen extends StatelessWidget {
-  const CompanyOffersScreen({super.key});
+  CompanyOffersScreen({super.key});
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+  GlobalKey<LiquidPullToRefreshState>();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +69,31 @@ class CompanyOffersScreen extends StatelessWidget {
       },
       builder: (context, state) {
         CompanyOffersCubit cubit = BlocProvider.of(context);
+        Future<void> handleRefresh() {
+          final Completer<void> completer = Completer<void>();
+          Timer(const Duration(seconds: 2), () {
+            completer.complete();
+          });
+          cubit.companyGetAllSentOffers();
+          cubit.companyGetAllFreelanceOffers();
+          return completer.future.then<void>((_) {
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                .showSnackBar(
+              SnackBar(
+                content: const Text('Refresh complete'),
+                action: SnackBarAction(
+                  label: 'RETRY',
+                  textColor: myFavColor5,
+                  onPressed: () {
+                    _refreshIndicatorKey.currentState!.show();
+                  },
+                ),
+              ),
+            );
+          });
+        }
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
               'Offers',
@@ -74,86 +104,91 @@ class CompanyOffersScreen extends StatelessWidget {
             ),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  if (cubit.companyGetSentOffersModel != null)
-                    if (cubit.companyGetSentOffersModel!.isNotEmpty)
-                      ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) =>
-                            buildAcceptedOffersCard(
-                                size: size,
-                                context: context,
-                                index: index,
-                                model: cubit.companyGetSentOffersModel!),
-                        separatorBuilder: (context, index) => const SizedBox(
-                          height: 23,
+          body: LiquidPullToRefresh(
+            key: _refreshIndicatorKey,
+            onRefresh: handleRefresh,
+            color: myFavColor,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    if (cubit.companyGetSentOffersModel != null)
+                      if (cubit.companyGetSentOffersModel!.isNotEmpty)
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) =>
+                              buildAcceptedOffersCard(
+                                  size: size,
+                                  context: context,
+                                  index: index,
+                                  model: cubit.companyGetSentOffersModel!),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 23,
+                          ),
+                          itemCount: cubit.companyGetSentOffersModel!.length,
                         ),
-                        itemCount: cubit.companyGetSentOffersModel!.length,
-                      ),
-                  if (cubit.companyGetSentOffersModel != null)
-                    if (cubit.companyGetSentOffersModel!.isEmpty)
-                      const Center(
-                          child: Text("You haven't sent any offer yet.")),
-                  if (cubit.companyGetSentOffersModel == null)
-                    Center(
-                        child: CircularProgressIndicator(
-                      color: myFavColor,
-                    )),
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  Text(
-                    'Freelancing offer',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: myFavColor),
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  if (cubit.companyGetFreelanceOffersModel != null)
-                    if (cubit.companyGetFreelanceOffersModel!.isNotEmpty)
-                      ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) =>
-                            buildFreelancingOffersCard(
-                                size: size,
-                                context: context,
-                                index: index,
-                                model: cubit.companyGetFreelanceOffersModel!,
-                                cubit: cubit,
-                                state: state),
-                        separatorBuilder: (context, index) => const SizedBox(
-                          height: 23,
+                    if (cubit.companyGetSentOffersModel != null)
+                      if (cubit.companyGetSentOffersModel!.isEmpty)
+                        const Center(
+                            child: Text("You haven't sent any offer yet.")),
+                    if (cubit.companyGetSentOffersModel == null)
+                      Center(
+                          child: CircularProgressIndicator(
+                        color: myFavColor,
+                      )),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    Text(
+                      'Freelancing offer',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: myFavColor),
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    if (cubit.companyGetFreelanceOffersModel != null)
+                      if (cubit.companyGetFreelanceOffersModel!.isNotEmpty)
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) =>
+                              buildFreelancingOffersCard(
+                                  size: size,
+                                  context: context,
+                                  index: index,
+                                  model: cubit.companyGetFreelanceOffersModel!,
+                                  cubit: cubit,
+                                  state: state),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 23,
+                          ),
+                          itemCount: cubit.companyGetFreelanceOffersModel!.length,
                         ),
-                        itemCount: cubit.companyGetFreelanceOffersModel!.length,
-                      ),
-                  if (cubit.companyGetFreelanceOffersModel != null)
-                    if (cubit.companyGetFreelanceOffersModel!.isEmpty)
-                      const Center(
-                          child: Text(
-                              "You don't receive any freelance offer until now")),
-                  if (cubit.companyGetFreelanceOffersModel == null)
-                    Center(
-                        child: CircularProgressIndicator(
-                      color: myFavColor,
-                    )),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
+                    if (cubit.companyGetFreelanceOffersModel != null)
+                      if (cubit.companyGetFreelanceOffersModel!.isEmpty)
+                        const Center(
+                            child: Text(
+                                "You don't receive any freelance offer until now")),
+                    if (cubit.companyGetFreelanceOffersModel == null)
+                      Center(
+                          child: CircularProgressIndicator(
+                        color: myFavColor,
+                      )),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

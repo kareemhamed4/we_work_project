@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:we_work/models/company/company_get_all_meetings_model.dart';
 import 'package:we_work/modules/company/applied_job/applied_job_screen.dart';
 import 'package:we_work/modules/company/notification/cubit/cubit.dart';
@@ -22,6 +25,9 @@ class CompanyNotificationScreen extends StatefulWidget {
 class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
     with TickerProviderStateMixin {
   late TabController tabController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+  GlobalKey<LiquidPullToRefreshState>();
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -57,85 +63,114 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
       },
       builder: (context, state) {
         CompanyGetUsersWhoAppliedCubit cubit = BlocProvider.of(context);
+        Future<void> handleRefresh() {
+          final Completer<void> completer = Completer<void>();
+          Timer(const Duration(seconds: 2), () {
+            completer.complete();
+          });
+          cubit.companyGetAllUsersWhoApplied();
+          cubit.companyGetAllMeetings();
+          return completer.future.then<void>((_) {
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                .showSnackBar(
+              SnackBar(
+                content: const Text('Refresh complete'),
+                action: SnackBarAction(
+                  label: 'RETRY',
+                  textColor: myFavColor5,
+                  onPressed: () {
+                    _refreshIndicatorKey.currentState!.show();
+                  },
+                ),
+              ),
+            );
+          });
+        }
         return Scaffold(
+          key: _scaffoldKey,
           body: SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  TabBar(
-                    controller: tabController,
-                    onTap: (index) {
-                      cubit.changeTabBarIndex(index);
-                      cubit.currentIndexForTabBar = index;
-                    },
-                    indicatorWeight: 3,
-                    indicatorPadding:
-                        const EdgeInsets.symmetric(horizontal: 16),
-                    indicatorColor: myFavColor,
-                    tabs: [
-                      Tab(
-                        height: 40,
-                        child: Text(
-                          "Notifications",
-                          style:
-                              Theme.of(context).textTheme.labelLarge!.copyWith(
-                                    fontSize: 18,
-                                    color: cubit.currentIndexForTabBar == 0
-                                        ? myFavColor
-                                        : myFavColor4,
-                                  ),
-                        ),
-                      ),
-                      Tab(
-                        height: 40,
-                        child: Text(
-                          "Meetings",
-                          style:
-                              Theme.of(context).textTheme.labelLarge!.copyWith(
-                                    fontSize: 18,
-                                    color: cubit.currentIndexForTabBar == 1
-                                        ? myFavColor
-                                        : myFavColor4,
-                                  ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: (cubit.companyGetAllUsersApplied != null &&
-                            cubit.companyMeetingsModel != null)
-                        ? cubit.currentIndexForTabBar == 0
-                            ? buildNotificationContent(context, cubit)
-                            : cubit.companyMeetingsModel!.isNotEmpty
-                                ? ListView.separated(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) =>
-                                        buildMeetingsCard(
-                                            index: index,
-                                            context: context,
-                                            model: cubit.companyMeetingsModel!),
-                                    separatorBuilder: (context, index) =>
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                    itemCount:
-                                        cubit.companyMeetingsModel!.length)
-                                : Center(
-                                    child: CircularProgressIndicator(
-                                      color: myFavColor,
+            child: LiquidPullToRefresh(
+              key: _refreshIndicatorKey,
+              onRefresh: handleRefresh,
+              color: myFavColor,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    TabBar(
+                      controller: tabController,
+                      onTap: (index) {
+                        cubit.changeTabBarIndex(index);
+                        cubit.currentIndexForTabBar = index;
+                      },
+                      indicatorWeight: 3,
+                      indicatorPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
+                      indicatorColor: myFavColor,
+                      tabs: [
+                        Tab(
+                          height: 40,
+                          child: Text(
+                            "Notifications",
+                            style:
+                                Theme.of(context).textTheme.labelLarge!.copyWith(
+                                      fontSize: 18,
+                                      color: cubit.currentIndexForTabBar == 0
+                                          ? myFavColor
+                                          : myFavColor4,
                                     ),
-                                  )
-                        : Center(
-                            child: CircularProgressIndicator(
-                              color: myFavColor,
-                            ),
                           ),
-                  ),
-                ],
+                        ),
+                        Tab(
+                          height: 40,
+                          child: Text(
+                            "Meetings",
+                            style:
+                                Theme.of(context).textTheme.labelLarge!.copyWith(
+                                      fontSize: 18,
+                                      color: cubit.currentIndexForTabBar == 1
+                                          ? myFavColor
+                                          : myFavColor4,
+                                    ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: (cubit.companyGetAllUsersApplied != null &&
+                              cubit.companyMeetingsModel != null)
+                          ? cubit.currentIndexForTabBar == 0
+                              ? buildNotificationContent(context, cubit)
+                              : cubit.companyMeetingsModel!.isNotEmpty
+                                  ? ListView.separated(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) =>
+                                          buildMeetingsCard(
+                                              index: index,
+                                              context: context,
+                                              model: cubit.companyMeetingsModel!),
+                                      separatorBuilder: (context, index) =>
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                      itemCount:
+                                          cubit.companyMeetingsModel!.length)
+                                  : Center(
+                                      child: CircularProgressIndicator(
+                                        color: myFavColor,
+                                      ),
+                                    )
+                          : Center(
+                              child: CircularProgressIndicator(
+                                color: myFavColor,
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -8,19 +8,17 @@ import 'package:we_work/modules/company/notification/cubit/cubit.dart';
 import 'package:we_work/modules/company/offers/offers_screen.dart';
 import 'package:we_work/modules/company/profile/company_profile.dart';
 import 'package:we_work/modules/company/notification/notification_Screen.dart';
-import 'package:we_work/network/end_points.dart';
-import 'package:we_work/network/remote/dio_helper_advanced.dart';
 
 class LayoutCompanyCubit extends Cubit<LayoutCompanyStates> {
   LayoutCompanyCubit() : super(LayoutCompanyInitialState());
   static LayoutCompanyCubit get(context) => BlocProvider.of(context);
 
-  List<Widget> companyScreens = const [
-    DrawerCompany(),
-    CompanyNotificationScreen(),
-    SizedBox(),
+  List<Widget> companyScreens = [
+    const DrawerCompany(),
+    const CompanyNotificationScreen(),
+    const SizedBox(),
     CompanyOffersScreen(),
-    CompanyProfile()
+    const CompanyProfile()
   ];
 
   int currentIndex = 0;
