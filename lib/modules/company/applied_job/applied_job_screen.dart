@@ -38,7 +38,7 @@ class AppliedJobScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 8,
+                    height: 20,
                   ),
                   if (cubit.companyGetUserApplied != null)
                     ListView.separated(

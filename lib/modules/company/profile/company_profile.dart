@@ -418,7 +418,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                             ),
                             Text(
                               "Logout",
-                              style: TextStyle(color: Colors.red),
+                              style: TextStyle(color: Colors.red,fontSize: 16),
                             ),
                             Flexible(
                                 child: SizedBox(

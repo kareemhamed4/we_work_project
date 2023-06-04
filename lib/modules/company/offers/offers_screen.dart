@@ -281,7 +281,7 @@ class CompanyOffersScreen extends StatelessWidget {
                               width: 16,
                             ),
                             SizedBox(
-                              width: 120,
+                              width: 140.w,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -301,7 +301,7 @@ class CompanyOffersScreen extends StatelessWidget {
                                   Text(model[index].bio ?? "",
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium!.copyWith(color: myFavColor6)),
+                                          .bodyMedium!.copyWith(color: myFavColor6,fontSize: 14.sp)),
                                 ],
                               ),
                             ),
@@ -457,7 +457,7 @@ class CompanyOffersScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              width: 120,
+                              width: 140.w,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -477,7 +477,7 @@ class CompanyOffersScreen extends StatelessWidget {
                                   Text(
                                     model[index].offerDetails ?? "",
                                     style:
-                                        Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
+                                        Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6,fontSize: 14.sp),
                                   ),
                                 ],
                               ),

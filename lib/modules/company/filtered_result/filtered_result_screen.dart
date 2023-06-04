@@ -219,7 +219,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                           width: 16,
                         ),
                         SizedBox(
-                          width: 120,
+                          width: 140.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -239,7 +239,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                               ),
                               Text(
                                 model.data![index].bio ?? "",
-                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6),
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6,fontSize: 14.sp),
                               ),
                             ],
                           ),
@@ -291,6 +291,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
+                      flex: 3,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -316,6 +317,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: myMaterialButton(
                         context: context,
                         onPressed: () {
@@ -327,7 +329,7 @@ class CompanyFilteredResultScreen extends StatelessWidget {
                         },
                         labelWidget: Text(
                           'Create Offer',
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 14.sp),
                         ),
                       ),
                     ),

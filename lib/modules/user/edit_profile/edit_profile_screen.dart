@@ -23,9 +23,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    context.read<UserProfileCubit>().selectedExperience = context.read<UserProfileCubit>().userProfileModel != null ? context.read<UserProfileCubit>().userProfileModel!.experince ?? "No Experience" : "No Experience";
+    context.read<UserProfileCubit>().selectedExperience =
+        context.read<UserProfileCubit>().userProfileModel != null
+            ? context.read<UserProfileCubit>().userProfileModel!.experince ??
+                "No Experience"
+            : "No Experience";
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController bioController = TextEditingController();
@@ -77,124 +82,133 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8.h),
-                    Text(
-                      'Name',
-                      style: Theme.of(context).textTheme.bodyMedium,
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 8.h),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: 8.h),
+                        myTextFormField(
+                          context: context,
+                          controller: nameController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your name";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          'Education',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: 8.h),
+                        myTextFormField(
+                          context: context,
+                          controller: educationController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your education";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          'Bio',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: 8.h),
+                        myTextFormField(
+                          context: context,
+                          controller: bioController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your bio";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          'Position',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: 8.h),
+                        myTextFormField(
+                          context: context,
+                          controller: positionController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your position";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          'JobType',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: 8.h),
+                        myTextFormField(
+                          context: context,
+                          controller: jobTypeController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your jobType";
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 8.h),
-                    myTextFormField(
-                      context: context,
-                      controller: nameController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your name";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      'Education',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    SizedBox(height: 8.h),
-                    myTextFormField(
-                      context: context,
-                      controller: educationController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your education";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      'Bio',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    SizedBox(height: 8.h),
-                    myTextFormField(
-                      context: context,
-                      controller: bioController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your bio";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      'Position',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    SizedBox(height: 8.h),
-                    myTextFormField(
-                      context: context,
-                      controller: positionController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your position";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      'JobType',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    SizedBox(height: 8.h),
-                    myTextFormField(
-                      context: context,
-                      controller: jobTypeController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your jobType";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
+                  ),
+                  SizedBox(height: 20.h),
+                  ExpansionTile(
+                    title: Text(
                       'Experience',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    SizedBox(height: 8.h),
-                    RadioGroup<String>.builder(
-                      fillColor: myFavColor,
-                      activeColor: myFavColor,
-                      groupValue: cubit.selectedExperience!,
-                      onChanged: (value) => setState(
-                        () {
-                          cubit.selectedExperience = value!;
-                        },
+                    children: [
+                      RadioGroup<String>.builder(
+                        fillColor: myFavColor,
+                        activeColor: myFavColor,
+                        groupValue: cubit.selectedExperience!,
+                        onChanged: (value) => setState(
+                          () {
+                            cubit.selectedExperience = value!;
+                          },
+                        ),
+                        items: cubit.experienceList,
+                        itemBuilder: (item) => RadioButtonBuilder(
+                          item,
+                        ),
                       ),
-                      items: cubit.experienceList,
-                      itemBuilder: (item) => RadioButtonBuilder(
-                        item,
-                      ),
-                    ),
-                    SizedBox(height: 80.h),
-                    ConditionalBuilder(
-                      condition: state is! UserUpdateProfileLoadingState,
-                      builder: (context) => myMaterialButton(
+                    ],
+                  ),
+                  SizedBox(height: 80.h),
+                  ConditionalBuilder(
+                    condition: state is! UserUpdateProfileLoadingState,
+                    builder: (context) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: myMaterialButton(
                         context: context,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
@@ -213,7 +227,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
-                      fallback: (context) => myMaterialButton(
+                    ),
+                    fallback: (context) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: myMaterialButton(
                         context: context,
                         onPressed: () {
                           null;
@@ -230,9 +247,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 40.h),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 40.h),
+                ],
               ),
             ),
           ),

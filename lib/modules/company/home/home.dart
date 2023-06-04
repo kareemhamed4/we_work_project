@@ -279,7 +279,6 @@ class _CompanyHomeState extends State<CompanyHome> {
                                         const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) =>
                                         buildCompanyHomeCard(
-                                          size: size,
                                           context: context,
                                           index: index,
                                           model: cubit.companyGetAllUsersModel!,
@@ -313,7 +312,6 @@ class _CompanyHomeState extends State<CompanyHome> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) =>
                                     buildCompanyHomeCard(
-                                  size: size,
                                   context: context,
                                   index: index,
                                   model: cubit.companyGetSearchedUsersModel!,
@@ -356,7 +354,6 @@ class _CompanyHomeState extends State<CompanyHome> {
   }
 
   Widget buildCompanyHomeCard({
-    required Size size,
     required int index,
     required String filePath,
     required BuildContext context,
@@ -415,7 +412,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                           width: 16,
                         ),
                         SizedBox(
-                          width: 120,
+                          width: 140,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -438,7 +435,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
-                                    .copyWith(color: myFavColor6),
+                                    .copyWith(color: myFavColor6,fontSize: 14.sp),
                               ),
                               const SizedBox(
                                 height: 6,
@@ -505,6 +502,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
+                      flex: 3,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -530,6 +528,7 @@ class _CompanyHomeState extends State<CompanyHome> {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: myMaterialButton(
                         context: context,
                         onPressed: () {
@@ -541,7 +540,8 @@ class _CompanyHomeState extends State<CompanyHome> {
                         },
                         labelWidget: Text(
                           'Create Offer',
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context).textTheme.labelLarge!
+                              .copyWith(fontSize: 14.sp),
                         ),
                       ),
                     ),

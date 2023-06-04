@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/modules/company/add_job/cubit/cubit.dart';
@@ -71,313 +72,315 @@ class _AddJobScreenState extends State<AddJobScreen> {
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: size.height * 30 / size.height,
-              ),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Title',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Text(
+                          'Title',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        myTextFormField(
+                          context: context,
+                          controller: titleController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter job title";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 20 / size.height,
+                        ),
+                        Text(
+                          'Description',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        myTextFormField(
+                          context: context,
+                          controller: descriptionController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter job description";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 20 / size.height,
+                        ),
+                        Text(
+                          'Requirement',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        myTextFormField(
+                          context: context,
+                          controller: requirementsController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter job requirements";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 20 / size.height,
+                        ),
+                        Text(
+                          'City',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        myTextFormField(
+                          context: context,
+                          controller: cityController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter the city";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 20 / size.height,
+                        ),
+                        Text(
+                          'Country',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        myTextFormField(
+                          context: context,
+                          controller: countryController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter the country";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 20 / size.height,
+                        ),
+                        Text(
+                          'Skills',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        myTextFormField(
+                          context: context,
+                          controller: skillsController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter required skills";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 20 / size.height,
+                        ),
+                        Text(
+                          'Salary',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        myTextFormField(
+                          context: context,
+                          controller: salaryController,
+                          type: TextInputType.text,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter the salary";
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 8,
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  ExpansionTile(
+                    title: Text(
+                        'Position',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
                     ),
-                    myTextFormField(
-                      context: context,
-                      controller: titleController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter job title";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Description',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: descriptionController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter job description";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Requirement',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: requirementsController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter job requirements";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'City',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: cityController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter the city";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Country',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: countryController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter the country";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Skills',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: skillsController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter required skills";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Salary',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    myTextFormField(
-                      context: context,
-                      controller: salaryController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter the salary";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Position',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    CupertinoRadioChoice(
-                      selectedColor: myFavColor,
-                      notSelectedColor: myFavColor7,
-                      choices: const {
-                        'All': 'All',
-                        'Senior': 'Senior',
-                        'junior': 'junior',
-                        'manager': 'manager',
-                        'Leader': 'Leader'
-                      },
-                      onChange: (String selectedGender) {
-                        setState(() {
-                          cubit.selectedPosition = selectedGender;
-                        });
-                      },
-                      initialKeyValue: 'All',
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Job Type',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    CupertinoRadioChoice(
-                      selectedColor: myFavColor,
-                      notSelectedColor: myFavColor7,
-                      choices: const {
-                        'All': 'All',
-                        'Full time': 'Full time',
-                        'Part time': 'part time',
-                        'Internship': 'Internship',
-                        'Project based': 'Project based'
-                      },
-                      onChange: (String selectedGender) {
-                        setState(() {
-                          cubit.selectedJobType = selectedGender;
-                        });
-                      },
-                      initialKeyValue: 'All',
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Experience',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RadioGroup<String>.builder(
-                      fillColor: myFavColor,
-                      activeColor: myFavColor,
-                      groupValue: cubit.selectedExperience,
-                      onChanged: (value) => setState(
-                            () {
-                          cubit.selectedExperience = value!;
+                    children: [
+                      CupertinoRadioChoice(
+                        selectedColor: myFavColor,
+                        notSelectedColor: myFavColor7,
+                        choices: const {
+                          'All': 'All',
+                          'Senior': 'Senior',
+                          'junior': 'junior',
+                          'manager': 'manager',
+                          'Leader': 'Leader'
                         },
-                      ),
-                      items: cubit.experienceList,
-                      itemBuilder: (item) => RadioButtonBuilder(
-                        item,
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'Work place',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RadioGroup<String>.builder(
-                      fillColor: const Color(0xff649344),
-                      groupValue: cubit.selectedWorkPlace,
-                      onChanged: (value) => setState(() {
-                        cubit.selectedWorkPlace = value!;
-                      }),
-                      items: cubit.workPlaceList,
-                      itemBuilder: (item) => RadioButtonBuilder(
-                        item,
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
-                    ),
-                    Text(
-                      'DisabledJob',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RadioGroup<String>.builder(
-                      fillColor: myFavColor,
-                      activeColor: myFavColor,
-                      groupValue: cubit.selectedDisabledJobs,
-                      onChanged: (value) => setState(
-                            () {
-                          cubit.selectedDisabledJobs = value!;
+                        onChange: (String selectedGender) {
+                          setState(() {
+                            cubit.selectedPosition = selectedGender;
+                          });
                         },
+                        initialKeyValue: 'All',
                       ),
-                      items: cubit.disabledJobsList,
-                      itemBuilder: (item) => RadioButtonBuilder(
-                        item,
+                      SizedBox(
+                        height: 20.h,
                       ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text(
+                        'Job Type',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
                     ),
-                    SizedBox(
-                      height: size.height * 20 / size.height,
+                    children: [
+                      CupertinoRadioChoice(
+                        selectedColor: myFavColor,
+                        notSelectedColor: myFavColor7,
+                        choices: const {
+                          'All': 'All',
+                          'Full time': 'Full time',
+                          'Part time': 'part time',
+                          'Internship': 'Internship',
+                          'Project based': 'Project based'
+                        },
+                        onChange: (String selectedGender) {
+                          setState(() {
+                            cubit.selectedJobType = selectedGender;
+                          });
+                        },
+                        initialKeyValue: 'All',
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text(
+                        'Experience',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
                     ),
-                    ConditionalBuilder(
-                      condition: state is! CompanyAddJobLoadingState,
-                      builder: (context) => myMaterialButton(
+                    children: [
+                      RadioGroup<String>.builder(
+                        fillColor: myFavColor,
+                        activeColor: myFavColor,
+                        groupValue: cubit.selectedExperience,
+                        onChanged: (value) => setState(
+                              () {
+                            cubit.selectedExperience = value!;
+                          },
+                        ),
+                        items: cubit.experienceList,
+                        itemBuilder: (item) => RadioButtonBuilder(
+                          item,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text(
+                        'Work place',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                    ),
+                    children: [
+                      RadioGroup<String>.builder(
+                        fillColor: const Color(0xff649344),
+                        groupValue: cubit.selectedWorkPlace,
+                        onChanged: (value) => setState(() {
+                          cubit.selectedWorkPlace = value!;
+                        }),
+                        items: cubit.workPlaceList,
+                        itemBuilder: (item) => RadioButtonBuilder(
+                          item,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text(
+                        'DisabledJob',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                    ),
+                    children: [
+                      RadioGroup<String>.builder(
+                        fillColor: myFavColor,
+                        activeColor: myFavColor,
+                        groupValue: cubit.selectedDisabledJobs,
+                        onChanged: (value) => setState(
+                              () {
+                            cubit.selectedDisabledJobs = value!;
+                          },
+                        ),
+                        items: cubit.disabledJobsList,
+                        itemBuilder: (item) => RadioButtonBuilder(
+                          item,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ConditionalBuilder(
+                    condition: state is! CompanyAddJobLoadingState,
+                    builder: (context) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: myMaterialButton(
                         context: context,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
@@ -402,7 +405,10 @@ class _AddJobScreenState extends State<AddJobScreen> {
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
-                      fallback: (context) => myMaterialButton(
+                    ),
+                    fallback: (context) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: myMaterialButton(
                         context: context,
                         onPressed: () {
                           null;
@@ -419,11 +425,11 @@ class _AddJobScreenState extends State<AddJobScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: size.height * 8 / size.height,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                ],
               ),
             ),
           ),

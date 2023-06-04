@@ -54,61 +54,55 @@ class CompanyJobDetails extends StatelessWidget {
                 height: 32,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.location_pin,
-                          color: myFavColor,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          "${companyGetJobsModel.city} , ${companyGetJobsModel.country}",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        color: myFavColor,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        "${companyGetJobsModel.city} , ${companyGetJobsModel.country}",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.calendar_month_sharp,
-                          color: myFavColor,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          companyGetJobsModel.jobType ?? "",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.calendar_month_sharp,
+                        color: myFavColor,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        companyGetJobsModel.jobType ?? "",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.business,
-                          color: myFavColor,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          companyGetJobsModel.workPlace ?? "",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.business,
+                        color: myFavColor,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        companyGetJobsModel.workPlace ?? "",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
                   ),
                 ],
               ),

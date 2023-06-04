@@ -53,380 +53,280 @@ class _FilterState extends State<Filter> {
                 centerTitle: true,
               ),
               body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Location",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(color: myFavColor),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: myFavColor7,
-                          ),
-                        ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ExpansionTile(
+                      title: Text(
+                        "Location",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: myFavColor),
                       ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Country",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            color: myFavColor, fontSize: 16.sp),
-                                  ),
-                                  RadioGroup<String>.builder(
-                                    fillColor: myFavColor,
-                                    activeColor: myFavColor,
-                                    groupValue: cubit.selectedCountry,
-                                    textStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium,
-                                    onChanged: (value) => setState(() {
-                                      cubit.selectedCountry = value!;
-                                    }),
-                                    items: cubit.countriesList,
-                                    itemBuilder: (item) => RadioButtonBuilder(
-                                      item,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Country",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                          color: myFavColor, fontSize: 16.sp),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "City",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            color: myFavColor, fontSize: 16.sp),
-                                  ),
-                                  RadioGroup<String>.builder(
-                                    fillColor: myFavColor,
-                                    activeColor: myFavColor,
-                                    groupValue: cubit.selectedCity,
-                                    textStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium,
-                                    onChanged: (value) => setState(() {
-                                      cubit.selectedCity = value!;
-                                    }),
-                                    items: cubit.citiesList,
-                                    itemBuilder: (item) => RadioButtonBuilder(
-                                      item,
+                                    RadioGroup<String>.builder(
+                                      fillColor: myFavColor,
+                                      activeColor: myFavColor,
+                                      groupValue: cubit.selectedCountry,
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                      onChanged: (value) => setState(() {
+                                        cubit.selectedCountry = value!;
+                                      }),
+                                      items: cubit.countriesList,
+                                      itemBuilder: (item) => RadioButtonBuilder(
+                                        item,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                              const Expanded(flex: 1, child: SizedBox()),
+                              Expanded(
+                                flex: 4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "City",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                          color: myFavColor, fontSize: 16.sp),
+                                    ),
+                                    RadioGroup<String>.builder(
+                                      fillColor: myFavColor,
+                                      activeColor: myFavColor,
+                                      groupValue: cubit.selectedCity,
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                      onChanged: (value) => setState(() {
+                                        cubit.selectedCity = value!;
+                                      }),
+                                      items: cubit.citiesList,
+                                      itemBuilder: (item) => RadioButtonBuilder(
+                                        item,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                      ],
+                    ),
+                    ExpansionTile(
+                      title: Text(
+                        "Type of workplace",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: myFavColor),
                       ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      myDivider(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Type of workplace",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(color: myFavColor),
+                      children: [
+                        RadioGroup<String>.builder(
+                          fillColor: const Color(0xff649344),
+                          groupValue: cubit.selectedWorkPlace,
+                          onChanged: (value) => setState(() {
+                            cubit.selectedWorkPlace = value!;
+                          }),
+                          items: cubit.workPlaceList,
+                          itemBuilder: (item) => RadioButtonBuilder(
+                            item,
                           ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: myFavColor7,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      RadioGroup<String>.builder(
-                        fillColor: const Color(0xff649344),
-                        groupValue: cubit.selectedWorkPlace,
-                        onChanged: (value) => setState(() {
-                          cubit.selectedWorkPlace = value!;
-                        }),
-                        items: cubit.workPlaceList,
-                        itemBuilder: (item) => RadioButtonBuilder(
-                          item,
                         ),
+                      ],
+                    ),
+                    ExpansionTile(
+                      title: Text(
+                        "Job type",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: myFavColor),
                       ),
-                      myDivider(),
-                      const SizedBox(
-                        height: 20,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CupertinoRadioChoice(
+                          selectedColor: myFavColor,
+                          notSelectedColor: myFavColor7,
+                          choices: const {
+                            'All': 'All',
+                            'Full time': 'Full time',
+                            'Part time': 'part time',
+                            'Internship': 'Internship',
+                            'Project based': 'Project based'
+                          },
+                          onChange: (String selectedGender) {
+                            setState(() {
+                              cubit.selectedJobType = selectedGender;
+                            });
+                          },
+                          initialKeyValue: 'All',
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                    ExpansionTile(
+                      title: Text(
+                        "Position level",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: myFavColor),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Job type",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(color: myFavColor),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: myFavColor7,
-                          ),
-                        ],
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CupertinoRadioChoice(
+                          selectedColor: myFavColor,
+                          notSelectedColor: myFavColor7,
+                          choices: const {
+                            'All': 'All',
+                            'Senior': 'Senior',
+                            'junior': 'junior',
+                            'manager': 'manager',
+                            'Leader': 'Leader'
+                          },
+                          onChange: (String selectedGender) {
+                            setState(() {
+                              cubit.selectedPosition = selectedGender;
+                            });
+                          },
+                          initialKeyValue: 'All',
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                    ExpansionTile(
+                      title: Text(
+                        "Salary",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: myFavColor),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CupertinoRadioChoice(
-                        selectedColor: myFavColor,
-                        notSelectedColor: myFavColor7,
-                        choices: const {
-                          'All': 'All',
-                          'Full time': 'Full time',
-                          'Part time': 'part time',
-                          'Internship': 'Internship',
-                          'Project based': 'Project based'
-                        },
-                        onChange: (String selectedGender) {
-                          setState(() {
-                            cubit.selectedJobType = selectedGender;
-                          });
-                        },
-                        initialKeyValue: 'All',
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      myDivider(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Position level",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(color: myFavColor),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: myFavColor7,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CupertinoRadioChoice(
-                        selectedColor: myFavColor,
-                        notSelectedColor: myFavColor7,
-                        choices: const {
-                          'All': 'All',
-                          'Senior': 'Senior',
-                          'junior': 'junior',
-                          'manager': 'manager',
-                          'Leader': 'Leader'
-                        },
-                        onChange: (String selectedGender) {
-                          setState(() {
-                            cubit.selectedPosition = selectedGender;
-                          });
-                        },
-                        initialKeyValue: 'All',
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      myDivider(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Salary",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(color: myFavColor),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: myFavColor7,
-                          ),
-                        ],
-                      ),
-                      SfRangeSlider(
-                        inactiveColor: myFavColor3,
-                        activeColor: myFavColor,
-                        min: 0,
-                        max: 30000,
-                        onChangeStart: (value) {
-                          setState(() {
-                            cubit.selectedMinSalary = value.start;
-                            cubit.selectedMaxSalary = value.end;
-                          });
-                        },
-                        onChangeEnd: (value) {
-                          setState(() {
-                            cubit.selectedMinSalary = value.start;
-                            cubit.selectedMaxSalary = value.end;
-                          });
-                        },
-                        stepSize: 500,
-                        enableIntervalSelection: true,
-                        showDividers: false,
-                        values: cubit.valuesOfPrice,
-                        interval: 40,
-                        showTicks: false,
-                        showLabels: false,
-                        enableTooltip: true,
-                        minorTicksPerInterval: 1,
-                        onChanged: (SfRangeValues values) {
-                          setState(() {
-                            cubit.valuesOfPrice = values;
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      myDivider(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Experience",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(color: myFavColor),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: myFavColor7,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      RadioGroup<String>.builder(
-                        fillColor: myFavColor,
-                        activeColor: myFavColor,
-                        groupValue: cubit.selectedExperience,
-                        onChanged: (value) => setState(
-                          () {
-                            cubit.selectedExperience = value!;
+                      children: [
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        SfRangeSlider(
+                          inactiveColor: myFavColor3,
+                          activeColor: myFavColor,
+                          min: 0,
+                          max: 30000,
+                          onChangeStart: (value) {
+                            setState(() {
+                              cubit.selectedMinSalary = value.start;
+                              cubit.selectedMaxSalary = value.end;
+                            });
+                          },
+                          onChangeEnd: (value) {
+                            setState(() {
+                              cubit.selectedMinSalary = value.start;
+                              cubit.selectedMaxSalary = value.end;
+                            });
+                          },
+                          stepSize: 500,
+                          enableIntervalSelection: true,
+                          showDividers: false,
+                          values: cubit.valuesOfPrice,
+                          interval: 40,
+                          showTicks: false,
+                          showLabels: false,
+                          enableTooltip: true,
+                          minorTicksPerInterval: 1,
+                          onChanged: (SfRangeValues values) {
+                            setState(() {
+                              cubit.valuesOfPrice = values;
+                            });
                           },
                         ),
-                        items: cubit.experienceList,
-                        itemBuilder: (item) => RadioButtonBuilder(
-                          item,
+                      ],
+                    ),
+                    ExpansionTile(
+                      title: Text(
+                        "Experience",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: myFavColor),
+                      ),
+                      children: [
+                        RadioGroup<String>.builder(
+                          fillColor: myFavColor,
+                          activeColor: myFavColor,
+                          groupValue: cubit.selectedExperience,
+                          onChanged: (value) => setState(
+                                () {
+                              cubit.selectedExperience = value!;
+                            },
+                          ),
+                          items: cubit.experienceList,
+                          itemBuilder: (item) => RadioButtonBuilder(
+                            item,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      myDivider(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
+                      ],
+                    ),
+                    ExpansionTile(
+                      title: Text(
                         "DisabledJob",
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
                             .copyWith(color: myFavColor),
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      RadioGroup<String>.builder(
-                        fillColor: myFavColor,
-                        activeColor: myFavColor,
-                        groupValue: cubit.selectedDisabledJobs,
-                        onChanged: (value) => setState(
-                              () {
-                            cubit.selectedDisabledJobs = value!;
-                          },
+                      children: [
+                        RadioGroup<String>.builder(
+                          fillColor: myFavColor,
+                          activeColor: myFavColor,
+                          groupValue: cubit.selectedDisabledJobs,
+                          onChanged: (value) => setState(
+                                () {
+                              cubit.selectedDisabledJobs = value!;
+                            },
+                          ),
+                          items: cubit.disabledJobsList,
+                          itemBuilder: (item) => RadioButtonBuilder(
+                            item,
+                          ),
                         ),
-                        items: cubit.disabledJobsList,
-                        itemBuilder: (item) => RadioButtonBuilder(
-                          item,
-                        ),
-                      ),
-                      myDivider(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      /*Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Interested",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
-                      ),
-                      Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: myFavColor7,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: categories['responseTotalResult'],
-                    itemBuilder: (BuildContext context, int index) =>
-                        buildCheckBox(index: index),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),*/
-                      Row(
+                      ],
+                    ),
+                    SizedBox(height: 100.h),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
                         children: [
                           Expanded(
                             flex: 1,
@@ -483,8 +383,9 @@ class _FilterState extends State<Filter> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 20.h),
+                  ],
                 ),
               ),
             );

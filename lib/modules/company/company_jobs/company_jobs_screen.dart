@@ -212,9 +212,11 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                             ),
                           ],
                         ),
-                        Icon(
-                          Icons.delete_forever_outlined,
-                          color: myFavColor8,
+                        IconButton(
+                          icon: Icon(Icons.delete_forever_outlined, color: myFavColor8),
+                          onPressed: (){
+
+                          },
                         ),
                       ]),
                   const SizedBox(
