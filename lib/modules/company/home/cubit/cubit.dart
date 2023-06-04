@@ -175,4 +175,32 @@ class CompanyHomeCubit extends Cubit<CompanyHomeStates> {
       }
     }
   }
+
+  Future<void> companyDeleteHeyJob({
+    required int jobId,
+  }) async{
+    emit(CompanyDeleteHerJobLoadingState());
+    await DioHelper.deleteData(
+      url: "$COMPANYDELETEHERJOB$jobId",
+      token: companyToken,
+      baseUrl: BASEURL,
+    ).then((value) {
+      emit(CompanyDeleteHerJobSuccessState(value.data.toString()));
+      companyGetHerJobs();
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final errorResponse = error.response?.data;
+          final errorMessage = errorResponse["title"];
+          emit(CompanyDeleteHerJobErrorState(errorMessage));
+        } else {
+          // Handle other DioError cases
+          emit(CompanyDeleteHerJobErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        // Handle non-DioError cases
+        emit(CompanyDeleteHerJobErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
 }

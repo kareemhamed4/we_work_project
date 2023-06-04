@@ -34,6 +34,25 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
         if (state is UserGetJobDetailsLoadingState) {
           showProgressIndicator(context);
         }
+        if (state is CompanyDeleteHerJobLoadingState) {
+          showProgressIndicator(context);
+        }
+        if (state is CompanyDeleteHerJobSuccessState) {
+          Navigator.pop(context);
+          buildSuccessToast(
+            context: context,
+            title: "Done!",
+            description: state.msg,
+          );
+        }
+        if (state is CompanyDeleteHerJobErrorState) {
+          Navigator.pop(context);
+          buildErrorToast(
+            context: context,
+            title: "Oops!",
+            description: state.error,
+          );
+        }
       },
       builder: (context, state) {
         CompanyHomeCubit cubit = BlocProvider.of(context);
@@ -102,6 +121,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                                   context: context,
                                   size: size,
                                   index: index,
+                                  cubit: cubit,
                                   model: cubit.companyGetJobsModel!,
                                 ),
                               ),
@@ -133,6 +153,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
     required BuildContext context,
     required List<CompanyGetJobsModel> model,
     required int index,
+    required CompanyHomeCubit cubit,
   }) =>
       Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -215,7 +236,7 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                         IconButton(
                           icon: Icon(Icons.delete_forever_outlined, color: myFavColor8),
                           onPressed: (){
-
+                            cubit.companyDeleteHeyJob(jobId: model[index].id!);
                           },
                         ),
                       ]),

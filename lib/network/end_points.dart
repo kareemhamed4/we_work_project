@@ -39,6 +39,7 @@ const COMPANYGETFREELANCEOFFERS = "Frelancer/GetOffersForCompany";
 const COMPANYGETALLHERJOBS = "Job/GetCompanyJob";
 const COMPANYDELETESENDOFFER = "offer/DeleteOffer/";
 const COMPANYDECLINEFREELANCEOFFER = "Frelancer/offersForCompan/";
+const COMPANYDELETEHERJOB = "Job/";
 const COMPANYDECLINEUSERAPPLIED = "ApplyJob/DeleteApplicantforcompan/";
 const COMPANYDELETEACCEPTEDOFFER = "Meeting/DeleteOffer/";
 const COMPANYACCEPTFREELANCEOFFER = "Meeting/SendAccepted/";
