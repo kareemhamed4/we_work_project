@@ -472,7 +472,27 @@ class _FilteredResultScreenState extends State<FilteredResultScreen> {
     setState(() {
       searchController.text = result.recognizedWords;
     });
-    UserHomeCubit.get(context).userGetSearchedJobs(search: searchController.text);
+    UserHomeCubit.get(context).userGetSearchedJobs(
+      city: UserFilterJobsCubit.get(context).selectedCity != "All" ? UserFilterJobsCubit.get(context).selectedCity : "",
+      country: UserFilterJobsCubit.get(context).selectedCountry != "All"
+          ? UserFilterJobsCubit.get(context).selectedCountry
+          : "",
+      position: UserFilterJobsCubit.get(context).selectedPosition != "All"
+          ? UserFilterJobsCubit.get(context).selectedPosition
+          : "",
+      experience: UserFilterJobsCubit.get(context).selectedExperience != "All"
+          ? UserFilterJobsCubit.get(context).selectedExperience
+          : "",
+      jobType: UserFilterJobsCubit.get(context).selectedJobType != "All"
+          ? UserFilterJobsCubit.get(context).selectedJobType
+          : "",
+      salaryMin: UserFilterJobsCubit.get(context).selectedMinSalary!.toInt(),
+      salaryMax: UserFilterJobsCubit.get(context).selectedMaxSalary!.toInt(),
+      search: searchController.text,
+      disabled: UserFilterJobsCubit.get(context).selectedDisabledJobs != "none"
+          ? UserFilterJobsCubit.get(context).selectedDisabledJobs
+          : "",
+    );
   }
 
   void _logEvent(String eventDescription) {

@@ -16,7 +16,6 @@ import 'package:we_work/modules/company/filter/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/cubit.dart';
 import 'package:we_work/modules/company/home/cubit/states.dart';
 import 'package:we_work/modules/company/message_for_offer/message_for_offer_screen.dart';
-import 'package:we_work/modules/user/home/cubit/cubit.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
@@ -505,7 +504,24 @@ class _CompanyFilteredResultScreenState extends State<CompanyFilteredResultScree
     setState(() {
       searchController.text = result.recognizedWords;
     });
-    UserHomeCubit.get(context).userGetSearchedJobs(search: searchController.text);
+    CompanyHomeCubit.get(context).companyGetSearchedUsers(
+      city: CompanyFilterUsersCubit.get(context).selectedCity != "All"
+          ? CompanyFilterUsersCubit.get(context).selectedCity
+          : "",
+      country: CompanyFilterUsersCubit.get(context).selectedCountry != "All"
+          ? CompanyFilterUsersCubit.get(context).selectedCountry
+          : "",
+      position: CompanyFilterUsersCubit.get(context).selectedPosition != "All"
+          ? CompanyFilterUsersCubit.get(context).selectedPosition
+          : "",
+      experience: CompanyFilterUsersCubit.get(context).selectedExperience != "All"
+          ? CompanyFilterUsersCubit.get(context).selectedExperience
+          : "",
+      jobType: CompanyFilterUsersCubit.get(context).selectedJobType != "All"
+          ? CompanyFilterUsersCubit.get(context).selectedJobType
+          : "",
+      search: searchController.text,
+    );
   }
 
   void _logEvent(String eventDescription) {
