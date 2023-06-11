@@ -4,7 +4,6 @@ import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_details_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
 import 'package:we_work/models/user/user_get_job_details_model.dart';
-import 'package:we_work/models/user/user_get_profile_model.dart';
 import 'package:we_work/modules/user/home/cubit/states.dart';
 import 'package:we_work/network/end_points.dart';
 import 'package:we_work/network/remote/dio_helper_advanced.dart';
@@ -52,8 +51,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           experience != null &&
           jobType != null &&
           city != null &&
-          disabled != null
-      ) {
+          disabled != null) {
         userGetFilterJobsModel = UserGetAllJobsModel.fromJson(response.data);
       } else {
         userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
@@ -142,10 +140,8 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
         baseUrl: BASEURL,
         token: userToken,
       );
-      userGetFreelanceDetailsModel =
-          UserGetFreelanceDetailsModel.fromJson(response.data);
-      emit(UserGetFreelanceJobDetailsSuccessState(
-          userGetFreelanceDetailsModel!));
+      userGetFreelanceDetailsModel = UserGetFreelanceDetailsModel.fromJson(response.data);
+      emit(UserGetFreelanceJobDetailsSuccessState(userGetFreelanceDetailsModel!));
     } catch (error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
@@ -193,37 +189,17 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
     }
   }
 
-  UserProfileModel? userProfileModel;
-  Future<void> getUserWithId({
-    required String userId,
-  }) async {
-    emit(GetUserWithIdLoadingState());
-    try {
-      final response = await DioHelper.getData(
-        url: "$GETUSERWITHID$userId",
-        baseUrl: BASEURL,
-        token: userToken,
-      );
-      userProfileModel = UserProfileModel.fromJson(response.data);
-      emit(GetUserWithIdSuccessState(userProfileModel!));
-    } catch (error) {
-      if (error is DioError) {
-        if (error.response?.statusCode == 404) {
-          final responseData = error.response?.data;
-          final errorMessage = responseData["title"];
-          emit(GetUserWithIdErrorState(errorMessage));
-        } else {
-          emit(GetUserWithIdErrorState(error.toString()));
-        }
-      } else {
-        emit(GetUserWithIdErrorState(error.toString()));
-      }
-    }
-  }
-
   UserGetAllJobsModel? userGetSearchedJobsModel;
   void userGetSearchedJobs({
-    required String search,
+    String? search,
+    int? salaryMin,
+    int? salaryMax,
+    String? country,
+    String? position,
+    String? experience,
+    String? jobType,
+    String? city,
+    String? disabled,
   }) async {
     emit(UserGetSearchedJobsLoadingState());
     try {
@@ -233,6 +209,14 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
         token: userToken,
         query: {
           "search": search,
+          "SalaryMin": salaryMin ?? "",
+          "SalaryMax": salaryMax ?? "",
+          "country": country ?? "",
+          "Position": position ?? "",
+          "experince": experience ?? "",
+          "jobType": jobType ?? "",
+          "city": city ?? "",
+          "disabled": disabled ?? "",
         },
       );
       userGetSearchedJobsModel = UserGetAllJobsModel.fromJson(response.data);

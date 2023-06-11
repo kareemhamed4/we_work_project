@@ -7,8 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:rate/rate.dart';
+import 'package:we_work/cubit/cubit.dart';
+import 'package:we_work/cubit/states.dart';
 import 'package:we_work/models/company/company_get_freelance_offers.dart';
 import 'package:we_work/models/company/company_get_sent_offers_model.dart';
+import 'package:we_work/modules/common/user_details/user_details_screen.dart';
 import 'package:we_work/modules/company/offers/cubit/cubit.dart';
 import 'package:we_work/modules/company/offers/cubit/states.dart';
 import 'package:we_work/modules/company/send_accept/send_accept_screen.dart';
@@ -18,180 +21,184 @@ import 'package:we_work/shared/styles/colors.dart';
 class CompanyOffersScreen extends StatelessWidget {
   CompanyOffersScreen({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
-  GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<CompanyOffersCubit, CompanyOffersStates>(
+    return BlocConsumer<MainCubit, MainStates>(
       listener: (context, state) {
-        if (state is CompanyDeleteSentOfferSuccessState) {
-          buildSuccessToast(
-            title: "Done",
-            context: context,
-            description: "Applicant Deleted Successfully!",
-          );
-        }
-        if (state is CompanyDeleteSentOfferErrorState) {
-          buildSuccessToast(
-            title: "Oops",
-            context: context,
-            description: "Applicant Deleted Failed!",
-          );
-        }
-        if (state is CompanyRateUserLoadingState) {
+        if (state is GetUserWithIdLoadingState) {
           showProgressIndicator(context);
         }
-        if (state is CompanyRateUserSuccessState) {
+        if (state is GetUserWithIdSuccessState) {
           Navigator.pop(context);
+          NavigateTo(
+              context: context,
+              widget: UserDetailsScreen(isCompany: state.userProfileModel.dateOfCreation != null ? true : false));
+        }
+        if (state is GetUserWithIdErrorState) {
           Navigator.pop(context);
-          buildSuccessToast(
-            title: "Done",
-            context: context,
-            description: state.msg,
-          );
-        }
-        if (state is CompanyRateUserErrorState) {
-          buildSuccessToast(
-            title: "Oops",
-            context: context,
-            description: state.error,
-          );
-        }
-        if(state is CompanyDeclineFreelanceOfferSuccessState){
-          buildSuccessToast(
-            context: context,
-            title: "Declined!",
-            description: state.msg,
-          );
+          buildErrorToast(context: context, title: "Oops!", description: state.error);
         }
       },
       builder: (context, state) {
-        CompanyOffersCubit cubit = BlocProvider.of(context);
-        Future<void> handleRefresh() {
-          final Completer<void> completer = Completer<void>();
-          Timer(const Duration(seconds: 2), () {
-            completer.complete();
-          });
-          cubit.companyGetAllSentOffers();
-          cubit.companyGetAllFreelanceOffers();
-          return completer.future.then<void>((_) {
-            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
-                .showSnackBar(
-              SnackBar(
-                content: const Text('Refresh complete'),
-                action: SnackBarAction(
-                  label: 'RETRY',
-                  textColor: myFavColor5,
-                  onPressed: () {
-                    _refreshIndicatorKey.currentState!.show();
-                  },
+        return BlocConsumer<CompanyOffersCubit, CompanyOffersStates>(
+          listener: (context, state) {
+            if (state is CompanyDeleteSentOfferSuccessState) {
+              buildSuccessToast(
+                title: "Done",
+                context: context,
+                description: "Applicant Deleted Successfully!",
+              );
+            }
+            if (state is CompanyDeleteSentOfferErrorState) {
+              buildSuccessToast(
+                title: "Oops",
+                context: context,
+                description: "Applicant Deleted Failed!",
+              );
+            }
+            if (state is CompanyRateUserLoadingState) {
+              showProgressIndicator(context);
+            }
+            if (state is CompanyRateUserSuccessState) {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              buildSuccessToast(
+                title: "Done",
+                context: context,
+                description: state.msg,
+              );
+            }
+            if (state is CompanyRateUserErrorState) {
+              buildSuccessToast(
+                title: "Oops",
+                context: context,
+                description: state.error,
+              );
+            }
+            if (state is CompanyDeclineFreelanceOfferSuccessState) {
+              buildSuccessToast(
+                context: context,
+                title: "Declined!",
+                description: state.msg,
+              );
+            }
+          },
+          builder: (context, state) {
+            CompanyOffersCubit cubit = BlocProvider.of(context);
+            Future<void> handleRefresh() {
+              final Completer<void> completer = Completer<void>();
+              Timer(const Duration(seconds: 2), () {
+                completer.complete();
+              });
+              cubit.companyGetAllSentOffers();
+              cubit.companyGetAllFreelanceOffers();
+              return completer.future.then<void>((_) {
+                ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Refresh complete'),
+                    action: SnackBarAction(
+                      label: 'RETRY',
+                      textColor: myFavColor5,
+                      onPressed: () {
+                        _refreshIndicatorKey.currentState!.show();
+                      },
+                    ),
+                  ),
+                );
+              });
+            }
+
+            return Scaffold(
+              key: _scaffoldKey,
+              appBar: AppBar(
+                title: Text(
+                  'Offers',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
                 ),
+                centerTitle: true,
               ),
-            );
-          });
-        }
-        return Scaffold(
-          key: _scaffoldKey,
-          appBar: AppBar(
-            title: Text(
-              'Offers',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: myFavColor),
-            ),
-            centerTitle: true,
-          ),
-          body: LiquidPullToRefresh(
-            key: _refreshIndicatorKey,
-            onRefresh: handleRefresh,
-            color: myFavColor,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    if (cubit.companyGetSentOffersModel != null)
-                      if (cubit.companyGetSentOffersModel!.isNotEmpty)
-                        ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) =>
-                              buildAcceptedOffersCard(
-                                  size: size,
-                                  context: context,
-                                  index: index,
-                                  model: cubit.companyGetSentOffersModel!),
-                          separatorBuilder: (context, index) => const SizedBox(
-                            height: 23,
-                          ),
-                          itemCount: cubit.companyGetSentOffersModel!.length,
+              body: LiquidPullToRefresh(
+                key: _refreshIndicatorKey,
+                onRefresh: handleRefresh,
+                color: myFavColor,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 8,
                         ),
-                    if (cubit.companyGetSentOffersModel != null)
-                      if (cubit.companyGetSentOffersModel!.isEmpty)
-                        const Center(
-                            child: Text("You haven't sent any offer yet.")),
-                    if (cubit.companyGetSentOffersModel == null)
-                      Center(
-                          child: CircularProgressIndicator(
-                        color: myFavColor,
-                      )),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Text(
-                      'Freelancing offer',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: myFavColor),
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    if (cubit.companyGetFreelanceOffersModel != null)
-                      if (cubit.companyGetFreelanceOffersModel!.isNotEmpty)
-                        ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) =>
-                              buildFreelancingOffersCard(
+                        if (cubit.companyGetSentOffersModel != null)
+                          if (cubit.companyGetSentOffersModel!.isNotEmpty)
+                            ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => buildAcceptedOffersCard(
+                                  size: size, context: context, index: index, model: cubit.companyGetSentOffersModel!),
+                              separatorBuilder: (context, index) => const SizedBox(
+                                height: 23,
+                              ),
+                              itemCount: cubit.companyGetSentOffersModel!.length,
+                            ),
+                        if (cubit.companyGetSentOffersModel != null)
+                          if (cubit.companyGetSentOffersModel!.isEmpty)
+                            const Center(child: Text("You haven't sent any offer yet.")),
+                        if (cubit.companyGetSentOffersModel == null)
+                          Center(
+                              child: CircularProgressIndicator(
+                            color: myFavColor,
+                          )),
+                        const SizedBox(
+                          height: 35,
+                        ),
+                        Text(
+                          'Freelancing offer',
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
+                        ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        if (cubit.companyGetFreelanceOffersModel != null)
+                          if (cubit.companyGetFreelanceOffersModel!.isNotEmpty)
+                            ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => buildFreelancingOffersCard(
                                   size: size,
                                   context: context,
                                   index: index,
                                   model: cubit.companyGetFreelanceOffersModel!,
                                   cubit: cubit,
                                   state: state),
-                          separatorBuilder: (context, index) => const SizedBox(
-                            height: 23,
-                          ),
-                          itemCount: cubit.companyGetFreelanceOffersModel!.length,
+                              separatorBuilder: (context, index) => const SizedBox(
+                                height: 23,
+                              ),
+                              itemCount: cubit.companyGetFreelanceOffersModel!.length,
+                            ),
+                        if (cubit.companyGetFreelanceOffersModel != null)
+                          if (cubit.companyGetFreelanceOffersModel!.isEmpty)
+                            const Center(child: Text("You don't receive any freelance offer until now")),
+                        if (cubit.companyGetFreelanceOffersModel == null)
+                          Center(
+                              child: CircularProgressIndicator(
+                            color: myFavColor,
+                          )),
+                        const SizedBox(
+                          height: 20,
                         ),
-                    if (cubit.companyGetFreelanceOffersModel != null)
-                      if (cubit.companyGetFreelanceOffersModel!.isEmpty)
-                        const Center(
-                            child: Text(
-                                "You don't receive any freelance offer until now")),
-                    if (cubit.companyGetFreelanceOffersModel == null)
-                      Center(
-                          child: CircularProgressIndicator(
-                        color: myFavColor,
-                      )),
-                    const SizedBox(
-                      height: 20,
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );
@@ -209,9 +216,7 @@ class CompanyOffersScreen extends StatelessWidget {
           startActionPane: ActionPane(motion: const StretchMotion(), children: [
             SlidableAction(
               onPressed: ((context) {
-                context
-                    .read<CompanyOffersCubit>()
-                    .companyDeleteSentOffer(offerId: model[index].offerId!);
+                context.read<CompanyOffersCubit>().companyDeleteSentOffer(offerId: model[index].offerId!);
               }),
               backgroundColor: myFavColor8,
               icon: Icons.delete_outline,
@@ -220,9 +225,7 @@ class CompanyOffersScreen extends StatelessWidget {
           endActionPane: ActionPane(motion: const StretchMotion(), children: [
             SlidableAction(
               onPressed: ((context) {
-                context
-                    .read<CompanyOffersCubit>()
-                    .companyDeleteSentOffer(offerId: model[index].offerId!);
+                context.read<CompanyOffersCubit>().companyDeleteSentOffer(offerId: model[index].offerId!);
               }),
               backgroundColor: myFavColor8,
               icon: Icons.delete_outline,
@@ -233,11 +236,7 @@ class CompanyOffersScreen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
-                BoxShadow(
-                    color: myFavColor6.withAlpha(20),
-                    spreadRadius: 2,
-                    blurRadius: 7,
-                    offset: const Offset(0, 0)),
+                BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
               ],
             ),
             child: Card(
@@ -250,8 +249,7 @@ class CompanyOffersScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 26),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 26),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -262,19 +260,28 @@ class CompanyOffersScreen extends StatelessWidget {
                         Row(
                           children: [
                             if (model[index].pictureUrl != null)
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: myFavColor3,
-                                backgroundImage:
-                                    NetworkImage(model[index].pictureUrl!),
+                              GestureDetector(
+                                onTap: () {
+                                  MainCubit.get(context).getUserWithId(userId: model[index].reciverId!);
+                                },
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: myFavColor3,
+                                  backgroundImage: NetworkImage(model[index].pictureUrl!),
+                                ),
                               ),
                             if (model[index].pictureUrl == null)
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: myFavColor3,
-                                child: Icon(
-                                  Icons.image_not_supported_outlined,
-                                  color: myFavColor4,
+                              GestureDetector(
+                                onTap: () {
+                                  MainCubit.get(context).getUserWithId(userId: model[index].reciverId!);
+                                },
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: myFavColor3,
+                                  child: Icon(
+                                    Icons.image_not_supported_outlined,
+                                    color: myFavColor4,
+                                  ),
                                 ),
                               ),
                             const SizedBox(
@@ -282,27 +289,30 @@ class CompanyOffersScreen extends StatelessWidget {
                             ),
                             SizedBox(
                               width: 140.w,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    model[index].reciver ?? "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontSize: 14.sp,
-                                          color: myFavColor7,
-                                        ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(model[index].bio ?? "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!.copyWith(color: myFavColor6,fontSize: 14.sp)),
-                                ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  MainCubit.get(context).getUserWithId(userId: model[index].reciverId!);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      model[index].reciver ?? "",
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                            fontSize: 14.sp,
+                                            color: myFavColor7,
+                                          ),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(model[index].bio ?? "",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(color: myFavColor6, fontSize: 14.sp)),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -314,13 +324,8 @@ class CompanyOffersScreen extends StatelessWidget {
                               width: 4,
                             ),
                             Text(
-                              model[index].offerdDate != null
-                                  ? model[index].offerdDate!.substring(0, 10)
-                                  : "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
+                              model[index].offerdDate != null ? model[index].offerdDate!.substring(0, 10) : "",
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontSize: 14.sp,
                                     color: myFavColor7,
                                   ),
@@ -339,10 +344,9 @@ class CompanyOffersScreen extends StatelessWidget {
                         children: [
                           Text(
                             model[index].message ?? "",
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontSize: 16.sp,
-                                    ),
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontSize: 16.sp,
+                                ),
                           ),
                         ],
                       ),
@@ -381,13 +385,7 @@ class CompanyOffersScreen extends StatelessWidget {
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              buildRatingDialog(
-                  context: context,
-                  size: size,
-                  cubit: cubit,
-                  index: index,
-                  model: model,
-                  state: state);
+              buildRatingDialog(context: context, size: size, cubit: cubit, index: index, model: model, state: state);
             }),
             icon: Icons.star_rate_outlined,
             foregroundColor: const Color(0xFFFFAA01),
@@ -407,11 +405,7 @@ class CompanyOffersScreen extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(
-                  color: myFavColor6.withAlpha(20),
-                  spreadRadius: 2,
-                  blurRadius: 7,
-                  offset: const Offset(0, 0)),
+              BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
             ],
           ),
           child: Card(
@@ -433,19 +427,28 @@ class CompanyOffersScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (model[index].pictureUrl != null)
-                        CircleAvatar(
-                          radius: 25,
-                          backgroundColor: myFavColor3,
-                          backgroundImage:
-                              NetworkImage(model[index].pictureUrl!),
+                        GestureDetector(
+                          onTap: () {
+                            MainCubit.get(context).getUserWithId(userId: model[index].userId!);
+                          },
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: myFavColor3,
+                            backgroundImage: NetworkImage(model[index].pictureUrl!),
+                          ),
                         ),
                       if (model[index].pictureUrl == null)
-                        CircleAvatar(
-                          radius: 25,
-                          backgroundColor: myFavColor3,
-                          child: Icon(
-                            Icons.image_not_supported_outlined,
-                            color: myFavColor4,
+                        GestureDetector(
+                          onTap: () {
+                            MainCubit.get(context).getUserWithId(userId: model[index].userId!);
+                          },
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: myFavColor3,
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              color: myFavColor4,
+                            ),
                           ),
                         ),
                       const SizedBox(
@@ -458,28 +461,32 @@ class CompanyOffersScreen extends StatelessWidget {
                           children: [
                             SizedBox(
                               width: 140.w,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    model[index].displayName ?? "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontSize: 14.sp,
-                                          color: myFavColor7,
-                                        ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    model[index].offerDetails ?? "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6,fontSize: 14.sp),
-                                  ),
-                                ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  MainCubit.get(context).getUserWithId(userId: model[index].userId!);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      model[index].displayName ?? "",
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                            fontSize: 14.sp,
+                                            color: myFavColor7,
+                                          ),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      model[index].offerDetails ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: myFavColor6, fontSize: 14.sp),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Padding(
@@ -491,15 +498,8 @@ class CompanyOffersScreen extends StatelessWidget {
                                     width: 11,
                                   ),
                                   Text(
-                                    model[index].dateTime != null
-                                        ? model[index]
-                                            .dateTime!
-                                            .substring(0, 10)
-                                        : "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
+                                    model[index].dateTime != null ? model[index].dateTime!.substring(0, 10) : "",
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                           fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
@@ -528,10 +528,7 @@ class CompanyOffersScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "Offer Value",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
@@ -540,13 +537,8 @@ class CompanyOffersScreen extends StatelessWidget {
                                 height: 4,
                               ),
                               Text(
-                                model[index].offerValue != null
-                                    ? model[index].offerValue.toString()
-                                    : "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
+                                model[index].offerValue != null ? model[index].offerValue.toString() : "",
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
@@ -565,10 +557,7 @@ class CompanyOffersScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "Time to complete",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
@@ -578,10 +567,7 @@ class CompanyOffersScreen extends StatelessWidget {
                               ),
                               Text(
                                 model[index].timeToComplete ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
@@ -604,10 +590,7 @@ class CompanyOffersScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "About job",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
@@ -617,10 +600,7 @@ class CompanyOffersScreen extends StatelessWidget {
                               ),
                               Text(
                                 model[index].title ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
@@ -662,10 +642,7 @@ class CompanyOffersScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text("Choose rate",
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelLarge!
-                          .copyWith(color: myFavColor6, fontSize: 20)),
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor6, fontSize: 20)),
                   const SizedBox(
                     height: 20,
                   ),
@@ -688,14 +665,10 @@ class CompanyOffersScreen extends StatelessWidget {
                     builder: (context) => myMaterialButton(
                       context: context,
                       onPressed: () {
-                        cubit.companyRateUser(
-                            userId: model[index].userId!, rate: cubit.rate.toInt());
+                        cubit.companyRateUser(userId: model[index].userId!, rate: cubit.rate.toInt());
                       },
                       labelWidget: Text("Submit",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(color: myFavColor5, fontSize: 20)),
+                          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor5, fontSize: 20)),
                     ),
                     fallback: (context) => myMaterialButton(
                       context: context,

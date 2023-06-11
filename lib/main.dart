@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/bloc_observer.dart';
+import 'package:we_work/cubit/cubit.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/modules/common/forget_password/cubit/cubit.dart';
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
       ),
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (BuildContext context) => MainCubit()),
           BlocProvider(create: (BuildContext context) => UserRegisterCubit()),
           BlocProvider(create: (BuildContext context) => UserLoginCubit()),
           BlocProvider(create: (BuildContext context) => UserForgetPasswordCubit()),

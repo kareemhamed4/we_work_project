@@ -148,6 +148,11 @@ class CompanyHomeCubit extends Cubit<CompanyHomeStates> {
   CompanyGetAllUsersModel? companyGetSearchedUsersModel;
   void companyGetSearchedUsers({
     required String search,
+    String? country,
+    String? city,
+    String? jobType,
+    String? position,
+    String? experience,
   }) async {
     emit(CompanyGetSearchedUsersLoadingState());
     try {
@@ -157,6 +162,11 @@ class CompanyHomeCubit extends Cubit<CompanyHomeStates> {
         token: companyToken,
         query: {
           "search": search,
+          "country": country ?? "",
+          "city": city ?? "",
+          "jobType": jobType ?? "",
+          "position": position ?? "",
+          "experince": experience ?? "",
         },
       );
       companyGetSearchedUsersModel = CompanyGetAllUsersModel.fromJson(response.data);

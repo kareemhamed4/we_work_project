@@ -1,5 +1,6 @@
 class UserGetFreelanceJobsModel {
   int? id;
+  String? userId;
   String? projectDetails;
   String? title;
   String? budget;
@@ -9,6 +10,7 @@ class UserGetFreelanceJobsModel {
   UserGetFreelanceJobsModel(
       {this.id,
         this.projectDetails,
+        this.userId,
         this.title,
         this.budget,
         this.projectOwner,
@@ -16,6 +18,7 @@ class UserGetFreelanceJobsModel {
 
   UserGetFreelanceJobsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    userId = json['userId'];
     projectDetails = json['projectDetails'];
     title = json['title'];
     budget = json['budget'];

@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:we_work/cubit/cubit.dart';
 import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/modules/user/filter/filter.dart';
 import 'package:we_work/modules/user/freelance_jobs/freelance_jobs_screen.dart';
@@ -19,17 +20,16 @@ import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
-class Home extends StatefulWidget {
-  const Home({super.key});
+class UserHomeScreen extends StatefulWidget {
+  const UserHomeScreen({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<UserHomeScreen> createState() => _UserHomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _UserHomeScreenState extends State<UserHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
-      GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
   TextEditingController searchController = TextEditingController();
   var hasSpeech = false;
   SpeechToText speech = SpeechToText();
@@ -56,8 +56,7 @@ class _HomeState extends State<Home> {
           });
           cubit.userGetAllJob();
           return completer.future.then<void>((_) {
-            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
-                .showSnackBar(
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
               SnackBar(
                 content: const Text('Refresh complete'),
                 action: SnackBarAction(
@@ -106,19 +105,15 @@ class _HomeState extends State<Home> {
                 ? const SizedBox.shrink()
                 : Text(
                     'Search result',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: myFavColor),
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
                   ),
             centerTitle: true,
             actions: [
               searchController.text.isEmpty
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           NavigateTo(context: context, widget: FreelanceJobsScreen());
                         },
                         child: Container(
@@ -126,8 +121,7 @@ class _HomeState extends State<Home> {
                           width: 40,
                           height: 40,
                           decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
                                 color: myFavColor7,
@@ -162,8 +156,7 @@ class _HomeState extends State<Home> {
                           animate: hasSpeech,
                           duration: const Duration(milliseconds: 2000),
                           glowColor: myFavColor8,
-                          repeatPauseDuration:
-                              const Duration(milliseconds: 100),
+                          repeatPauseDuration: const Duration(milliseconds: 100),
                           showTwoGlows: true,
                           child: GestureDetector(
                             onTapDown: (details) async {
@@ -214,8 +207,7 @@ class _HomeState extends State<Home> {
                                   searchController.text = value;
                                 }
                               });
-                              cubit.userGetSearchedJobs(
-                                  search: searchController.text);
+                              cubit.userGetSearchedJobs(search: searchController.text);
                             },
                             context: context,
                             hint: "Search",
@@ -227,9 +219,7 @@ class _HomeState extends State<Home> {
                           child: Container(
                             height: 48,
                             width: 48,
-                            decoration: BoxDecoration(
-                                color: myFavColor,
-                                borderRadius: BorderRadius.circular(4)
+                            decoration: BoxDecoration(color: myFavColor, borderRadius: BorderRadius.circular(4)
                                 //more than 50% of width makes circle
                                 ),
                             child: IconButton(
@@ -240,8 +230,7 @@ class _HomeState extends State<Home> {
                               ),
                               color: Colors.black,
                               onPressed: () {
-                                NavigateTo(
-                                    context: context, widget: const Filter());
+                                NavigateTo(context: context, widget: const UserFilterScreen());
                               },
                             ),
                           ),
@@ -260,10 +249,7 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.only(left: 16),
                           child: Text(
                             "Available Jobs",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
+                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                   color: myFavColor,
                                   fontSize: 20.sp,
                                 ),
@@ -272,7 +258,7 @@ class _HomeState extends State<Home> {
                         if (cubit.userGetAllJobsModel != null)
                           if (cubit.userGetAllJobsModel!.count! > 0)
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 20),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -284,16 +270,14 @@ class _HomeState extends State<Home> {
                                   cubit: cubit,
                                   model: cubit.userGetAllJobsModel!,
                                 ),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(
+                                separatorBuilder: (context, index) => const SizedBox(
                                   height: 22,
                                 ),
                               ),
                             ),
                         if (cubit.userGetAllJobsModel != null)
                           if (cubit.userGetAllJobsModel!.count! == 0)
-                            const Center(
-                                child: Text("No available jobs right now")),
+                            const Center(child: Text("No available jobs right now")),
                         if (cubit.userGetAllJobsModel == null)
                           Center(
                               child: CircularProgressIndicator(
@@ -345,13 +329,9 @@ class _HomeState extends State<Home> {
   }) =>
       GestureDetector(
         onTap: () {
-          cubit
-              .userGetJobDetails(
-                  id: cubit.userGetAllJobsModel!.data![index].id!)
-              .then((value) {
-            cubit
-                .getUserWithId(
-                    userId: cubit.userGetAllJobsModel!.data![index].appUserId!)
+          cubit.userGetJobDetails(id: cubit.userGetAllJobsModel!.data![index].id!).then((value) {
+            MainCubit.get(context)
+                .getUserWithId(userId: cubit.userGetAllJobsModel!.data![index].appUserId!)
                 .then((value) {
               Navigator.pop(context);
               NavigateTo(
@@ -368,11 +348,7 @@ class _HomeState extends State<Home> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(
-                  color: myFavColor6.withAlpha(20),
-                  spreadRadius: 2,
-                  blurRadius: 7,
-                  offset: const Offset(0, 0)),
+              BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
             ],
           ),
           child: Card(
@@ -387,118 +363,112 @@ class _HomeState extends State<Home> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              if (model.data![index].pictureUrl != null)
-                                CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: myFavColor3,
-                                  backgroundImage: NetworkImage(
-                                      model.data![index].pictureUrl!),
-                                ),
-                              if (model.data![index].pictureUrl == null)
-                                CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: myFavColor3,
-                                  child: Icon(
-                                    Icons.image_not_supported_outlined,
-                                    color: myFavColor4,
-                                  ),
-                                ),
-                              const SizedBox(
-                                width: 10,
+                          if (model.data![index].pictureUrl != null)
+                            CircleAvatar(
+                              radius: 25,
+                              backgroundColor: myFavColor3,
+                              backgroundImage: NetworkImage(model.data![index].pictureUrl!),
+                            ),
+                          if (model.data![index].pictureUrl == null)
+                            CircleAvatar(
+                              radius: 25,
+                              backgroundColor: myFavColor3,
+                              child: Icon(
+                                Icons.image_not_supported_outlined,
+                                color: myFavColor4,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    model.data![index].user ?? "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontSize: 14.sp,
-                                          color: myFavColor7,
-                                        ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    model.data![index].title!,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                ],
+                            ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                model.data![index].user ?? "",
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 14,
+                                      color: myFavColor7,
+                                    ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                model.data![index].title!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: myFavColor6, fontSize: 14.sp),
                               ),
                             ],
                           ),
-                          FaIcon(
-                            model.data![index].hasApplied!
-                                ? FontAwesomeIcons.solidBookmark
-                                : FontAwesomeIcons.bookmark,
-                            color: myFavColor.withOpacity(0.5),
-                            size: 20,
-                          ),
-                        ]),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      model.data![index].description ?? "",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(fontSize: 16.sp),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        "learn more",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(fontSize: 16.sp, color: myFavColor),
+                        ],
                       ),
+                      FaIcon(
+                        model.data![index].hasApplied! ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark,
+                        color: myFavColor.withOpacity(0.5),
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    model.data![index].description ?? "",
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.sp),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      "learn more",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.sp, color: myFavColor),
                     ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.location_pin,
-                              color: Color(0xff649344),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "${model.data![index].city} , ${model.data![index].country}",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "${model.data![index].salary} EG",
-                          style: TextStyle(
-                              fontSize: 20.sp, color: const Color(0xff649344)),
-                        ),
-                      ],
-                    )
-                  ]),
+                  ),
+                  const SizedBox(
+                    height: 13,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_pin,
+                            color: Color(0xff649344),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "${model.data![index].city} , ${model.data![index].country}",
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  fontSize: 14.sp,
+                                  color: myFavColor7,
+                                ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "${model.data![index].salary} EG",
+                        style: TextStyle(fontSize: 16.sp, color: const Color(0xff649344)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -514,13 +484,11 @@ class _HomeState extends State<Home> {
   }
 
   void resultListener(SpeechRecognitionResult result) {
-    _logEvent(
-        'Result listener final: ${result.finalResult}, words: ${result.recognizedWords}');
+    _logEvent('Result listener final: ${result.finalResult}, words: ${result.recognizedWords}');
     setState(() {
       searchController.text = result.recognizedWords;
     });
-    UserHomeCubit.get(context)
-        .userGetSearchedJobs(search: searchController.text);
+    UserHomeCubit.get(context).userGetSearchedJobs(search: searchController.text);
   }
 
   void _logEvent(String eventDescription) {

@@ -20,11 +20,11 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+      value: SystemUiOverlayStyle(
+        statusBarColor: myFavColor,
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarColor: myFavColor,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: AnimatedSplashScreen(
@@ -57,18 +57,24 @@ class SplashScreen extends StatelessWidget {
               ],
             ),
             if (Platform.isAndroid)
-              SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(
-                  color: myFavColor5,
-                  strokeWidth: 3,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: CircularProgressIndicator(
+                    color: myFavColor5,
+                    strokeWidth: 3,
+                  ),
                 ),
               ),
             if (Platform.isIOS)
-              CupertinoActivityIndicator(
-                color: myFavColor5,
-                radius: 15,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: CupertinoActivityIndicator(
+                  color: myFavColor5,
+                  radius: 15,
+                ),
               ),
           ],
         ),

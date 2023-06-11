@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_work/models/user/user_get_job_details_model.dart';
 import 'package:we_work/modules/user/apply_job/apply_job_screen.dart';
-import 'package:we_work/modules/user/company_details/google_company.dart';
+import 'package:we_work/modules/user/company_details/company_details_screen.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 

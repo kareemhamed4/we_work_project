@@ -2,7 +2,6 @@ import 'package:we_work/models/user/user_get_all_jobs_model.dart';
 import 'package:we_work/models/user/user_get_freelance_details_model.dart';
 import 'package:we_work/models/user/user_get_freelance_jobs_model.dart';
 import 'package:we_work/models/user/user_get_job_details_model.dart';
-import 'package:we_work/models/user/user_get_profile_model.dart';
 
 abstract class UserHomeStates{}
 class UserHomeInitialState extends UserHomeStates {}
@@ -56,16 +55,6 @@ class UserSendOfferToFreelanceJobSuccessState extends UserHomeStates {
 class UserSendOfferToFreelanceJobErrorState extends UserHomeStates {
   final String error;
   UserSendOfferToFreelanceJobErrorState(this.error);
-}
-
-class GetUserWithIdLoadingState extends UserHomeStates {}
-class GetUserWithIdSuccessState extends UserHomeStates {
-  final UserProfileModel userProfileModel;
-  GetUserWithIdSuccessState(this.userProfileModel);
-}
-class GetUserWithIdErrorState extends UserHomeStates {
-  final String error;
-  GetUserWithIdErrorState(this.error);
 }
 
 class UserGetSearchedJobsLoadingState extends UserHomeStates {}

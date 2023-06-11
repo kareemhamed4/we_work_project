@@ -16,7 +16,7 @@ class DrawerMyUser extends StatelessWidget {
       mainScreenTapClose: true,
       style: DrawerStyle.style1,
       menuScreen: const NavigationDrawerWidget(),
-      mainScreen: const Home(),
+      mainScreen: const UserHomeScreen(),
       borderRadius: 24.0,
       showShadow: true,
       angle: 0,

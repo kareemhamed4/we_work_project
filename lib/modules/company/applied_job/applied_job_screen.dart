@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:we_work/cubit/cubit.dart';
+import 'package:we_work/cubit/states.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
 import 'package:we_work/models/company/company_get_user_applied_model.dart';
+import 'package:we_work/modules/common/user_details/user_details_screen.dart';
 import 'package:we_work/modules/company/notification/cubit/cubit.dart';
 import 'package:we_work/modules/company/notification/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -15,57 +18,72 @@ class AppliedJobScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<CompanyGetUsersWhoAppliedCubit,
-        CompanyGetUsersWhoAppliedStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        CompanyGetUsersWhoAppliedCubit cubit = BlocProvider.of(context);
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'Applied job',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: myFavColor),
-            ),
-            centerTitle: true,
-          ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  if (cubit.companyGetUserApplied != null)
-                    ListView.separated(
-                      reverse: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => buildAppliedJobCard(
-                        size: size,
-                        context: context,
-                        index: index,
-                        model: cubit.companyGetUserApplied!,
-                        filePath: cubit.companyGetUserApplied!.cvUrl!.split('/').last,
-                      ),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 23,
-                      ),
-                      itemCount: 1,
-                    ),
-                  if (cubit.companyGetAllUsersApplied == null)
-                    Center(
-                        child: CircularProgressIndicator(
-                      color: myFavColor,
-                    )),
-                ],
+    return BlocConsumer<MainCubit,MainStates>(
+      listener: (context, state) {
+        if (state is GetUserWithIdLoadingState) {
+          showProgressIndicator(context);
+        }
+        if (state is GetUserWithIdSuccessState) {
+          Navigator.pop(context);
+          NavigateTo(
+              context: context,
+              widget: UserDetailsScreen(isCompany: state.userProfileModel.dateOfCreation != null ? true : false));
+        }
+        if (state is GetUserWithIdErrorState) {
+          Navigator.pop(context);
+          buildErrorToast(context: context, title: "Oops!", description: state.error);
+        }
+      },
+      builder: (context,state){
+        return BlocConsumer<CompanyGetUsersWhoAppliedCubit, CompanyGetUsersWhoAppliedStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            CompanyGetUsersWhoAppliedCubit cubit = BlocProvider.of(context);
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Applied job',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
+                ),
+                centerTitle: true,
               ),
-            ),
-          ),
+              body: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      if (cubit.companyGetUserApplied != null)
+                        ListView.separated(
+                          reverse: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => buildAppliedJobCard(
+                            size: size,
+                            context: context,
+                            index: index,
+                            model: cubit.companyGetUserApplied!,
+                            filePath: cubit.companyGetUserApplied!.cvUrl!.split('/').last,
+                          ),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 23,
+                          ),
+                          itemCount: 1,
+                        ),
+                      if (cubit.companyGetAllUsersApplied == null)
+                        Center(
+                            child: CircularProgressIndicator(
+                              color: myFavColor,
+                            )),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -83,11 +101,7 @@ class AppliedJobScreen extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(
-                color: myFavColor6.withAlpha(20),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: const Offset(0, 0)),
+            BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
           ],
         ),
         child: Card(
@@ -110,19 +124,28 @@ class AppliedJobScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (model.pictureUrl != null)
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundColor: myFavColor3,
-                        backgroundImage: NetworkImage(
-                            model.pictureUrl!),
+                      GestureDetector(
+                        onTap: () {
+                          MainCubit.get(context).getUserWithId(userId: model.userId!);
+                        },
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: myFavColor3,
+                          backgroundImage: NetworkImage(model.pictureUrl!),
+                        ),
                       ),
                     if (model.pictureUrl == null)
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundColor: myFavColor3,
-                        child: Icon(
-                          Icons.image_not_supported_outlined,
-                          color: myFavColor4,
+                      GestureDetector(
+                        onTap: () {
+                          MainCubit.get(context).getUserWithId(userId: model.userId!);
+                        },
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: myFavColor3,
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            color: myFavColor4,
+                          ),
                         ),
                       ),
                     const SizedBox(
@@ -135,15 +158,17 @@ class AppliedJobScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                model.displayName ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      fontSize: 14.sp,
-                                      color: myFavColor7,
-                                    ),
+                              GestureDetector(
+                                onTap: () {
+                                  MainCubit.get(context).getUserWithId(userId: model.userId!);
+                                },
+                                child: Text(
+                                  model.displayName ?? "",
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                        fontSize: 14.sp,
+                                        color: myFavColor7,
+                                      ),
+                                ),
                               ),
                               Row(
                                 children: [
@@ -152,15 +177,8 @@ class AppliedJobScreen extends StatelessWidget {
                                     width: 11,
                                   ),
                                   Text(
-                                    model.dateApplied != null
-                                        ? model
-                                            .dateApplied!
-                                            .substring(0, 10)
-                                        : "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
+                                    model.dateApplied != null ? model.dateApplied!.substring(0, 10) : "",
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                           fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
@@ -181,11 +199,10 @@ class AppliedJobScreen extends StatelessWidget {
                           ),
                           Text(
                             "${model.displayName ?? ""} applied for a job as \"${model.titleOfJob ?? ""}\"",
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontSize: 16.sp,
-                                      color: myFavColor7,
-                                    ),
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontSize: 16.sp,
+                                  color: myFavColor7,
+                                ),
                           ),
                           const SizedBox(
                             height: 18,
@@ -196,10 +213,7 @@ class AppliedJobScreen extends StatelessWidget {
                                 flex: 5,
                                 child: Text(
                                   model.email!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                         fontSize: 14.sp,
                                         color: myFavColor.withOpacity(0.8),
                                       ),
@@ -209,10 +223,7 @@ class AppliedJobScreen extends StatelessWidget {
                                 flex: 1,
                                 child: Text(
                                   "Job Id:${model.jobid ?? ""}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                         color: myFavColor.withOpacity(0.8),
                                       ),
                                 ),
@@ -237,8 +248,8 @@ class AppliedJobScreen extends StatelessWidget {
                   child: myMaterialButton(
                     context: context,
                     onPressed: () {
-                      final Uri toLaunch =
-                      Uri(scheme: 'http', host: 'mohamed2132-001-site1.ftempurl.com', path: "/Documentaion/$filePath");
+                      final Uri toLaunch = Uri(
+                          scheme: 'http', host: 'mohamed2132-001-site1.ftempurl.com', path: "/Documentaion/$filePath");
                       LayoutCompanyCubit.get(context).launchInBrowser(toLaunch);
                     },
                     labelWidget: Row(

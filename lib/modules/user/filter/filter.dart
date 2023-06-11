@@ -12,13 +12,13 @@ import 'package:we_work/modules/user/home/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
 import 'package:we_work/shared/styles/colors.dart';
 
-class Filter extends StatefulWidget {
-  const Filter({super.key});
+class UserFilterScreen extends StatefulWidget {
+  const UserFilterScreen({super.key});
   @override
-  State<Filter> createState() => _FilterState();
+  State<UserFilterScreen> createState() => _UserFilterScreenState();
 }
 
-class _FilterState extends State<Filter> {
+class _UserFilterScreenState extends State<UserFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserHomeCubit, UserHomeStates>(
@@ -29,11 +29,11 @@ class _FilterState extends State<Filter> {
         if (state is UserGetAllJobsSuccessState) {
           Navigator.pop(context);
           NavigateTo(
-              context: context,
-              widget: FilteredResultScreen(
-                userGetFilteredJobs:
-                    UserHomeCubit.get(context).userGetFilterJobsModel!,
-              ));
+            context: context,
+            widget: FilteredResultScreen(
+              userGetFilteredJobs: UserHomeCubit.get(context).userGetFilterJobsModel!,
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -45,10 +45,7 @@ class _FilterState extends State<Filter> {
               appBar: AppBar(
                 title: Text(
                   'Filter',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(color: myFavColor),
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
                 ),
                 centerTitle: true,
               ),
@@ -59,10 +56,7 @@ class _FilterState extends State<Filter> {
                     ExpansionTile(
                       title: Text(
                         "Location",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                       ),
                       children: [
                         Padding(
@@ -79,16 +73,13 @@ class _FilterState extends State<Filter> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(
-                                          color: myFavColor, fontSize: 16.sp),
+                                          .copyWith(color: myFavColor, fontSize: 16.sp),
                                     ),
                                     RadioGroup<String>.builder(
                                       fillColor: myFavColor,
                                       activeColor: myFavColor,
                                       groupValue: cubit.selectedCountry,
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
+                                      textStyle: Theme.of(context).textTheme.bodyMedium,
                                       onChanged: (value) => setState(() {
                                         cubit.selectedCountry = value!;
                                       }),
@@ -111,16 +102,13 @@ class _FilterState extends State<Filter> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(
-                                          color: myFavColor, fontSize: 16.sp),
+                                          .copyWith(color: myFavColor, fontSize: 16.sp),
                                     ),
                                     RadioGroup<String>.builder(
                                       fillColor: myFavColor,
                                       activeColor: myFavColor,
                                       groupValue: cubit.selectedCity,
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
+                                      textStyle: Theme.of(context).textTheme.bodyMedium,
                                       onChanged: (value) => setState(() {
                                         cubit.selectedCity = value!;
                                       }),
@@ -140,10 +128,7 @@ class _FilterState extends State<Filter> {
                     ExpansionTile(
                       title: Text(
                         "Type of workplace",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                       ),
                       children: [
                         RadioGroup<String>.builder(
@@ -162,10 +147,7 @@ class _FilterState extends State<Filter> {
                     ExpansionTile(
                       title: Text(
                         "Job type",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                       ),
                       children: [
                         const SizedBox(
@@ -196,10 +178,7 @@ class _FilterState extends State<Filter> {
                     ExpansionTile(
                       title: Text(
                         "Position level",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                       ),
                       children: [
                         const SizedBox(
@@ -230,10 +209,7 @@ class _FilterState extends State<Filter> {
                     ExpansionTile(
                       title: Text(
                         "Salary",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                       ),
                       children: [
                         const SizedBox(
@@ -276,10 +252,7 @@ class _FilterState extends State<Filter> {
                     ExpansionTile(
                       title: Text(
                         "Experience",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                       ),
                       children: [
                         RadioGroup<String>.builder(
@@ -287,7 +260,7 @@ class _FilterState extends State<Filter> {
                           activeColor: myFavColor,
                           groupValue: cubit.selectedExperience,
                           onChanged: (value) => setState(
-                                () {
+                            () {
                               cubit.selectedExperience = value!;
                             },
                           ),
@@ -301,10 +274,7 @@ class _FilterState extends State<Filter> {
                     ExpansionTile(
                       title: Text(
                         "DisabledJob",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                       ),
                       children: [
                         RadioGroup<String>.builder(
@@ -312,7 +282,7 @@ class _FilterState extends State<Filter> {
                           activeColor: myFavColor,
                           groupValue: cubit.selectedDisabledJobs,
                           onChanged: (value) => setState(
-                                () {
+                            () {
                               cubit.selectedDisabledJobs = value!;
                             },
                           ),
@@ -336,10 +306,7 @@ class _FilterState extends State<Filter> {
                               isEnabled: false,
                               labelWidget: Text(
                                 "Reset",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(color: myFavColor),
+                                style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor),
                               ),
                               onPressed: () {
                                 setState(() {
@@ -366,13 +333,13 @@ class _FilterState extends State<Filter> {
                               onPressed: () {
                                 UserHomeCubit.get(context).userGetAllJob(
                                   city: cubit.selectedCity != "All" ? cubit.selectedCity : "",
-                                  country: cubit.selectedCountry != "All" ? cubit.selectedCountry :"",
-                                  position: cubit.selectedPosition != "All" ? cubit.selectedPosition :"",
-                                  experience: cubit.selectedExperience != "All" ? cubit.selectedExperience :"",
-                                  jobType: cubit.selectedJobType != "All" ? cubit.selectedJobType :"",
+                                  country: cubit.selectedCountry != "All" ? cubit.selectedCountry : "",
+                                  position: cubit.selectedPosition != "All" ? cubit.selectedPosition : "",
+                                  experience: cubit.selectedExperience != "All" ? cubit.selectedExperience : "",
+                                  jobType: cubit.selectedJobType != "All" ? cubit.selectedJobType : "",
                                   salaryMin: cubit.selectedMinSalary!.toInt(),
                                   salaryMax: cubit.selectedMaxSalary!.toInt(),
-                                  disabled: cubit.selectedDisabledJobs != "none" ? cubit.selectedDisabledJobs :"",
+                                  disabled: cubit.selectedDisabledJobs != "none" ? cubit.selectedDisabledJobs : "",
                                 );
                               },
                               labelWidget: Text(

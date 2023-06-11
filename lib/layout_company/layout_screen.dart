@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:we_work/layout_company/cubit/cubit.dart';
@@ -13,6 +14,7 @@ class LayoutCompanyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
     return BlocConsumer<LayoutCompanyCubit, LayoutCompanyStates>(
       listener: (context, state) => {},
       builder: (context, state) {

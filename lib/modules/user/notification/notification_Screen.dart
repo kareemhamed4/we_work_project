@@ -13,8 +13,7 @@ import 'package:we_work/shared/styles/colors.dart';
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
-      GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +29,7 @@ class NotificationScreen extends StatelessWidget {
           });
           cubit.userGetNotification();
           return completer.future.then<void>((_) {
-            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
-                .showSnackBar(
+            ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
               SnackBar(
                 content: const Text('Refresh complete'),
                 action: SnackBarAction(
@@ -45,20 +43,17 @@ class NotificationScreen extends StatelessWidget {
             );
           });
         }
+
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
               'Notification',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: myFavColor),
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
             ),
             centerTitle: true,
           ),
-          body: (cubit.userNotificationModel != null &&
-                  cubit.userNotificationModel!.isNotEmpty)
+          body: (cubit.userNotificationModel != null && cubit.userNotificationModel!.isNotEmpty)
               ? LiquidPullToRefresh(
                   key: _refreshIndicatorKey,
                   onRefresh: handleRefresh,
@@ -77,10 +72,7 @@ class NotificationScreen extends StatelessWidget {
                               ),
                               Text(
                                 " ${cubit.userNotificationModel!.length} Notification",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: myFavColor),
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
                               ),
                             ],
                           ),
@@ -89,10 +81,8 @@ class NotificationScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: cubit.userNotificationModel!.length,
-                              separatorBuilder: (context, index) =>
-                                  SizedBox(height: 23.h),
-                              itemBuilder: (context, index) =>
-                                  buildNotificationItem(
+                              separatorBuilder: (context, index) => SizedBox(height: 23.h),
+                              itemBuilder: (context, index) => buildNotificationItem(
                                     context: context,
                                     size: size,
                                     index: index,
@@ -103,8 +93,7 @@ class NotificationScreen extends StatelessWidget {
                     ),
                   ),
                 )
-              : (cubit.userNotificationModel != null &&
-                      cubit.userNotificationModel!.isEmpty)
+              : (cubit.userNotificationModel != null && cubit.userNotificationModel!.isEmpty)
                   ? SizedBox(
                       width: double.infinity,
                       child: Column(
@@ -113,10 +102,7 @@ class NotificationScreen extends StatelessWidget {
                         children: [
                           Text(
                             'No Notification available right now',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(fontSize: 18.sp),
+                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 18.sp),
                           ),
                         ],
                       ),
@@ -140,14 +126,11 @@ class NotificationScreen extends StatelessWidget {
       children: [
         Row(
           children: [
-            CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(model[index].pictureUrl!)),
             const SizedBox(width: 8),
             Flexible(
               child: Text(
                 model[index].message!,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
               ),
             ),
             const SizedBox(width: 8),
@@ -208,56 +191,40 @@ class NotificationScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Meeting Link: ",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: myFavColor6, fontSize: 18),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor6, fontSize: 18),
                   ),
                   SizedBox(height: 12.h),
                   GestureDetector(
                     onTap: () {
-                      LayoutCubit.get(context).launchZoomMeeting(
-                          meetingUrl: model[index].meetingLink);
+                      LayoutCubit.get(context).launchZoomMeeting(meetingUrl: model[index].meetingLink);
                     },
                     child: Text(
                       model[index].meetingLink!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Colors.blueAccent,
-                          fontSize: 12,
-                          decoration: TextDecoration.underline),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.blueAccent, fontSize: 12, decoration: TextDecoration.underline),
                     ),
                   ),
                   SizedBox(height: 20.h),
                   Text(
                     "Meeting Date: ",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: myFavColor6, fontSize: 18),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor6, fontSize: 18),
                   ),
                   SizedBox(height: 12.h),
                   Text(
                     model[index].meedtingDate!.substring(0, 10),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: myFavColor4, fontSize: 12),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 12),
                   ),
                   SizedBox(height: 20.h),
                   Text(
                     "Meeting Time: ",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: myFavColor6, fontSize: 18),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor6, fontSize: 18),
                   ),
                   SizedBox(height: 12.h),
                   Text(
                     model[index].meedtingDate!.substring(12, 16),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: myFavColor4, fontSize: 12),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 12),
                   ),
                 ],
               ),

@@ -6,7 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:we_work/cubit/cubit.dart';
+import 'package:we_work/cubit/states.dart';
 import 'package:we_work/models/user/user_get_offers_model.dart';
+import 'package:we_work/modules/common/user_details/user_details_screen.dart';
 import 'package:we_work/modules/user/offers/cubit/cubit.dart';
 import 'package:we_work/modules/user/offers/cubit/states.dart';
 import 'package:we_work/shared/components/components.dart';
@@ -15,99 +18,113 @@ import 'package:we_work/shared/styles/colors.dart';
 class OffersScreen extends StatelessWidget {
   OffersScreen({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
-  GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<UserOffersCubit, UserOffersStates>(
+    return BlocConsumer<MainCubit,MainStates>(
       listener: (context, state) {
-        if(state is UserDeclineOfferSuccessState){
-          buildSuccessToast(
-            context: context,
-            title: "Declined!",
-            description: state.msg,
-          );
+        if (state is GetUserWithIdLoadingState) {
+          showProgressIndicator(context);
+        }
+        if (state is GetUserWithIdSuccessState) {
+          Navigator.pop(context);
+          NavigateTo(
+              context: context,
+              widget: UserDetailsScreen(isCompany: state.userProfileModel.dateOfCreation != null ? true : false));
+        }
+        if (state is GetUserWithIdErrorState) {
+          Navigator.pop(context);
+          buildErrorToast(context: context, title: "Oops!", description: state.error);
         }
       },
-      builder: (context, state) {
-        UserOffersCubit cubit = BlocProvider.of(context);
-        Future<void> handleRefresh() {
-          final Completer<void> completer = Completer<void>();
-          Timer(const Duration(seconds: 2), () {
-            completer.complete();
-          });
-          cubit.userGetOffers();
-          return completer.future.then<void>((_) {
-            ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
-                .showSnackBar(
-              SnackBar(
-                content: const Text('Refresh complete'),
-                action: SnackBarAction(
-                  label: 'RETRY',
-                  textColor: myFavColor5,
-                  onPressed: () {
-                    _refreshIndicatorKey.currentState!.show();
-                  },
+      builder: (context,state){
+        return BlocConsumer<UserOffersCubit, UserOffersStates>(
+          listener: (context, state) {
+            if (state is UserDeclineOfferSuccessState) {
+              buildSuccessToast(
+                context: context,
+                title: "Declined!",
+                description: state.msg,
+              );
+            }
+          },
+          builder: (context, state) {
+            UserOffersCubit cubit = BlocProvider.of(context);
+            Future<void> handleRefresh() {
+              final Completer<void> completer = Completer<void>();
+              Timer(const Duration(seconds: 2), () {
+                completer.complete();
+              });
+              cubit.userGetOffers();
+              return completer.future.then<void>((_) {
+                ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Refresh complete'),
+                    action: SnackBarAction(
+                      label: 'RETRY',
+                      textColor: myFavColor5,
+                      onPressed: () {
+                        _refreshIndicatorKey.currentState!.show();
+                      },
+                    ),
+                  ),
+                );
+              });
+            }
+
+            return Scaffold(
+              key: _scaffoldKey,
+              appBar: AppBar(
+                title: Text(
+                  'Offers',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
+                ),
+                centerTitle: true,
+              ),
+              body: LiquidPullToRefresh(
+                key: _refreshIndicatorKey,
+                onRefresh: handleRefresh,
+                color: myFavColor,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      if (cubit.userGetOffersModel != null)
+                        ConditionalBuilder(
+                          condition: cubit.userGetOffersModel!.isNotEmpty,
+                          builder: (context) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => buildOffersCard(
+                                size: size,
+                                context: context,
+                                index: index,
+                                cubit: cubit,
+                                model: cubit.userGetOffersModel!,
+                              ),
+                              separatorBuilder: (context, index) => SizedBox(height: 16.h),
+                              itemCount: cubit.userGetOffersModel!.length,
+                            ),
+                          ),
+                          fallback: (context) => const Center(child: Text("No Offers Found")),
+                        ),
+                      if (cubit.userGetOffersModel == null)
+                        Center(
+                            child: CircularProgressIndicator(
+                              color: myFavColor,
+                            )),
+                    ],
+                  ),
                 ),
               ),
             );
-          });
-        }
-        return Scaffold(
-          key: _scaffoldKey,
-          appBar: AppBar(
-            title: Text(
-              'Offers',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: myFavColor),
-            ),
-            centerTitle: true,
-          ),
-          body: LiquidPullToRefresh(
-            key: _refreshIndicatorKey,
-            onRefresh: handleRefresh,
-            color: myFavColor,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  if (cubit.userGetOffersModel != null)
-                    ConditionalBuilder(
-                      condition: cubit.userGetOffersModel!.isNotEmpty,
-                      builder: (context) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => buildOffersCard(
-                              size: size,
-                              context: context,
-                              index: index,
-                              cubit: cubit,
-                              model: cubit.userGetOffersModel!,
-                          ),
-                          separatorBuilder: (context, index) =>
-                              SizedBox(height: 16.h),
-                          itemCount: cubit.userGetOffersModel!.length,
-                        ),
-                      ),
-                      fallback: (context) => const Center(child: Text("No Offers Found")),
-                    ),
-                  if (cubit.userGetOffersModel == null)
-                    Center(
-                        child: CircularProgressIndicator(
-                      color: myFavColor,
-                    )),
-                ],
-              ),
-            ),
-          ),
+          },
         );
       },
     );
@@ -146,11 +163,7 @@ class OffersScreen extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(
-                  color: myFavColor6.withAlpha(20),
-                  spreadRadius: 2,
-                  blurRadius: 7,
-                  offset: const Offset(0, 0)),
+              BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
             ],
           ),
           child: Card(
@@ -171,38 +184,39 @@ class OffersScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          if (model[index].pictureUrl != null)
-                            CircleAvatar(
-                              radius: 25,
-                              backgroundColor: myFavColor3,
-                              backgroundImage: NetworkImage(
-                                  model[index].pictureUrl!),
-                            ),
-                          if (model[index].pictureUrl == null)
-                            CircleAvatar(
-                              radius: 25,
-                              backgroundColor: myFavColor3,
-                              child: Icon(
-                                Icons.image_not_supported_outlined,
-                                color: myFavColor4,
+                      GestureDetector(
+                        onTap: () {
+                          MainCubit.get(context).getUserWithId(userId: model[index].sendrId!);
+                        },
+                        child: Row(
+                          children: [
+                            if (model[index].pictureUrl != null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                backgroundImage: NetworkImage(model[index].pictureUrl!),
                               ),
+                            if (model[index].pictureUrl == null)
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: myFavColor3,
+                                child: Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: myFavColor4,
+                                ),
+                              ),
+                            const SizedBox(
+                              width: 12,
                             ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Text(
-                            model[index].userName ?? "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                              fontSize: 14.sp,
-                              color: myFavColor7,
+                            Text(
+                              model[index].userName ?? "",
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 16,
+                                    color: myFavColor7,
+                                  ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Row(
                         children: [
@@ -211,25 +225,18 @@ class OffersScreen extends StatelessWidget {
                             width: 6,
                           ),
                           Text(
-                            model[index].offerdDate != null
-                                ? model[index]
-                                .offerdDate!
-                                .substring(0, 10)
-                                : "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                              fontSize: 14.sp,
-                              color: myFavColor7,
-                            ),
+                            model[index].offerdDate != null ? model[index].offerdDate!.substring(0, 10) : "",
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  fontSize: 13.sp,
+                                  color: myFavColor7,
+                                ),
                           )
                         ],
                       ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 60,right: 16),
+                    padding: const EdgeInsets.only(left: 60, right: 16),
                     child: SizedBox(
                       width: double.infinity,
                       child: Column(
@@ -237,105 +244,22 @@ class OffersScreen extends StatelessWidget {
                         children: [
                           Text(
                             model[index].message ?? "",
-                            style:
-                            Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontSize: 16.sp,
-                              color: myFavColor7,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.sp),
                           ),
                           const SizedBox(
                             height: 6,
                           ),
                           Text(
                             model[index].email ?? "",
-                            style:
-                            Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontSize: 16.sp,
-                              color: myFavColor.withOpacity(0.8),
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontSize: 16.sp,
+                                  color: myFavColor.withOpacity(0.8),
+                                ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  /*Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/image/google.svg",
-                      ),
-                      const SizedBox(
-                        width: 26,
-                      ),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  model[index].userName ?? "",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(
-                                        fontSize: 14,
-                                        color: myFavColor7,
-                                      ),
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.calendar_month_outlined),
-                                    const SizedBox(
-                                      width: 11,
-                                    ),
-                                    Text(
-                                      model[index].offerdDate != null
-                                          ? model[index]
-                                              .offerdDate!
-                                              .substring(0, 10)
-                                          : "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                            fontSize: 14,
-                                            color: myFavColor7,
-                                          ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            Text(
-                              model[index].message ?? "",
-                              style:
-                                  Theme.of(context).textTheme.caption!.copyWith(
-                                        fontSize: 16,
-                                        color: myFavColor7,
-                                      ),
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            Text(
-                              model[index].email ?? "",
-                              style:
-                                  Theme.of(context).textTheme.caption!.copyWith(
-                                        fontSize: 16,
-                                        color: myFavColor.withOpacity(0.8),
-                                      ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),*/
                 ],
               ),
             ),
