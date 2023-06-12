@@ -9,7 +9,7 @@
     <!-- ... other manifest elements ... -->
 
     <application
-        android:label="we_work"
+        android:label="WE WORK"
         android:name="${applicationName}"
         android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher">
