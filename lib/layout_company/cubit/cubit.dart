@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:we_work/layout_company/cubit/states.dart';
 import 'package:we_work/modules/company/drawer/drawer_company.dart';
-import 'package:we_work/modules/company/home/cubit/cubit.dart';
-import 'package:we_work/modules/company/notification/cubit/cubit.dart';
 import 'package:we_work/modules/company/offers/offers_screen.dart';
 import 'package:we_work/modules/company/profile/company_profile.dart';
 import 'package:we_work/modules/company/notification/notification_Screen.dart';
@@ -23,13 +21,6 @@ class LayoutCompanyCubit extends Cubit<LayoutCompanyStates> {
 
   int currentIndex = 0;
   void changeIndex(index, context) {
-    if (index == 1) {
-      CompanyGetUsersWhoAppliedCubit.get(context)
-          .companyGetAllUsersWhoApplied();
-    }
-    if (index == 0) {
-      CompanyHomeCubit.get(context).companyGetAllUsers();
-    }
     currentIndex = index;
     emit(ChangeBottomNavBarCompanyState());
   }

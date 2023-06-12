@@ -11,6 +11,7 @@ class CompanyAddFreelanceJobCubit extends Cubit<CompanyAddFreelanceJobStates> {
   static CompanyAddFreelanceJobCubit get(context) => BlocProvider.of(context);
 
   void companyAddFreelanceJob({
+    required String title,
     required String projectStatus,
     required String timeToComplete,
     required String projectDetails,
@@ -23,6 +24,7 @@ class CompanyAddFreelanceJobCubit extends Cubit<CompanyAddFreelanceJobStates> {
       baseUrl: BASEURL,
       token: companyToken,
       data: {
+        "title": title,
         "ProjectStatus": projectStatus,
         "TimeToComplete": timeToComplete,
         "ProjectDetails": projectDetails,

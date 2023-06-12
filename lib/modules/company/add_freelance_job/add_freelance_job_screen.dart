@@ -10,6 +10,7 @@ import 'package:we_work/shared/styles/colors.dart';
 //ignore: must_be_immutable
 class AddFreelanceJobScreen extends StatelessWidget {
   AddFreelanceJobScreen({super.key});
+  TextEditingController titleController = TextEditingController();
   TextEditingController statueController = TextEditingController();
   TextEditingController budgetController = TextEditingController();
   TextEditingController timeToCompleteController = TextEditingController();
@@ -67,6 +68,29 @@ class AddFreelanceJobScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                        'Project title',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    myTextFormField(
+                      context: context,
+                      controller: titleController,
+                      type: TextInputType.text,
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter Project title";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: size.height * 20 / size.height,
+                    ),
                     Text(
                       'Project statue',
                       style: Theme.of(context)
@@ -193,7 +217,8 @@ class AddFreelanceJobScreen extends StatelessWidget {
                                 timeToComplete: timeToCompleteController.text,
                                 projectDetails: projectDetailsController.text,
                                 requiredSkills: requiresSkillsController.text,
-                                budget: budgetController.text
+                                budget: budgetController.text,
+                                title: titleController.text,
                             );
                           }
                         },

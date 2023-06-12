@@ -95,6 +95,7 @@ class FreelanceJobsScreen extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                                 child: ListView.separated(
                                   shrinkWrap: true,
+                                  reverse: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: cubit.userGetFreelanceJobsModel!.length,
                                   itemBuilder: (context, index) => GestureDetector(
