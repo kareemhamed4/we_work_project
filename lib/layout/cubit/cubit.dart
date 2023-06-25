@@ -7,7 +7,7 @@ import 'package:we_work/modules/user/offers/offers_screen.dart';
 import 'package:we_work/modules/user/drawer/drawer.dart';
 import 'package:we_work/modules/user/profile/user_profile.dart';
 import 'package:we_work/modules/user/notification/notification_Screen.dart';
-import 'package:we_work/modules/user/saved_jobs/saved_Job.dart';
+import 'package:we_work/modules/user/saved_jobs/saved_job.dart';
 
 class LayoutCubit extends Cubit<LayoutStates> {
   LayoutCubit() : super(LayoutInitialState());

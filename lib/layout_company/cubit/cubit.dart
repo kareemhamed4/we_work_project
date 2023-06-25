@@ -5,7 +5,7 @@ import 'package:we_work/layout_company/cubit/states.dart';
 import 'package:we_work/modules/company/drawer/drawer_company.dart';
 import 'package:we_work/modules/company/offers/offers_screen.dart';
 import 'package:we_work/modules/company/profile/company_profile.dart';
-import 'package:we_work/modules/company/notification/notification_Screen.dart';
+import 'package:we_work/modules/company/notification/notification_screen.dart';
 
 class LayoutCompanyCubit extends Cubit<LayoutCompanyStates> {
   LayoutCompanyCubit() : super(LayoutCompanyInitialState());

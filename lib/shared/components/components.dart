@@ -246,3 +246,77 @@ void showProgressIndicator(BuildContext context) {
         return alertDialog;
       });
 }
+
+void showMyDialog({
+  required BuildContext context,
+  IconData? icon,
+  required Function onConfirm,
+  Widget? contentWidget,
+  Widget? titleWidget,
+  Key? formKey,
+  String? confirmText,
+  String? cancelText,
+  bool isCancelButton = true,
+}) {
+  showDialog<String>(
+    context: context,
+    builder: (dialogContext) => Form(
+      key: formKey,
+      child: Center(
+        child: SingleChildScrollView(
+          child: AlertDialog(
+            icon: Icon(
+              icon ?? Icons.info_outline,
+              color: myFavColor8,
+            ),
+            backgroundColor: Colors.white,
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none,
+            ),
+            title: titleWidget ?? const SizedBox(),
+            content: contentWidget ?? const SizedBox(),
+            contentPadding: contentWidget != null ? const EdgeInsets.all(8): EdgeInsets.zero,
+            actions: <Widget>[
+              if(isCancelButton)
+                MaterialButton(
+                  color: myFavColor2,
+                  shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context, 'Cancel');
+                  },
+                  child: Text(
+                    cancelText ?? "Cancel",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: myFavColor, fontSize: 20),
+                  ),
+                ),
+              MaterialButton(
+                color: myFavColor,
+                shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                onPressed: () async{
+                  await onConfirm();
+                },
+                child: Text(
+                  confirmText ?? "Confirm",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}

@@ -235,10 +235,53 @@ class _CompanyJobsScreenState extends State<CompanyJobsScreen> {
                         ),
                         IconButton(
                           icon: Icon(Icons.delete_forever_outlined, color: myFavColor8),
-                          onPressed: (){
-                            cubit.companyDeleteHeyJob(jobId: model[index].id!);
-                          },
-                        ),
+                          onPressed: () {
+                            showDialog(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                scrollable: true,
+                                icon: Icon(Icons.info_outline,color: myFavColor8),
+                                title: const Text("Warning"),
+                                content: const Text("Are you sure you want to close this job ?"),
+                                actions: [
+                                  myMaterialButton(
+                                    context: context,
+                                    labelWidget: Text(
+                                      "Confirm",
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                        fontSize: 16,
+                                        color: myFavColor5,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      cubit.companyDeleteHeyJob(jobId: model[index].id!);
+                                    },
+                                  ),
+                                  const SizedBox(height: 12),
+                                  myMaterialButton(
+                                    context: context,
+                                    bgColorForNotEnabled: myFavColor2,
+                                    isEnabled: false,
+                                    labelWidget: Text(
+                                      "Cancel",
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                        fontSize: 16,
+                                        color: myFavColor,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  const SizedBox(height: 16),
+                                ],
+                                actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                              ),
+                            );
+                          }
+                          ),
                       ]),
                   const SizedBox(
                     height: 8,

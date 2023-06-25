@@ -141,7 +141,50 @@ class OffersScreen extends StatelessWidget {
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              cubit.userDeclineOffer(offerId: model[index].id!);
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline,color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text("Are you sure you want to Delete this received offer ?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor5,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        cubit.userDeclineOffer(offerId: model[index].id!);
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             icon: Icons.close,
             foregroundColor: myFavColor8,
@@ -151,7 +194,50 @@ class OffersScreen extends StatelessWidget {
         startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              cubit.userDeclineOffer(offerId: model[index].id!);
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline,color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text("Are you sure you want to Delete this received offer ?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor5,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        cubit.userDeclineOffer(offerId: model[index].id!);
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             icon: Icons.close,
             foregroundColor: myFavColor8,

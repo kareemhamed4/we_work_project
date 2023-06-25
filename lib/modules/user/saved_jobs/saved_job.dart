@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,12 +17,13 @@ import 'package:we_work/shared/styles/colors.dart';
 class SavedJob extends StatelessWidget {
   SavedJob({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+      GlobalKey<LiquidPullToRefreshState>();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<MainCubit,MainStates>(
+    return BlocConsumer<MainCubit, MainStates>(
       listener: (context, state) {
         if (state is GetUserWithIdLoadingState) {
           showProgressIndicator(context);
@@ -32,14 +32,18 @@ class SavedJob extends StatelessWidget {
           Navigator.pop(context);
           NavigateTo(
               context: context,
-              widget: UserDetailsScreen(isCompany: state.userProfileModel.dateOfCreation != null ? true : false));
+              widget: UserDetailsScreen(
+                  isCompany: state.userProfileModel.dateOfCreation != null
+                      ? true
+                      : false));
         }
         if (state is GetUserWithIdErrorState) {
           Navigator.pop(context);
-          buildErrorToast(context: context, title: "Oops!", description: state.error);
+          buildErrorToast(
+              context: context, title: "Oops!", description: state.error);
         }
       },
-      builder: (context,state){
+      builder: (context, state) {
         return BlocConsumer<UserGetAppliedJobsCubit, UserGetAppliedJobsStates>(
           listener: (context, state) {
             if (state is UserDeleteApplicantSuccessState) {
@@ -67,7 +71,8 @@ class SavedJob extends StatelessWidget {
               });
               cubit.userGetAppliedJobs();
               return completer.future.then<void>((_) {
-                ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
+                ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                    .showSnackBar(
                   SnackBar(
                     content: const Text('Refresh complete'),
                     action: SnackBarAction(
@@ -87,7 +92,10 @@ class SavedJob extends StatelessWidget {
               appBar: AppBar(
                 title: Text(
                   'Applied Job',
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: myFavColor),
                 ),
                 centerTitle: true,
               ),
@@ -111,18 +119,23 @@ class SavedJob extends StatelessWidget {
                               reverse: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) => buildSavedJobs(
-                                  context: context, index: index, size: size, model: cubit.getAppliedJobsModel!),
-                              separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                                  context: context,
+                                  index: index,
+                                  size: size,
+                                  model: cubit.getAppliedJobsModel!),
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(height: 20.h),
                               itemCount: cubit.getAppliedJobsModel!.length,
                             ),
                           ),
                       if (cubit.getAppliedJobsModel != null)
-                        if (cubit.getAppliedJobsModel!.isEmpty) const Center(child: Text("No Applicant Found!")),
+                        if (cubit.getAppliedJobsModel!.isEmpty)
+                          const Center(child: Text("No Applicant Found!")),
                       if (cubit.getAppliedJobsModel == null)
                         Center(
                             child: CircularProgressIndicator(
-                              color: myFavColor,
-                            )),
+                          color: myFavColor,
+                        )),
                     ],
                   ),
                 ),
@@ -144,7 +157,52 @@ class SavedJob extends StatelessWidget {
         startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              context.read<UserGetAppliedJobsCubit>().deleteApplicant(applicantId: model[index].applicantId!);
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline,color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text("Are you sure you want to Delete this applicant ?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor5,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.read<UserGetAppliedJobsCubit>().deleteApplicant(
+                              applicantId: model[index].applicantId!,
+                            );
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             backgroundColor: myFavColor8,
             icon: Icons.delete_outline,
@@ -153,7 +211,52 @@ class SavedJob extends StatelessWidget {
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              context.read<UserGetAppliedJobsCubit>().deleteApplicant(applicantId: model[index].applicantId!);
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline,color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text("Are you sure you want to Delete this applicant ?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor5,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.read<UserGetAppliedJobsCubit>().deleteApplicant(
+                          applicantId: model[index].applicantId!,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             backgroundColor: myFavColor8,
             icon: Icons.delete_outline,
@@ -164,7 +267,11 @@ class SavedJob extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
+              BoxShadow(
+                  color: myFavColor6.withAlpha(20),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0)),
             ],
           ),
           child: Card(
@@ -183,7 +290,8 @@ class SavedJob extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      MainCubit.get(context).getUserWithId(userId: model[index].userId!);
+                      MainCubit.get(context)
+                          .getUserWithId(userId: model[index].userId!);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +300,8 @@ class SavedJob extends StatelessWidget {
                           CircleAvatar(
                             radius: 25,
                             backgroundColor: myFavColor3,
-                            backgroundImage: NetworkImage(model[index].piCtrueUrl!),
+                            backgroundImage:
+                                NetworkImage(model[index].piCtrueUrl!),
                           ),
                         if (model[index].piCtrueUrl == null)
                           CircleAvatar(
@@ -211,7 +320,10 @@ class SavedJob extends StatelessWidget {
                           children: [
                             Text(
                               model[index].name ?? "",
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
                                     fontSize: 14,
                                     color: myFavColor7,
                                   ),
@@ -221,8 +333,11 @@ class SavedJob extends StatelessWidget {
                             ),
                             Text(
                               model[index].title ?? "",
-                              style:
-                                  Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor6, fontSize: 14.sp),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      color: myFavColor6, fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -234,7 +349,10 @@ class SavedJob extends StatelessWidget {
                   ),
                   Text(
                     model[index].message ?? "",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.sp),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(fontSize: 14.sp),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -242,30 +360,21 @@ class SavedJob extends StatelessWidget {
                     height: 18,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.calendar_month_outlined),
-                          const SizedBox(
-                            width: 11,
-                          ),
-                          Text(
-                            model[index].dateApplied != null ? model[index].dateApplied!.substring(0, 10) : "",
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  fontSize: 14.sp,
-                                  color: myFavColor7,
-                                ),
-                          )
-                        ],
+                      const Icon(Icons.calendar_month_outlined),
+                      const SizedBox(
+                        width: 11,
                       ),
                       Text(
-                        "Job Id:${model[index].jobid ?? ""}",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontSize: 16.sp,
-                              color: myFavColor.withOpacity(0.8),
+                        model[index].dateApplied != null
+                            ? model[index].dateApplied!.substring(0, 10)
+                            : "",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 14.sp,
+                              color: myFavColor7,
                             ),
-                      ),
+                      )
                     ],
                   ),
                 ],

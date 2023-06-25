@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +20,8 @@ import 'package:we_work/shared/styles/colors.dart';
 class CompanyOffersScreen extends StatelessWidget {
   CompanyOffersScreen({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+      GlobalKey<LiquidPullToRefreshState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +35,15 @@ class CompanyOffersScreen extends StatelessWidget {
           Navigator.pop(context);
           NavigateTo(
               context: context,
-              widget: UserDetailsScreen(isCompany: state.userProfileModel.dateOfCreation != null ? true : false));
+              widget: UserDetailsScreen(
+                  isCompany: state.userProfileModel.dateOfCreation != null
+                      ? true
+                      : false));
         }
         if (state is GetUserWithIdErrorState) {
           Navigator.pop(context);
-          buildErrorToast(context: context, title: "Oops!", description: state.error);
+          buildErrorToast(
+              context: context, title: "Oops!", description: state.error);
         }
       },
       builder: (context, state) {
@@ -96,7 +100,8 @@ class CompanyOffersScreen extends StatelessWidget {
               cubit.companyGetAllSentOffers();
               cubit.companyGetAllFreelanceOffers();
               return completer.future.then<void>((_) {
-                ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
+                ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                    .showSnackBar(
                   SnackBar(
                     content: const Text('Refresh complete'),
                     action: SnackBarAction(
@@ -116,7 +121,10 @@ class CompanyOffersScreen extends StatelessWidget {
               appBar: AppBar(
                 title: Text(
                   'Offers',
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: myFavColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: myFavColor),
                 ),
                 centerTitle: true,
               ),
@@ -139,16 +147,23 @@ class CompanyOffersScreen extends StatelessWidget {
                             ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemBuilder: (context, index) => buildAcceptedOffersCard(
-                                  size: size, context: context, index: index, model: cubit.companyGetSentOffersModel!),
-                              separatorBuilder: (context, index) => const SizedBox(
+                              itemBuilder: (context, index) =>
+                                  buildAcceptedOffersCard(
+                                      size: size,
+                                      context: context,
+                                      index: index,
+                                      model: cubit.companyGetSentOffersModel!),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
                                 height: 23,
                               ),
-                              itemCount: cubit.companyGetSentOffersModel!.length,
+                              itemCount:
+                                  cubit.companyGetSentOffersModel!.length,
                             ),
                         if (cubit.companyGetSentOffersModel != null)
                           if (cubit.companyGetSentOffersModel!.isEmpty)
-                            const Center(child: Text("You haven't sent any offer yet.")),
+                            const Center(
+                                child: Text("You haven't sent any offer yet.")),
                         if (cubit.companyGetSentOffersModel == null)
                           Center(
                               child: CircularProgressIndicator(
@@ -159,7 +174,10 @@ class CompanyOffersScreen extends StatelessWidget {
                         ),
                         Text(
                           'Freelancing offer',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: myFavColor),
                         ),
                         const SizedBox(
                           height: 18,
@@ -169,21 +187,27 @@ class CompanyOffersScreen extends StatelessWidget {
                             ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemBuilder: (context, index) => buildFreelancingOffersCard(
-                                  size: size,
-                                  context: context,
-                                  index: index,
-                                  model: cubit.companyGetFreelanceOffersModel!,
-                                  cubit: cubit,
-                                  state: state),
-                              separatorBuilder: (context, index) => const SizedBox(
+                              itemBuilder: (context, index) =>
+                                  buildFreelancingOffersCard(
+                                      size: size,
+                                      context: context,
+                                      index: index,
+                                      model:
+                                          cubit.companyGetFreelanceOffersModel!,
+                                      cubit: cubit,
+                                      state: state),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
                                 height: 23,
                               ),
-                              itemCount: cubit.companyGetFreelanceOffersModel!.length,
+                              itemCount:
+                                  cubit.companyGetFreelanceOffersModel!.length,
                             ),
                         if (cubit.companyGetFreelanceOffersModel != null)
                           if (cubit.companyGetFreelanceOffersModel!.isEmpty)
-                            const Center(child: Text("You don't receive any freelance offer until now")),
+                            const Center(
+                                child: Text(
+                                    "You don't receive any freelance offer until now")),
                         if (cubit.companyGetFreelanceOffersModel == null)
                           Center(
                               child: CircularProgressIndicator(
@@ -216,7 +240,56 @@ class CompanyOffersScreen extends StatelessWidget {
           startActionPane: ActionPane(motion: const StretchMotion(), children: [
             SlidableAction(
               onPressed: ((context) {
-                context.read<CompanyOffersCubit>().companyDeleteSentOffer(offerId: model[index].offerId!);
+                showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    scrollable: true,
+                    icon: Icon(Icons.info_outline, color: myFavColor8),
+                    title: const Text("Warning"),
+                    content: const Text(
+                        "Are you sure you want to withdraw this sent offer ?"),
+                    actions: [
+                      myMaterialButton(
+                        context: context,
+                        labelWidget: Text(
+                          "Confirm",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 16,
+                                    color: myFavColor5,
+                                  ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          context
+                              .read<CompanyOffersCubit>()
+                              .companyDeleteSentOffer(
+                                  offerId: model[index].offerId!);
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      myMaterialButton(
+                        context: context,
+                        bgColorForNotEnabled: myFavColor2,
+                        isEnabled: false,
+                        labelWidget: Text(
+                          "Cancel",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 16,
+                                    color: myFavColor,
+                                  ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                    actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                );
               }),
               backgroundColor: myFavColor8,
               icon: Icons.delete_outline,
@@ -225,7 +298,56 @@ class CompanyOffersScreen extends StatelessWidget {
           endActionPane: ActionPane(motion: const StretchMotion(), children: [
             SlidableAction(
               onPressed: ((context) {
-                context.read<CompanyOffersCubit>().companyDeleteSentOffer(offerId: model[index].offerId!);
+                showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    scrollable: true,
+                    icon: Icon(Icons.info_outline, color: myFavColor8),
+                    title: const Text("Warning"),
+                    content: const Text(
+                        "Are you sure you want to withdraw this sent offer ?"),
+                    actions: [
+                      myMaterialButton(
+                        context: context,
+                        labelWidget: Text(
+                          "Confirm",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 16,
+                                    color: myFavColor5,
+                                  ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          context
+                              .read<CompanyOffersCubit>()
+                              .companyDeleteSentOffer(
+                                  offerId: model[index].offerId!);
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      myMaterialButton(
+                        context: context,
+                        bgColorForNotEnabled: myFavColor2,
+                        isEnabled: false,
+                        labelWidget: Text(
+                          "Cancel",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 16,
+                                    color: myFavColor,
+                                  ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                    actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                );
               }),
               backgroundColor: myFavColor8,
               icon: Icons.delete_outline,
@@ -236,7 +358,11 @@ class CompanyOffersScreen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
-                BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
+                BoxShadow(
+                    color: myFavColor6.withAlpha(20),
+                    spreadRadius: 2,
+                    blurRadius: 7,
+                    offset: const Offset(0, 0)),
               ],
             ),
             child: Card(
@@ -249,7 +375,8 @@ class CompanyOffersScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 26),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 26),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -262,18 +389,21 @@ class CompanyOffersScreen extends StatelessWidget {
                             if (model[index].pictureUrl != null)
                               GestureDetector(
                                 onTap: () {
-                                  MainCubit.get(context).getUserWithId(userId: model[index].reciverId!);
+                                  MainCubit.get(context).getUserWithId(
+                                      userId: model[index].reciverId!);
                                 },
                                 child: CircleAvatar(
                                   radius: 25,
                                   backgroundColor: myFavColor3,
-                                  backgroundImage: NetworkImage(model[index].pictureUrl!),
+                                  backgroundImage:
+                                      NetworkImage(model[index].pictureUrl!),
                                 ),
                               ),
                             if (model[index].pictureUrl == null)
                               GestureDetector(
                                 onTap: () {
-                                  MainCubit.get(context).getUserWithId(userId: model[index].reciverId!);
+                                  MainCubit.get(context).getUserWithId(
+                                      userId: model[index].reciverId!);
                                 },
                                 child: CircleAvatar(
                                   radius: 25,
@@ -291,14 +421,18 @@ class CompanyOffersScreen extends StatelessWidget {
                               width: 140.w,
                               child: GestureDetector(
                                 onTap: () {
-                                  MainCubit.get(context).getUserWithId(userId: model[index].reciverId!);
+                                  MainCubit.get(context).getUserWithId(
+                                      userId: model[index].reciverId!);
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       model[index].reciver ?? "",
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
                                             fontSize: 14.sp,
                                             color: myFavColor7,
                                           ),
@@ -310,7 +444,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
-                                            .copyWith(color: myFavColor6, fontSize: 14.sp)),
+                                            .copyWith(
+                                                color: myFavColor6,
+                                                fontSize: 14.sp)),
                                   ],
                                 ),
                               ),
@@ -324,8 +460,13 @@ class CompanyOffersScreen extends StatelessWidget {
                               width: 4,
                             ),
                             Text(
-                              model[index].offerdDate != null ? model[index].offerdDate!.substring(0, 10) : "",
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              model[index].offerdDate != null
+                                  ? model[index].offerdDate!.substring(0, 10)
+                                  : "",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
                                     fontSize: 14.sp,
                                     color: myFavColor7,
                                   ),
@@ -344,9 +485,10 @@ class CompanyOffersScreen extends StatelessWidget {
                         children: [
                           Text(
                             model[index].message ?? "",
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                  fontSize: 16.sp,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontSize: 16.sp,
+                                    ),
                           ),
                         ],
                       ),
@@ -371,12 +513,57 @@ class CompanyOffersScreen extends StatelessWidget {
         startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              NavigateTo(
-                  context: context,
-                  widget: SendAcceptScreen(
-                    userId: model[index].userId!,
-                    isFreelance: true,
-                  ));
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline, color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text(
+                      "Are you sure you want to accept this offer ?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor5,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        NavigateTo(
+                          context: context,
+                          widget: SendAcceptScreen(
+                            userId: model[index].userId!,
+                            isFreelance: true,
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             backgroundColor: myFavColor.withOpacity(0.7),
             icon: Icons.check,
@@ -385,7 +572,13 @@ class CompanyOffersScreen extends StatelessWidget {
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              buildRatingDialog(context: context, size: size, cubit: cubit, index: index, model: model, state: state);
+              buildRatingDialog(
+                  context: context,
+                  size: size,
+                  cubit: cubit,
+                  index: index,
+                  model: model,
+                  state: state);
             }),
             icon: Icons.star_rate_outlined,
             foregroundColor: const Color(0xFFFFAA01),
@@ -393,7 +586,51 @@ class CompanyOffersScreen extends StatelessWidget {
           ),
           SlidableAction(
             onPressed: ((context) {
-              cubit.companyDeclineFreelanceOffer(offerId: model[index].offerId!);
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline,color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text("Are you sure you want to decline this offer?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor5,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        cubit.companyDeclineFreelanceOffer(
+                            offerId: model[index].offerId!);
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16,
+                          color: myFavColor,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             icon: Icons.close,
             foregroundColor: myFavColor8,
@@ -405,7 +642,11 @@ class CompanyOffersScreen extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
+              BoxShadow(
+                  color: myFavColor6.withAlpha(20),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0)),
             ],
           ),
           child: Card(
@@ -429,18 +670,21 @@ class CompanyOffersScreen extends StatelessWidget {
                       if (model[index].pictureUrl != null)
                         GestureDetector(
                           onTap: () {
-                            MainCubit.get(context).getUserWithId(userId: model[index].userId!);
+                            MainCubit.get(context)
+                                .getUserWithId(userId: model[index].userId!);
                           },
                           child: CircleAvatar(
                             radius: 25,
                             backgroundColor: myFavColor3,
-                            backgroundImage: NetworkImage(model[index].pictureUrl!),
+                            backgroundImage:
+                                NetworkImage(model[index].pictureUrl!),
                           ),
                         ),
                       if (model[index].pictureUrl == null)
                         GestureDetector(
                           onTap: () {
-                            MainCubit.get(context).getUserWithId(userId: model[index].userId!);
+                            MainCubit.get(context)
+                                .getUserWithId(userId: model[index].userId!);
                           },
                           child: CircleAvatar(
                             radius: 25,
@@ -463,14 +707,18 @@ class CompanyOffersScreen extends StatelessWidget {
                               width: 140.w,
                               child: GestureDetector(
                                 onTap: () {
-                                  MainCubit.get(context).getUserWithId(userId: model[index].userId!);
+                                  MainCubit.get(context).getUserWithId(
+                                      userId: model[index].userId!);
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       model[index].displayName ?? "",
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
                                             fontSize: 14.sp,
                                             color: myFavColor7,
                                           ),
@@ -483,7 +731,9 @@ class CompanyOffersScreen extends StatelessWidget {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(color: myFavColor6, fontSize: 14.sp),
+                                          .copyWith(
+                                              color: myFavColor6,
+                                              fontSize: 14.sp),
                                     ),
                                   ],
                                 ),
@@ -498,8 +748,15 @@ class CompanyOffersScreen extends StatelessWidget {
                                     width: 11,
                                   ),
                                   Text(
-                                    model[index].dateTime != null ? model[index].dateTime!.substring(0, 10) : "",
-                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    model[index].dateTime != null
+                                        ? model[index]
+                                            .dateTime!
+                                            .substring(0, 10)
+                                        : "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
                                           fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
@@ -528,7 +785,10 @@ class CompanyOffersScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "Offer Value",
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
@@ -537,8 +797,13 @@ class CompanyOffersScreen extends StatelessWidget {
                                 height: 4,
                               ),
                               Text(
-                                model[index].offerValue != null ? model[index].offerValue.toString() : "",
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                model[index].offerValue != null
+                                    ? model[index].offerValue.toString()
+                                    : "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
@@ -557,7 +822,10 @@ class CompanyOffersScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "Time to complete",
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
@@ -567,7 +835,10 @@ class CompanyOffersScreen extends StatelessWidget {
                               ),
                               Text(
                                 model[index].timeToComplete ?? "",
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
@@ -590,7 +861,10 @@ class CompanyOffersScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "About job",
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontSize: 12.sp,
                                       color: myFavColor7,
                                     ),
@@ -600,7 +874,10 @@ class CompanyOffersScreen extends StatelessWidget {
                               ),
                               Text(
                                 model[index].title ?? "",
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontSize: 10.sp,
                                       color: myFavColor7,
                                     ),
@@ -642,7 +919,10 @@ class CompanyOffersScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text("Choose rate",
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor6, fontSize: 20)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelLarge!
+                          .copyWith(color: myFavColor6, fontSize: 20)),
                   const SizedBox(
                     height: 20,
                   ),
@@ -665,10 +945,15 @@ class CompanyOffersScreen extends StatelessWidget {
                     builder: (context) => myMaterialButton(
                       context: context,
                       onPressed: () {
-                        cubit.companyRateUser(userId: model[index].userId!, rate: cubit.rate.toInt());
+                        cubit.companyRateUser(
+                            userId: model[index].userId!,
+                            rate: cubit.rate.toInt());
                       },
                       labelWidget: Text("Submit",
-                          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor5, fontSize: 20)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(color: myFavColor5, fontSize: 20)),
                     ),
                     fallback: (context) => myMaterialButton(
                       context: context,

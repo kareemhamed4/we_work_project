@@ -4,7 +4,6 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:rate/rate.dart';
@@ -90,21 +89,7 @@ class _CompanyHomeState extends State<CompanyHome> {
               key: _scaffoldKey,
               appBar: AppBar(
                 leading: searchController.text.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 6),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.sort_outlined,
-                            color: myFavColor6,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              ZoomDrawer.of(context)?.open();
-                            });
-                          },
-                        ),
-                      )
+                    ? const SizedBox()
                     : IconButton(
                         onPressed: () {
                           setState(() {

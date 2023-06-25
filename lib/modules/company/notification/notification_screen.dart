@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,13 +20,16 @@ class CompanyNotificationScreen extends StatefulWidget {
   const CompanyNotificationScreen({super.key});
 
   @override
-  State<CompanyNotificationScreen> createState() => _CompanyNotificationScreenState();
+  State<CompanyNotificationScreen> createState() =>
+      _CompanyNotificationScreenState();
 }
 
-class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> with TickerProviderStateMixin {
+class _CompanyNotificationScreenState extends State<CompanyNotificationScreen>
+    with TickerProviderStateMixin {
   late TabController tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+      GlobalKey<LiquidPullToRefreshState>();
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -36,7 +38,7 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MainCubit,MainStates>(
+    return BlocConsumer<MainCubit, MainStates>(
       listener: (context, state) {
         if (state is GetUserWithIdLoadingState) {
           showProgressIndicator(context);
@@ -45,15 +47,20 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
           Navigator.pop(context);
           NavigateTo(
               context: context,
-              widget: UserDetailsScreen(isCompany: state.userProfileModel.dateOfCreation != null ? true : false));
+              widget: UserDetailsScreen(
+                  isCompany: state.userProfileModel.dateOfCreation != null
+                      ? true
+                      : false));
         }
         if (state is GetUserWithIdErrorState) {
           Navigator.pop(context);
-          buildErrorToast(context: context, title: "Oops!", description: state.error);
+          buildErrorToast(
+              context: context, title: "Oops!", description: state.error);
         }
       },
-      builder: (context,state){
-        return BlocConsumer<CompanyGetUsersWhoAppliedCubit, CompanyGetUsersWhoAppliedStates>(
+      builder: (context, state) {
+        return BlocConsumer<CompanyGetUsersWhoAppliedCubit,
+            CompanyGetUsersWhoAppliedStates>(
           listener: (context, state) {
             if (state is CompanyDeleteSentAcceptedOfferSuccessState) {
               buildSuccessToast(
@@ -87,7 +94,8 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
               cubit.companyGetAllUsersWhoApplied();
               cubit.companyGetAllMeetings();
               return completer.future.then<void>((_) {
-                ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
+                ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+                    .showSnackBar(
                   SnackBar(
                     content: const Text('Refresh complete'),
                     action: SnackBarAction(
@@ -120,56 +128,75 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                             cubit.currentIndexForTabBar = index;
                           },
                           indicatorWeight: 3,
-                          indicatorPadding: const EdgeInsets.symmetric(horizontal: 16),
+                          indicatorPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
                           indicatorColor: myFavColor,
                           tabs: [
                             Tab(
                               height: 40,
                               child: Text(
                                 "Notifications",
-                                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                  fontSize: 18,
-                                  color: cubit.currentIndexForTabBar == 0 ? myFavColor : myFavColor4,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(
+                                      fontSize: 18,
+                                      color: cubit.currentIndexForTabBar == 0
+                                          ? myFavColor
+                                          : myFavColor4,
+                                    ),
                               ),
                             ),
                             Tab(
                               height: 40,
                               child: Text(
                                 "Meetings",
-                                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                  fontSize: 18,
-                                  color: cubit.currentIndexForTabBar == 1 ? myFavColor : myFavColor4,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(
+                                      fontSize: 18,
+                                      color: cubit.currentIndexForTabBar == 1
+                                          ? myFavColor
+                                          : myFavColor4,
+                                    ),
                               ),
                             ),
                           ],
                         ),
                         Padding(
                           padding: const EdgeInsets.all(16),
-                          child: (cubit.companyGetAllUsersApplied != null && cubit.companyMeetingsModel != null)
+                          child: (cubit.companyGetAllUsersApplied != null &&
+                                  cubit.companyMeetingsModel != null)
                               ? cubit.currentIndexForTabBar == 0
-                              ? buildNotificationContent(context, cubit)
-                              : cubit.companyMeetingsModel!.isNotEmpty
-                              ? ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => buildMeetingsCard(
-                                  index: index, context: context, model: cubit.companyMeetingsModel!),
-                              separatorBuilder: (context, index) => const SizedBox(
-                                height: 20,
-                              ),
-                              itemCount: cubit.companyMeetingsModel!.length)
+                                  ? buildNotificationContent(context, cubit)
+                                  : cubit.companyMeetingsModel!.isNotEmpty
+                                      ? ListView.separated(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) =>
+                                              buildMeetingsCard(
+                                                  index: index,
+                                                  context: context,
+                                                  model: cubit
+                                                      .companyMeetingsModel!),
+                                          separatorBuilder: (context, index) =>
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                          itemCount: cubit
+                                              .companyMeetingsModel!.length)
+                                      : Center(
+                                          child: CircularProgressIndicator(
+                                            color: myFavColor,
+                                          ),
+                                        )
                               : Center(
-                            child: CircularProgressIndicator(
-                              color: myFavColor,
-                            ),
-                          )
-                              : Center(
-                            child: CircularProgressIndicator(
-                              color: myFavColor,
-                            ),
-                          ),
+                                  child: CircularProgressIndicator(
+                                    color: myFavColor,
+                                  ),
+                                ),
                         ),
                       ],
                     ),
@@ -197,7 +224,10 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
             ),
             Text(
               "${cubit.companyGetAllUsersApplied!.length} Notification",
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: myFavColor),
             ),
           ],
         ),
@@ -211,13 +241,15 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
             shrinkWrap: true,
             itemCount: cubit.companyGetAllUsersApplied!.length,
             itemBuilder: (context, index) => Slidable(
-              startActionPane: ActionPane(motion: const StretchMotion(), children: [
+              startActionPane:
+                  ActionPane(motion: const StretchMotion(), children: [
                 SlidableAction(
                   onPressed: ((context) {
                     NavigateTo(
                         context: context,
                         widget: SendAcceptScreen(
-                          userId: cubit.companyGetAllUsersApplied![index].userId!,
+                          userId:
+                              cubit.companyGetAllUsersApplied![index].userId!,
                           isFreelance: false,
                         ));
                   }),
@@ -226,10 +258,64 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                   foregroundColor: Colors.red,
                 ),
               ]),
-              endActionPane: ActionPane(motion: const StretchMotion(), children: [
+              endActionPane:
+                  ActionPane(motion: const StretchMotion(), children: [
                 SlidableAction(
                   onPressed: ((context) {
-                    cubit.companyDeclineUserApplied(applicantId: cubit.companyGetAllUsersApplied![index].id!);
+                    showDialog(
+                      barrierDismissible: true,
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        scrollable: true,
+                        icon: Icon(Icons.info_outline, color: myFavColor8),
+                        title: const Text("Warning"),
+                        content: const Text(
+                            "Are you sure you want to decline this user?"),
+                        actions: [
+                          myMaterialButton(
+                            context: context,
+                            labelWidget: Text(
+                              "Confirm",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: 16,
+                                    color: myFavColor5,
+                                  ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              cubit.companyDeclineUserApplied(
+                                  applicantId: cubit
+                                      .companyGetAllUsersApplied![index].id!);
+                            },
+                          ),
+                          const SizedBox(height: 12),
+                          myMaterialButton(
+                            context: context,
+                            bgColorForNotEnabled: myFavColor2,
+                            isEnabled: false,
+                            labelWidget: Text(
+                              "Cancel",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: 16,
+                                    color: myFavColor,
+                                  ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        actionsPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                    );
                   }),
                   icon: Icons.close,
                   foregroundColor: myFavColor8,
@@ -239,17 +325,21 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  cubit.companyGetUserWhoApplied(id: cubit.companyGetAllUsersApplied![index].id!);
+                  cubit.companyGetUserWhoApplied(
+                      id: cubit.companyGetAllUsersApplied![index].id!);
                 },
                 child: Row(
                   children: [
-                    if (cubit.companyGetAllUsersApplied![index].pictureUrl != null)
+                    if (cubit.companyGetAllUsersApplied![index].pictureUrl !=
+                        null)
                       CircleAvatar(
                         radius: 25,
                         backgroundColor: myFavColor3,
-                        backgroundImage: NetworkImage(cubit.companyGetAllUsersApplied![index].pictureUrl!),
+                        backgroundImage: NetworkImage(cubit
+                            .companyGetAllUsersApplied![index].pictureUrl!),
                       ),
-                    if (cubit.companyGetAllUsersApplied![index].pictureUrl == null)
+                    if (cubit.companyGetAllUsersApplied![index].pictureUrl ==
+                        null)
                       CircleAvatar(
                         radius: 25,
                         backgroundColor: myFavColor3,
@@ -264,8 +354,13 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            cubit.companyGetAllUsersApplied![index].displayName ?? "",
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
+                            cubit.companyGetAllUsersApplied![index]
+                                    .displayName ??
+                                "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: myFavColor),
                           ),
                           const SizedBox(
                             height: 5,
@@ -303,7 +398,53 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
         startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              CompanyGetUsersWhoAppliedCubit.get(context).companyDeleteAcceptedOffer(meetingId: model[index].id!);
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline, color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text(
+                      "Are you sure you want to withdraw your acceptince to this user?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor5,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        CompanyGetUsersWhoAppliedCubit.get(context)
+                            .companyDeleteAcceptedOffer(
+                                meetingId: model[index].id!);
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             backgroundColor: myFavColor8,
             icon: Icons.delete_outline,
@@ -312,7 +453,53 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              CompanyGetUsersWhoAppliedCubit.get(context).companyDeleteAcceptedOffer(meetingId: model[index].id!);
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  scrollable: true,
+                  icon: Icon(Icons.info_outline, color: myFavColor8),
+                  title: const Text("Warning"),
+                  content: const Text(
+                      "Are you sure you want to withdraw your acceptince to this user?"),
+                  actions: [
+                    myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Confirm",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor5,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        CompanyGetUsersWhoAppliedCubit.get(context)
+                            .companyDeleteAcceptedOffer(
+                                meetingId: model[index].id!);
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    myMaterialButton(
+                      context: context,
+                      bgColorForNotEnabled: myFavColor2,
+                      isEnabled: false,
+                      labelWidget: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 16,
+                              color: myFavColor,
+                            ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+              );
             }),
             backgroundColor: myFavColor8,
             icon: Icons.delete_outline,
@@ -323,7 +510,11 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(color: myFavColor6.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
+              BoxShadow(
+                  color: myFavColor6.withAlpha(20),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0)),
             ],
           ),
           child: Card(
@@ -343,7 +534,8 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                 children: [
                   GestureDetector(
                     onTap: () {
-                      MainCubit.get(context).getUserWithId(userId: model[index].userID!);
+                      MainCubit.get(context)
+                          .getUserWithId(userId: model[index].userID!);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -355,7 +547,8 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                               CircleAvatar(
                                 radius: 25,
                                 backgroundColor: myFavColor3,
-                                backgroundImage: NetworkImage(model[index].pictureUrl!),
+                                backgroundImage:
+                                    NetworkImage(model[index].pictureUrl!),
                               ),
                             if (model[index].pictureUrl == null)
                               CircleAvatar(
@@ -377,7 +570,10 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                                 children: [
                                   Text(
                                     model[index].user ?? "",
-                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
                                           fontSize: 14.sp,
                                           color: myFavColor7,
                                         ),
@@ -390,7 +586,9 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
-                                        .copyWith(color: myFavColor6, fontSize: 14.sp),
+                                        .copyWith(
+                                            color: myFavColor6,
+                                            fontSize: 14.sp),
                                   ),
                                 ],
                               ),
@@ -415,8 +613,13 @@ class _CompanyNotificationScreenState extends State<CompanyNotificationScreen> w
                               width: 11,
                             ),
                             Text(
-                              model[index].meedtingDate != null ? model[index].meedtingDate!.substring(0, 10) : "",
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              model[index].meedtingDate != null
+                                  ? model[index].meedtingDate!.substring(0, 10)
+                                  : "",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
                                     fontSize: 14.sp,
                                     color: myFavColor7,
                                   ),
