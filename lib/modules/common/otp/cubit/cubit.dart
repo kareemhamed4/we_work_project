@@ -26,9 +26,8 @@ class UserVerifyOTPCubit extends Cubit<UserVerifyOTPStates> {
     }).catchError((error){
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
-          final responseData = error.response?.data;
-          final errorMessage = responseData[""][0];
-          emit(UserVerifyOTPErrorState(errorMessage));
+          final errorMessage = error.response?.data.toString();
+          emit(UserVerifyOTPErrorState(errorMessage!));
         }else{
           emit(UserVerifyOTPErrorState(error.toString()));
         }

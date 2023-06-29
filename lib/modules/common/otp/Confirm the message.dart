@@ -23,7 +23,7 @@ class ConfirmMessage extends StatelessWidget {
     return BlocConsumer<UserVerifyOTPCubit,UserVerifyOTPStates>(
       listener: (context,state){
         if (state is UserVerifyOTPSuccessState) {
-          NavigateTo(context: context, widget: ChangePassword());
+          NavigateTo(context: context, widget: ChangePassword(email: email));
         }
         if (state is UserVerifyOTPErrorState) {
           buildErrorToast(

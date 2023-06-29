@@ -10,8 +10,8 @@ import 'package:we_work/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
 class ChangePassword extends StatelessWidget {
-  ChangePassword({super.key});
-  TextEditingController emailController = TextEditingController();
+  final String email;
+  ChangePassword({super.key,required this.email});
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
@@ -72,28 +72,6 @@ class ChangePassword extends StatelessWidget {
                           .textTheme
                           .bodySmall!
                           .copyWith(fontSize: 16.sp, height: 1.5),
-                    ),
-                    SizedBox(height: 20.h),
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text(
-                        'Enter your email',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium,
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    myTextFormField(
-                      context: context,
-                      controller: emailController,
-                      type: TextInputType.emailAddress,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your email";
-                        }
-                        return null;
-                      },
                     ),
                     SizedBox(height: 20.h),
                     Align(
@@ -163,7 +141,7 @@ class ChangePassword extends StatelessWidget {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             cubit.userNewPassword(
-                              email: emailController.text,
+                              email: email,
                               password: passwordController.text,
                               confirmPassword: confirmPasswordController.text,
                             );
