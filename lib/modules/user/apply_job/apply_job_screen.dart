@@ -30,7 +30,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
       listener: (context, state) {
         if (state is UserApplyJobSuccessState) {
           UserGetAppliedJobsCubit.get(context).userGetAppliedJobs().then((value){
-            UserHomeCubit.get(context).userGetAllJob();
+            UserHomeCubit.get(context).getAllJobs();
             NavigateToReb(context: context, widget: const LayoutScreen());
             LayoutCubit.get(context).changeIndex(2);
             buildSuccessToast(

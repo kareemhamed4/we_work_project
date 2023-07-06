@@ -331,7 +331,7 @@ class _UserFilterScreenState extends State<UserFilterScreen> {
                             child: myMaterialButton(
                               context: context,
                               onPressed: () {
-                                UserHomeCubit.get(context).userGetAllJob(
+                                UserHomeCubit.get(context).getAllJobs(
                                   city: cubit.selectedCity != "All" ? cubit.selectedCity : "",
                                   country: cubit.selectedCountry != "All" ? cubit.selectedCountry : "",
                                   position: cubit.selectedPosition != "All" ? cubit.selectedPosition : "",

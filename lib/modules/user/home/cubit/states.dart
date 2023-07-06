@@ -66,3 +66,13 @@ class UserGetSearchedJobsErrorState extends UserHomeStates {
   final String error;
   UserGetSearchedJobsErrorState(this.error);
 }
+
+class UserGetCategorizedJobsLoadingState extends UserHomeStates {}
+class UserGetCategorizedJobsSuccessState extends UserHomeStates {
+  final UserGetAllJobsModel userGetCategorizedJobsModel;
+  UserGetCategorizedJobsSuccessState(this.userGetCategorizedJobsModel);
+}
+class UserGetCategorizedJobsErrorState extends UserHomeStates {
+  final String error;
+  UserGetCategorizedJobsErrorState(this.error);
+}

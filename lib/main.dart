@@ -86,7 +86,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => UserForgetPasswordCubit()),
           BlocProvider(create: (BuildContext context) => UserVerifyOTPCubit()),
           BlocProvider(create: (BuildContext context) => UserNewPasswordCubit()),
-          BlocProvider(create: (BuildContext context) => UserHomeCubit()..userGetAllJob()..userGetAllFreelanceJobs()),
+          BlocProvider(create: (BuildContext context) => UserHomeCubit()..getAllJobs()..userGetAllFreelanceJobs()),
           BlocProvider(create: (BuildContext context) => UserApplyJobCubit()),
           BlocProvider(create: (BuildContext context) => UserGetAppliedJobsCubit()..userGetAppliedJobs()),
           BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserInfo()),

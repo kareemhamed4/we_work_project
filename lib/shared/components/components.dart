@@ -233,8 +233,15 @@ void showProgressIndicator(BuildContext context) {
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(myFavColor),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          color: Colors.black54,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(myFavColor),
+        ),
       ),
     ),
   );

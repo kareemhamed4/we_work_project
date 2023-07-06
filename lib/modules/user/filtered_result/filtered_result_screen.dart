@@ -152,7 +152,7 @@ class _FilteredResultScreenState extends State<FilteredResultScreen> {
                                   searchController.text = value;
                                 }
                               });
-                              cubit.userGetSearchedJobs(
+                              cubit.getAllJobs(
                                 city: UserFilterJobsCubit.get(context).selectedCity != "All"
                                     ? UserFilterJobsCubit.get(context).selectedCity
                                     : "",
@@ -472,7 +472,7 @@ class _FilteredResultScreenState extends State<FilteredResultScreen> {
     setState(() {
       searchController.text = result.recognizedWords;
     });
-    UserHomeCubit.get(context).userGetSearchedJobs(
+    UserHomeCubit.get(context).getAllJobs(
       city: UserFilterJobsCubit.get(context).selectedCity != "All" ? UserFilterJobsCubit.get(context).selectedCity : "",
       country: UserFilterJobsCubit.get(context).selectedCountry != "All"
           ? UserFilterJobsCubit.get(context).selectedCountry

@@ -309,6 +309,30 @@ class _AddJobScreenState extends State<AddJobScreen> {
                   ),
                   ExpansionTile(
                     title: Text(
+                        'Job Category',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                    ),
+                    children: [
+                      RadioGroup<String>.builder(
+                        fillColor: myFavColor,
+                        activeColor: myFavColor,
+                        groupValue: cubit.selectedJobCategory,
+                        onChanged: (value) => setState(
+                              () {
+                            cubit.selectedJobCategory = value!;
+                          },
+                        ),
+                        items: cubit.jobCategories,
+                        itemBuilder: (item) => RadioButtonBuilder(
+                          item,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text(
                         'Experience',
                         style: Theme.of(context)
                             .textTheme

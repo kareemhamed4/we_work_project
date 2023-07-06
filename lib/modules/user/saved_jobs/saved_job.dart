@@ -47,7 +47,7 @@ class SavedJob extends StatelessWidget {
         return BlocConsumer<UserGetAppliedJobsCubit, UserGetAppliedJobsStates>(
           listener: (context, state) {
             if (state is UserDeleteApplicantSuccessState) {
-              UserHomeCubit.get(context).userGetAllJob();
+              UserHomeCubit.get(context).getAllJobs();
               buildSuccessToast(
                 title: "Done",
                 context: context,

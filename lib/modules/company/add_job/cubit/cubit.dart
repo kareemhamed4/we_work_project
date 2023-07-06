@@ -13,6 +13,16 @@ class CompanyAddJobCubit extends Cubit<CompanyAddJobStates> {
   String selectedJobType = "All";
   String selectedPosition = "All";
 
+  String selectedJobCategory = "Software";
+  List<String> jobCategories = [
+    "Software",
+    "Marketing",
+    "Engineering",
+    "DataEntry",
+    "IT Specialist",
+    "Other",
+  ];
+
   String selectedExperience = "All";
   List<String> experienceList = [
     "All",

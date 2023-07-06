@@ -30,6 +30,26 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
   TextEditingController searchController = TextEditingController();
+  int selectedCategoryIndex = 0;
+  List<String> categories = [
+    "All",
+    "Software",
+    "Marketing",
+    "Engineering",
+    "DataEntry",
+    "IT Specialist",
+    "Other",
+  ];
+  List<String> iconsPaths = [
+    "assets/icons/all.png",
+    "assets/icons/software.png",
+    "assets/icons/marketing.png",
+    "assets/icons/engineering.png",
+    "assets/icons/data-entry.png",
+    "assets/icons/networking.png",
+    "assets/icons/other.png",
+  ];
+
   var hasSpeech = false;
   SpeechToText speech = SpeechToText();
   double level = 0.0;
@@ -45,6 +65,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         if (state is UserGetJobDetailsLoadingState) {
           showProgressIndicator(context);
         }
+        if (state is UserGetCategorizedJobsLoadingState) {
+          showProgressIndicator(context);
+        }
+        if (state is UserGetCategorizedJobsSuccessState) {
+          Navigator.pop(context);
+        }
       },
       builder: (context, state) {
         UserHomeCubit cubit = BlocProvider.of(context);
@@ -53,7 +79,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           Timer(const Duration(seconds: 2), () {
             completer.complete();
           });
-          cubit.userGetAllJob();
+          cubit.getAllJobs();
           return completer.future.then<void>((_) {
             ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(
               SnackBar(
@@ -192,7 +218,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                   searchController.text = value;
                                 }
                               });
-                              cubit.userGetSearchedJobs(search: searchController.text);
+                              cubit.getAllJobs(search: searchController.text);
                             },
                             context: context,
                             hint: "Search",
@@ -230,10 +256,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        _buildDiscoverFiltration(cubit: cubit),
+                        const SizedBox(height: 16),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
                           child: Text(
-                            "Available Jobs",
+                            selectedCategoryIndex == 0 ? "Available Jobs" : categories[selectedCategoryIndex],
                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                   color: myFavColor,
                                   fontSize: 20.sp,
@@ -459,6 +487,73 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         ),
       );
 
+  Widget _buildDiscoverFiltration({
+    required UserHomeCubit cubit,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 70,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                final isSelected = index == selectedCategoryIndex;
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedCategoryIndex = index;
+                    });
+                    if(categories[selectedCategoryIndex] != "All"){
+                      cubit.getAllJobs(category: categories[index]);
+                    }else {
+                      cubit.getAllJobs();
+                    }
+                    setState(() {
+                      selectedCategoryIndex = index;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: myFavColor3,
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      border: Border.all(
+                        color: isSelected ? myFavColor : myFavColor3,
+                        width: 2
+                      ),
+                    ),
+                    duration: const Duration(milliseconds: 300),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(iconsPaths[index],width: 20,height: 20,),
+                        const SizedBox(height: 8),
+                        Text(
+                          categories[index],
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontSize: 12, color: myFavColor6),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(width: 20),
+              itemCount: categories.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
   void soundLevelListener(double level) {
     minSoundLevel = min(minSoundLevel, level);
     maxSoundLevel = max(maxSoundLevel, level);
@@ -473,7 +568,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     setState(() {
       searchController.text = result.recognizedWords;
     });
-    UserHomeCubit.get(context).userGetSearchedJobs(search: searchController.text);
+    UserHomeCubit.get(context).getAllJobs(search: searchController.text);
   }
 
   void _logEvent(String eventDescription) {

@@ -16,8 +16,9 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
 
   UserGetAllJobsModel? userGetAllJobsModel;
   UserGetAllJobsModel? userGetFilterJobsModel;
-
-  void userGetAllJob({
+  UserGetAllJobsModel? userGetSearchedJobsModel;
+  UserGetAllJobsModel? userGetCategorizedJobsModel;
+  Future<void> getAllJobs({
     int? salaryMin,
     int? salaryMax,
     String? country,
@@ -26,14 +27,23 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
     String? jobType,
     String? city,
     String? disabled,
+    String? category,
+    String? search,
   }) async {
-    emit(UserGetAllJobsLoadingState());
+    if (search != null) {
+      emit(UserGetSearchedJobsLoadingState());
+    } else if (category != null) {
+      emit(UserGetCategorizedJobsLoadingState());
+    }else {
+      emit(UserGetAllJobsLoadingState());
+    }
+
     try {
       final response = await DioHelper.getData(
         url: USERGETALLJOBS,
         baseUrl: BASEURL,
         token: userToken,
-        query: {
+        query: search != null ? {
           "SalaryMin": salaryMin ?? "",
           "SalaryMax": salaryMax ?? "",
           "country": country ?? "",
@@ -42,21 +52,33 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           "jobType": jobType ?? "",
           "city": city ?? "",
           "disabled": disabled ?? "",
+          "category": category ?? "",
+          "search": search,
+        } : {
+          "SalaryMin": salaryMin ?? "",
+          "SalaryMax": salaryMax ?? "",
+          "country": country ?? "",
+          "Position": position ?? "",
+          "experince": experience ?? "",
+          "jobType": jobType ?? "",
+          "city": city ?? "",
+          "disabled": disabled ?? "",
+          "category": category ?? "",
         },
       );
-      if (salaryMin != null &&
-          salaryMax != null &&
-          country != null &&
-          position != null &&
-          experience != null &&
-          jobType != null &&
-          city != null &&
-          disabled != null) {
+      if (search != null) {
+        userGetSearchedJobsModel = UserGetAllJobsModel.fromJson(response.data);
+        emit(UserGetSearchedJobsSuccessState(userGetSearchedJobsModel!));
+      } else if(salaryMin != null && salaryMax != null && country != null && position != null && experience != null && jobType != null && city != null && disabled != null){
         userGetFilterJobsModel = UserGetAllJobsModel.fromJson(response.data);
-      } else {
+        emit(UserGetAllJobsSuccessState(userGetFilterJobsModel!));
+      } else if (category != null){
+        userGetCategorizedJobsModel = UserGetAllJobsModel.fromJson(response.data);
+        emit(UserGetCategorizedJobsSuccessState(userGetCategorizedJobsModel!));
+      }else {
         userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
+        emit(UserGetAllJobsSuccessState(userGetAllJobsModel!));
       }
-      emit(UserGetAllJobsSuccessState(userGetAllJobsModel!));
     } catch (error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
@@ -189,7 +211,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
     }
   }
 
-  UserGetAllJobsModel? userGetSearchedJobsModel;
+/*  UserGetAllJobsModel? userGetSearchedJobsModel;
   void userGetSearchedJobs({
     String? search,
     int? salaryMin,
@@ -234,5 +256,5 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
         emit(UserGetSearchedJobsErrorState(error.toString()));
       }
     }
-  }
+  }*/
 }
