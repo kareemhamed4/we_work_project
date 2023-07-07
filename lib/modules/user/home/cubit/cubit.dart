@@ -17,7 +17,6 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
   UserGetAllJobsModel? userGetAllJobsModel;
   UserGetAllJobsModel? userGetFilterJobsModel;
   UserGetAllJobsModel? userGetSearchedJobsModel;
-  UserGetAllJobsModel? userGetCategorizedJobsModel;
   Future<void> getAllJobs({
     int? salaryMin,
     int? salaryMax,
@@ -52,7 +51,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           "jobType": jobType ?? "",
           "city": city ?? "",
           "disabled": disabled ?? "",
-          "category": category ?? "",
+          "Category": category ?? "",
           "search": search,
         } : {
           "SalaryMin": salaryMin ?? "",
@@ -63,7 +62,7 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
           "jobType": jobType ?? "",
           "city": city ?? "",
           "disabled": disabled ?? "",
-          "category": category ?? "",
+          "Category": category ?? "",
         },
       );
       if (search != null) {
@@ -73,8 +72,8 @@ class UserHomeCubit extends Cubit<UserHomeStates> {
         userGetFilterJobsModel = UserGetAllJobsModel.fromJson(response.data);
         emit(UserGetAllJobsSuccessState(userGetFilterJobsModel!));
       } else if (category != null){
-        userGetCategorizedJobsModel = UserGetAllJobsModel.fromJson(response.data);
-        emit(UserGetCategorizedJobsSuccessState(userGetCategorizedJobsModel!));
+        userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
+        emit(UserGetCategorizedJobsSuccessState(userGetAllJobsModel!));
       }else {
         userGetAllJobsModel = UserGetAllJobsModel.fromJson(response.data);
         emit(UserGetAllJobsSuccessState(userGetAllJobsModel!));

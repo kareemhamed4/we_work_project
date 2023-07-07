@@ -96,15 +96,23 @@ class NotificationScreen extends StatelessWidget {
               : (cubit.userNotificationModel != null && cubit.userNotificationModel!.isEmpty)
                   ? SizedBox(
                       width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'No Notification available right now',
-                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 18.sp),
+                      child: LiquidPullToRefresh(
+                        key: _refreshIndicatorKey,
+                        onRefresh: handleRefresh,
+                        color: myFavColor,
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'No Notification available right now',
+                                style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 18.sp),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     )
                   : Center(
@@ -126,11 +134,36 @@ class NotificationScreen extends StatelessWidget {
       children: [
         Row(
           children: [
+            if (model[index].pictureUrl != null)
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: myFavColor3,
+                backgroundImage: NetworkImage(model[index].pictureUrl!),
+              ),
+            if (model[index].pictureUrl == null)
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: myFavColor3,
+                child: Icon(
+                  Icons.image_not_supported_outlined,
+                  color: myFavColor4,
+                ),
+              ),
             const SizedBox(width: 8),
             Flexible(
-              child: Text(
-                model[index].message!,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model[index].user!,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp,color: myFavColor6),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    model[index].message!,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                  ),
+                ],
               ),
             ),
             const SizedBox(width: 8),
@@ -189,6 +222,16 @@ class NotificationScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    "Company Name:",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor6, fontSize: 18),
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    model[index].user!,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 12),
+                  ),
+                  SizedBox(height: 20.h),
                   Text(
                     "Meeting Link: ",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor6, fontSize: 18),

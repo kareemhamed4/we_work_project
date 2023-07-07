@@ -28,7 +28,7 @@ class ChooseRegister extends StatelessWidget {
                   NavigateTo(context: context, widget: SignUpCompany());
                 },
                 labelWidget: Text(
-                  'Sign up As a Company',
+                  'Sign up as a company',
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
@@ -39,7 +39,7 @@ class ChooseRegister extends StatelessWidget {
                   NavigateTo(context: context, widget: SignUpUser());
                 },
                 labelWidget: Text(
-                  'Sign up As a User',
+                  'Sign up as job seeker',
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),

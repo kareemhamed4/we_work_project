@@ -24,6 +24,7 @@ class Data {
   String? pictureUrl;
   String? description;
   String? city;
+  String? category;
   String? country;
   int? salary;
   String? appUserId;
@@ -36,6 +37,7 @@ class Data {
         this.pictureUrl,
         this.description,
         this.city,
+        this.category,
         this.country,
         this.salary,
         this.appUserId,
@@ -50,6 +52,7 @@ class Data {
     pictureUrl = json['pictureUrl'];
     description = json['description'];
     city = json['city'];
+    category = json['category'];
     country = json['country'];
     salary = json['salary'];
     appUserId = json['appUserId'];

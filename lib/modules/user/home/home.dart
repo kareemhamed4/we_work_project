@@ -153,179 +153,203 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             key: _refreshIndicatorKey,
             onRefresh: handleRefresh,
             color: myFavColor,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: Row(
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  elevation: 0,
+                  backgroundColor: myFavColor5,
+                  expandedHeight: 170,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Column(
                       children: [
-                        AvatarGlow(
-                          endRadius: 35,
-                          animate: hasSpeech,
-                          duration: const Duration(milliseconds: 2000),
-                          glowColor: myFavColor8,
-                          repeatPauseDuration: const Duration(milliseconds: 100),
-                          showTwoGlows: true,
-                          child: GestureDetector(
-                            onTapDown: (details) async {
-                              if (!hasSpeech) {
-                                var available = await speech.initialize();
-                                if (available) {
-                                  setState(() {
-                                    hasSpeech = true;
-                                    speech.listen(
-                                      onResult: resultListener,
-                                      listenFor: const Duration(seconds: 60),
-                                      pauseFor: const Duration(seconds: 3),
-                                      partialResults: true,
-                                      onSoundLevelChange: soundLevelListener,
-                                      cancelOnError: true,
-                                      listenMode: ListenMode.confirmation,
-                                      localeId: "en_001",
-                                    );
-                                  });
-                                }
-                              }
-                            },
-                            onTapUp: (details) async {
-                              setState(() {
-                                hasSpeech = false;
-                              });
-                              await speech.stop();
-                              setState(() {
-                                level = 0;
-                              });
-                            },
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: myFavColor,
-                              child: Icon(
-                                hasSpeech ? Icons.mic : Icons.mic_none,
-                                color: myFavColor5,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: myTextFormField(
-                            controller: searchController,
-                            onChange: (value) {
-                              setState(() {
-                                if (searchController.text != value) {
-                                  searchController.text = value;
-                                }
-                              });
-                              cubit.getAllJobs(search: searchController.text);
-                            },
-                            context: context,
-                            hint: "Search",
-                            suffixIcon: const Icon(Icons.search),
-                          ),
-                        ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 9),
-                          child: Container(
-                            height: 48,
-                            width: 48,
-                            decoration: BoxDecoration(color: myFavColor, borderRadius: BorderRadius.circular(4)
-                                //more than 50% of width makes circle
+                          padding: const EdgeInsets.only(right: 16),
+                          child: Row(
+                            children: [
+                              AvatarGlow(
+                                endRadius: 35,
+                                animate: hasSpeech,
+                                duration: const Duration(milliseconds: 2000),
+                                glowColor: myFavColor8,
+                                repeatPauseDuration: const Duration(milliseconds: 100),
+                                showTwoGlows: true,
+                                child: GestureDetector(
+                                  onTapDown: (details) async {
+                                    if (!hasSpeech) {
+                                      var available = await speech.initialize();
+                                      if (available) {
+                                        setState(() {
+                                          hasSpeech = true;
+                                          speech.listen(
+                                            onResult: resultListener,
+                                            listenFor: const Duration(seconds: 60),
+                                            pauseFor: const Duration(seconds: 3),
+                                            partialResults: true,
+                                            onSoundLevelChange: soundLevelListener,
+                                            cancelOnError: true,
+                                            listenMode: ListenMode.confirmation,
+                                            localeId: "en_001",
+                                          );
+                                        });
+                                      }
+                                    }
+                                  },
+                                  onTapUp: (details) async {
+                                    setState(() {
+                                      hasSpeech = false;
+                                    });
+                                    await speech.stop();
+                                    setState(() {
+                                      level = 0;
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: myFavColor,
+                                    child: Icon(
+                                      hasSpeech ? Icons.mic : Icons.mic_none,
+                                      color: myFavColor5,
+                                    ),
+                                  ),
                                 ),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.tune,
-                                color: Colors.white,
-                                size: 25,
                               ),
-                              color: Colors.black,
-                              onPressed: () {
-                                NavigateTo(context: context, widget: const UserFilterScreen());
-                              },
-                            ),
+                              Expanded(
+                                child: myTextFormField(
+                                  controller: searchController,
+                                  onChange: (value) {
+                                    setState(() {
+                                      if (searchController.text != value) {
+                                        searchController.text = value;
+                                      }
+                                    });
+                                    if(selectedCategoryIndex == 0 && searchController.text.isNotEmpty){
+                                      cubit.getAllJobs(search: searchController.text);
+                                    }else if(selectedCategoryIndex != 0 && searchController.text.isNotEmpty){
+                                      cubit.getAllJobs(search: searchController.text,category: categories[selectedCategoryIndex]);
+                                    }
+                                  },
+                                  context: context,
+                                  hint: "Search",
+                                  suffixIcon: const Icon(Icons.search),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 9),
+                                child: Container(
+                                  height: 48,
+                                  width: 48,
+                                  decoration: BoxDecoration(color: myFavColor, borderRadius: BorderRadius.circular(4)
+                                    //more than 50% of width makes circle
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.tune,
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
+                                    color: Colors.black,
+                                    onPressed: () {
+                                      NavigateTo(context: context, widget: const UserFilterScreen());
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 20 / size.height,
+                  bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(35),
+                    child: _buildDiscoverFiltration(cubit: cubit),
                   ),
-                  if (searchController.text.isEmpty)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildDiscoverFiltration(cubit: cubit),
-                        const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Text(
-                            selectedCategoryIndex == 0 ? "Available Jobs" : categories[selectedCategoryIndex],
-                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                ),
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (searchController.text.isEmpty)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                selectedCategoryIndex == 0 ? "Available Jobs" : categories[selectedCategoryIndex],
+                                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                   color: myFavColor,
                                   fontSize: 20.sp,
                                 ),
-                          ),
-                        ),
-                        if (cubit.userGetAllJobsModel != null)
-                          if (cubit.userGetAllJobsModel!.count! > 0)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: cubit.userGetAllJobsModel!.count!,
-                                itemBuilder: (context, index) => buildHomeJobCard(
-                                  context: context,
-                                  size: size,
-                                  index: index,
-                                  cubit: cubit,
-                                  model: cubit.userGetAllJobsModel!,
-                                ),
-                                separatorBuilder: (context, index) => const SizedBox(
-                                  height: 22,
-                                ),
                               ),
                             ),
-                        if (cubit.userGetAllJobsModel != null)
-                          if (cubit.userGetAllJobsModel!.count! == 0)
-                            const Center(child: Text("No available jobs right now")),
-                        if (cubit.userGetAllJobsModel == null)
+                            if (cubit.userGetAllJobsModel != null)
+                              if (cubit.userGetAllJobsModel!.count! > 0)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: cubit.userGetAllJobsModel!.count!,
+                                    itemBuilder: (context, index) => buildHomeJobCard(
+                                      context: context,
+                                      size: size,
+                                      index: index,
+                                      cubit: cubit,
+                                      model: cubit.userGetAllJobsModel!,
+                                    ),
+                                    separatorBuilder: (context, index) => const SizedBox(
+                                      height: 22,
+                                    ),
+                                  ),
+                                ),
+                            if (cubit.userGetAllJobsModel != null)
+                              if (cubit.userGetAllJobsModel!.count! == 0)
+                                  Column(
+                                    children: [
+                                      const SizedBox(width: double.infinity),
+                                      const SizedBox(height: 160),
+                                      Text(selectedCategoryIndex == 0 ? "No available jobs right now" : "No available jobs for ${categories[selectedCategoryIndex]} category right now"),
+                                    ],
+                                  ),
+                            if (cubit.userGetAllJobsModel == null)
+                              Center(
+                                  child: CircularProgressIndicator(
+                                    color: myFavColor,
+                                  )),
+                          ],
+                        ),
+                      if (searchController.text.isNotEmpty)
+                        if (cubit.userGetSearchedJobsModel != null)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => buildHomeJobCard(
+                                context: context,
+                                size: size,
+                                index: index,
+                                cubit: cubit,
+                                model: cubit.userGetSearchedJobsModel!,
+                              ),
+                              separatorBuilder: (context, index) => const SizedBox(
+                                height: 16,
+                              ),
+                              itemCount: cubit.userGetSearchedJobsModel!.count!,
+                            ),
+                          ),
+                      if (searchController.text.isNotEmpty)
+                        if (cubit.userGetSearchedJobsModel == null)
                           Center(
                               child: CircularProgressIndicator(
-                            color: myFavColor,
-                          )),
-                      ],
-                    ),
-                  if (searchController.text.isNotEmpty)
-                    if (cubit.userGetSearchedJobsModel != null)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => buildHomeJobCard(
-                            context: context,
-                            size: size,
-                            index: index,
-                            cubit: cubit,
-                            model: cubit.userGetSearchedJobsModel!,
-                          ),
-                          separatorBuilder: (context, index) => const SizedBox(
-                            height: 16,
-                          ),
-                          itemCount: cubit.userGetSearchedJobsModel!.count!,
-                        ),
-                      ),
-                  if (searchController.text.isNotEmpty)
-                    if (cubit.userGetSearchedJobsModel == null)
-                      Center(
-                          child: CircularProgressIndicator(
-                        color: myFavColor,
-                      )),
-                ],
-              ),
+                                color: myFavColor,
+                              )),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -495,57 +519,64 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 70,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final isSelected = index == selectedCategoryIndex;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedCategoryIndex = index;
-                    });
-                    if(categories[selectedCategoryIndex] != "All"){
-                      cubit.getAllJobs(category: categories[index]);
-                    }else {
-                      cubit.getAllJobs();
-                    }
-                    setState(() {
-                      selectedCategoryIndex = index;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: myFavColor3,
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      border: Border.all(
-                        color: isSelected ? myFavColor : myFavColor3,
-                        width: 2
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: SizedBox(
+              height: 70,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final isSelected = index == selectedCategoryIndex;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedCategoryIndex = index;
+                      });
+                      if(categories[selectedCategoryIndex] != "All" && searchController.text.isEmpty){
+                        cubit.getAllJobs(category: categories[index]);
+                      }else if(categories[selectedCategoryIndex] != "All" && searchController.text.isNotEmpty){
+                        cubit.getAllJobs(category: categories[index],search: searchController.text);
+                      }else if(categories[selectedCategoryIndex] == "All" && searchController.text.isEmpty){
+                        cubit.getAllJobs();
+                      }else if(categories[selectedCategoryIndex] == "All" && searchController.text.isNotEmpty){
+                        cubit.getAllJobs(search: searchController.text);
+                      }
+                      setState(() {
+                        selectedCategoryIndex = index;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: myFavColor3,
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        border: Border.all(
+                          color: isSelected ? myFavColor : myFavColor3,
+                          width: 2
+                        ),
+                      ),
+                      duration: const Duration(milliseconds: 300),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(iconsPaths[index],width: 20,height: 20,),
+                          const SizedBox(height: 8),
+                          Text(
+                            categories[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(fontSize: 12, color: myFavColor6),
+                          ),
+                        ],
                       ),
                     ),
-                    duration: const Duration(milliseconds: 300),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(iconsPaths[index],width: 20,height: 20,),
-                        const SizedBox(height: 8),
-                        Text(
-                          categories[index],
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(fontSize: 12, color: myFavColor6),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: 20),
-              itemCount: categories.length,
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(width: 20),
+                itemCount: categories.length,
+              ),
             ),
           ),
         ],
@@ -568,7 +599,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     setState(() {
       searchController.text = result.recognizedWords;
     });
-    UserHomeCubit.get(context).getAllJobs(search: searchController.text);
+    if(selectedCategoryIndex == 0){
+      UserHomeCubit.get(context).getAllJobs(search: searchController.text);
+    }else {
+      UserHomeCubit.get(context).getAllJobs(search: searchController.text,category: categories[selectedCategoryIndex]);
+    }
   }
 
   void _logEvent(String eventDescription) {
