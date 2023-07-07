@@ -61,6 +61,7 @@ class CompanyAddJobCubit extends Cubit<CompanyAddJobStates> {
     required String skill,
     required String workPlace,
     String? disabledJob,
+    required String category,
 }) {
     emit(CompanyAddJobLoadingState());
     DioHelper.postData(
@@ -73,6 +74,7 @@ class CompanyAddJobCubit extends Cubit<CompanyAddJobStates> {
         "Position": position,
         "JobType": jobType,
         "Requirement": requirement,
+        "Category": category,
         "Salary": salary,
         "City": city,
         "Country": country,

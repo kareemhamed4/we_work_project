@@ -421,6 +421,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                                 skill: skillsController.text,
                                 workPlace: cubit.selectedWorkPlace != "All" ? cubit.selectedWorkPlace : "",
                                 disabledJob: cubit.selectedDisabledJobs != "none" ? cubit.selectedDisabledJobs : "",
+                                category: cubit.selectedJobCategory,
                             );
                           }
                         },

@@ -36,4 +36,31 @@ class UserNotificationCubit extends Cubit<UserNotificationStates> {
       }
     });
   }
+
+  Future<void> userDeleteNotification({
+    required int meetingId,
+  }) async{
+    emit(UserDeleteNotificationLoadingState());
+    await DioHelper.deleteData(
+      url: "$COMPANYDELETEACCEPTEDOFFER$meetingId",
+      token: companyToken,
+      baseUrl: BASEURL,
+    ).then((value) {
+      emit(UserDeleteNotificationSuccessState(value.data.toString()));
+      userGetNotification();
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final errorMessage = error.response?.data.toString();
+          emit(UserDeleteNotificationErrorState(errorMessage!));
+        } else {
+          // Handle other DioError cases
+          emit(UserDeleteNotificationErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        // Handle non-DioError cases
+        emit(UserDeleteNotificationErrorState('An error occurred. Please try again.'));
+      }
+    });
+  }
 }

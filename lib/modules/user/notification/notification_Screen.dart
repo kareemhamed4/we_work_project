@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:we_work/layout/cubit/cubit.dart';
 import 'package:we_work/models/user/user_get_notification_model.dart';
@@ -60,12 +61,13 @@ class NotificationScreen extends StatelessWidget {
                   color: myFavColor,
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Row(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
                             children: [
+                              const SizedBox(height: 12),
                               Text(
                                 "You have",
                                 style: Theme.of(context).textTheme.bodyMedium,
@@ -76,20 +78,20 @@ class NotificationScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 23.h),
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: cubit.userNotificationModel!.length,
-                              separatorBuilder: (context, index) => SizedBox(height: 23.h),
-                              itemBuilder: (context, index) => buildNotificationItem(
-                                    context: context,
-                                    size: size,
-                                    index: index,
-                                    model: cubit.userNotificationModel!,
-                                  )),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 23.h),
+                        ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: cubit.userNotificationModel!.length,
+                            separatorBuilder: (context, index) => SizedBox(height: 23.h),
+                            itemBuilder: (context, index) => buildNotificationItem(
+                                  context: context,
+                                  size: size,
+                                  index: index,
+                                  model: cubit.userNotificationModel!,
+                                )),
+                      ],
                     ),
                   ),
                 )
@@ -130,72 +132,189 @@ class NotificationScreen extends StatelessWidget {
     required int index,
     required List<UserNotificationModel> model,
   }) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            if (model[index].pictureUrl != null)
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: myFavColor3,
-                backgroundImage: NetworkImage(model[index].pictureUrl!),
-              ),
-            if (model[index].pictureUrl == null)
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: myFavColor3,
-                child: Icon(
-                  Icons.image_not_supported_outlined,
-                  color: myFavColor4,
-                ),
-              ),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    model[index].user!,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp,color: myFavColor6),
+    return Slidable(
+      startActionPane: ActionPane(motion: const StretchMotion(), children: [
+        SlidableAction(
+          onPressed: ((context) {
+            showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (context) => AlertDialog(
+                scrollable: true,
+                icon: Icon(Icons.info_outline, color: myFavColor8),
+                title: const Text("Warning"),
+                content: const Text(
+                    "Are you sure you want to delete this received offer ?"),
+                actions: [
+                  myMaterialButton(
+                    context: context,
+                    labelWidget: Text(
+                      "Confirm",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16,
+                        color: myFavColor5,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      UserNotificationCubit.get(context)
+                          .userDeleteNotification(
+                          meetingId: model[index].id!,
+                      );
+                    },
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    model[index].message!,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                  const SizedBox(height: 12),
+                  myMaterialButton(
+                    context: context,
+                    bgColorForNotEnabled: myFavColor2,
+                    isEnabled: false,
+                    labelWidget: Text(
+                      "Cancel",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16,
+                        color: myFavColor,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+            );
+          }),
+          backgroundColor: myFavColor8,
+          icon: Icons.delete_outline,
+        ),
+      ]),
+      endActionPane: ActionPane(motion: const StretchMotion(), children: [
+        SlidableAction(
+          onPressed: ((context) {
+            showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (context) => AlertDialog(
+                scrollable: true,
+                icon: Icon(Icons.info_outline, color: myFavColor8),
+                title: const Text("Warning"),
+                content: const Text(
+                    "Are you sure you want to delete this received offer ?"),
+                actions: [
+                  myMaterialButton(
+                    context: context,
+                    labelWidget: Text(
+                      "Confirm",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16,
+                        color: myFavColor5,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      UserNotificationCubit.get(context)
+                          .userDeleteNotification(
+                        meetingId: model[index].id!,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  myMaterialButton(
+                    context: context,
+                    bgColorForNotEnabled: myFavColor2,
+                    isEnabled: false,
+                    labelWidget: Text(
+                      "Cancel",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16,
+                        color: myFavColor,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+            );
+          }),
+          backgroundColor: myFavColor8,
+          icon: Icons.delete_outline,
+        ),
+      ]),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                if (model[index].pictureUrl != null)
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: myFavColor3,
+                    backgroundImage: NetworkImage(model[index].pictureUrl!),
+                  ),
+                if (model[index].pictureUrl == null)
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: myFavColor3,
+                    child: Icon(
+                      Icons.image_not_supported_outlined,
+                      color: myFavColor4,
+                    ),
+                  ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        model[index].user!,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp,color: myFavColor6),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        model[index].message!,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  const Expanded(child: SizedBox()),
+                  Expanded(
+                    child: myMaterialButton(
+                      context: context,
+                      labelWidget: Text(
+                        "Show Details",
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      onPressed: () {
+                        buildAcceptedDialog(
+                          context: context,
+                          size: size,
+                          model: model,
+                          index: index,
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            myDivider(),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              const Expanded(child: SizedBox()),
-              Expanded(
-                child: myMaterialButton(
-                  context: context,
-                  labelWidget: Text(
-                    "Show Details",
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  onPressed: () {
-                    buildAcceptedDialog(
-                      context: context,
-                      size: size,
-                      model: model,
-                      index: index,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        myDivider(),
-      ],
+      ),
     );
   }
 
